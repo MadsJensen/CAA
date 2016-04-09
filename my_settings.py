@@ -11,7 +11,7 @@ import socket
 hostname = socket.gethostname()
 
 if hostname == "wintermute":
-    data_path = "/home/mje/mnt/hyades/scratch4/" +\
+    data_path = "/home/mje/mnt/isis/scratch4/" +\
                 "MINDLAB2015_MEG-CorticalAlphaAttention/"
 else:
     data_path = "/projects/MINDLAB2015_MEG-CorticalAlphaAttention/scratch/"
@@ -28,3 +28,7 @@ log_folder = data_path + "log_files/"
 subjects = ["0004", "0005", "0006", "0007", "0008", "0009", "0010", "0011",
             "0012", "0013", "0014", "0015", "0016", "0017", "0020", "0021",
             "0022", "0023", "0024", "0025"]  # subjects to run
+
+subjects_select = ["0005", "0006", "0007", "0008", "0009", "0010",
+                   "0011", "0015", "0016", "0017", "0020", "0021",
+                   "0022", "0024", "0025"]
