@@ -24,6 +24,11 @@ tf_folder = data_path + "tf_data/"
 mne_folder = data_path + "minimum_norm/"
 log_folder = data_path + "log_files/"
 
+reject_params = dict(grad=4000e-13,  # T / m (gradiometers)
+                     mag=4e-12,  # T (magnetometers)
+                     eeg=180e-6 #
+                     )
+
 
 subjects = ["0004", "0005", "0006", "0007", "0008", "0009", "0010", "0011",
             "0012", "0013", "0014", "0015", "0016", "0017", "0020", "0021",
