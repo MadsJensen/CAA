@@ -30,12 +30,15 @@ conditions = ["ctl", "ent"]
 
 for cond in conditions:
     for j, side in enumerate(sides):
-        power, phase_lock = source_induced_power(epochs[side + "/" + cond],
-                                                 inv,
-                                                 frequencies,
-                                                 labels_selc[j],
-                                                 baseline=(-0.3, 0),
-                                                 baseline_mode='zscore',
-                                                 n_cycles=n_cycles,
-                                                 n_jobs=1)
-
+        power, itc = source_induced_power(epochs[side + "/" + cond],
+                                          inv,
+                                          frequencies,
+                                          labels_selc[j],
+                                          baseline=(-0.3, 0),
+                                          baseline_mode='zscore',
+                                          n_cycles=n_cycles,
+                                          n_jobs=1)
+        power.save(tf_folder + "%s_pow_%s_%s_%s.npy" % (subject, cond, side,
+                                                        labels_selc[j].name))
+        itc.save(tf_folder + "%s_itc_%s_%s_%s_%s.npy" % (subject, cond, side,
+                                                         labels_selc[j].name))
