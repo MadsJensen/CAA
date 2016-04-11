@@ -1,8 +1,12 @@
+from my_settings import *
+
 import numpy as np
 import matplotlib.pyplot as plt
 
 import mne
 from mne.minimum_norm import read_inverse_operator, apply_inverse
+import sys
+
 
 snr = 3.0
 lambda2 = 1.0 / snr ** 2
@@ -12,41 +16,41 @@ method = "dSPM"  # use dSPM method (could also be MNE or sLORETA)
 # The label bankssts-lh is used for the comparison.
 tmin, tmax = 0.1, 0.7
 
+subject = sys.argv[1]
 
-def make_functional_label(epochs, inv, side, tmin=0.1, tmax=0.7,
-                          save=True):
-    """
-    Params
-    ------
-    epochs : Epochs
-        The epochs to use for the functional label.
-    side : str
-        String with the cued side.
-    tmin : float
-        start time.
-    tmax : float
-        end time.
-    save : bool
-        To save the label or not.
+#def make_functional_label(subject, tmin=0.1, tmax=0.7, save=True):
+#    """
+#    Params
+#    ------
+#    epochs : Epochs
+#        The epochs to use for the functional label.
+#    tmin : float
+#        start time.
+#    tmax : float
+#        end time.
+#    save : bool
+#        To save the label or not.
+#
+#    """
 
-    Returns
-    -------
-    label_rh : freesurfer label
-        label for the right hemisphere
-    label_lh : freesurfer label
-        label for the left hemisphere
-    """
+# Load data
+epochs = mne.read_epochs(epochs_folder + "%s_trial_start-epo.fif" 
+                         % subject)
+epochs.drop_bad_epochs(reject_params)
 
-    # Load data
-    subject_name = epochs.info["subject_info"]["last_name"]
+inv = mne.minimum_norm.read_inverse_operator(mne_folder + "%s-inv.fif" 
+                                             % subject)
+
+sides = ["left", "right"]
+for side in sides:
     evoked = epochs[side].average()
     src = inv['src']  # get the source space
 
-    labels = mne.read_labels_from_annot(subject_name,
+    labels = mne.read_labels_from_annot(subject,
                                         parc='PALS_B12_Brodmann',
-                                        regexp="Bro",
+                                            regexp="Bro",
                                         subjects_dir=subjects_dir)
-    label_lh, labels_rh = labels[6], labels[7]
+    label_lh, label_rh = labels[6], labels[7]
 
     # Compute inverse solution
     stc = apply_inverse(evoked, inv, lambda2, method,
@@ -62,7 +66,7 @@ def make_functional_label(epochs, inv, side, tmin=0.1, tmax=0.7,
     # calc lh label
     stc_mean_label = stc_mean.in_label(label_lh)
     data = np.abs(stc_mean_label.data)
-    stc_mean_label.data[data < 0.65 * np.max(data)] = 0.
+    stc_mean_label.data[data < 0.6 * np.max(data)] = 0.
 
     func_labels_lh, _ = mne.stc_to_label(stc_mean_label,
                                          src=src,
@@ -73,23 +77,22 @@ def make_functional_label(epochs, inv, side, tmin=0.1, tmax=0.7,
     func_label_lh = func_labels_lh[0]
 
     # calc rh label
-    stc_mean_label = stc_mean.in_label(label_lh)
+    stc_mean_label = stc_mean.in_label(label_rh)
     data = np.abs(stc_mean_label.data)
-    stc_mean_label.data[data < 0.65 * np.max(data)] = 0.
+    stc_mean_label.data[data < 0.6 * np.max(data)] = 0.
 
-    _, func_labels_rh = mne.stc_to_label(stc_mean_label,
-                                         src=src,
-                                         smooth=True,
-                                         subjects_dir=subjects_dir,
-                                         connected=True)
+    _ , func_labels_rh = mne.stc_to_label(stc_mean_label,
+                                          src=src,
+                                          smooth=True,
+                                          subjects_dir=subjects_dir,
+                                          connected=True)
     # take first as func_labels are ordered based on maximum values in stc
-    func_label_lh = func_labels_lh[0]
+    func_label_rh = func_labels_rh[0]  
 
-
-
-
-    if save:
-        func_label_lh.save(mne_folder + "%s-func_label_cond-%s_lh"
-                           % (subject_name, side))
-        func_label_rh.save(mne_folder + "%s-func_label_cond-%s_rh"
-                           % (subject_name, side))
+    
+    func_label_lh.save(mne_folder + "%s-func_label_cond-%s_lh" 
+                       % (subject, side))
+    func_label_rh.save(mne_folder + "%s-func_label_cond-%s_rh"
+                       % (subject, side))
+                           
+#        return func_label_lh, func_label_rh
