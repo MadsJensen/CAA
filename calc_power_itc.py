@@ -42,8 +42,8 @@ for label in labels_selc:
                                                          side,
                                                          label.name),
                     power)
-            np.save(tf_folder + "%s_itc_%s_%s_%s_%s.npy" % (subject,
-                                                            cond,
-                                                            side,
-                                                            label.name),
+            np.save(tf_folder + "%s_itc_%s_%s_%s.npy" % (subject,
+                                                         cond,
+                                                         side,
+                                                         label.name),
                     itc)
