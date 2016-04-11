@@ -30,7 +30,7 @@ conditions = ["ctl", "ent"]
 
 for cond in conditions:
     for j, side in enumerate(sides):
-        power, itc = source_induced_power(epochs[side + "/" + cond],
+        power, itc = source_induced_power(epochs[cond + "/" + side],
                                           inv,
                                           frequencies,
                                           labels_selc[j],
