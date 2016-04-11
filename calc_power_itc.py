@@ -38,7 +38,9 @@ for cond in conditions:
                                           baseline_mode='zscore',
                                           n_cycles=n_cycles,
                                           n_jobs=1)
-        power.save(tf_folder + "%s_pow_%s_%s_%s.npy" % (subject, cond, side,
-                                                        labels_selc[j].name))
-        itc.save(tf_folder + "%s_itc_%s_%s_%s_%s.npy" % (subject, cond, side,
-                                                         labels_selc[j].name))
+        np.save(tf_folder + "%s_pow_%s_%s_%s.npy" % (subject, cond, side,
+                                                     labels_selc[j].name),
+                power)
+        np.save(tf_folder + "%s_itc_%s_%s_%s_%s.npy" % (subject, cond, side,
+                                                        labels_selc[j].name),
+                itc)
