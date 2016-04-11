@@ -32,7 +32,7 @@ for label in labels_selc:
             power, itc = source_induced_power(epochs[cond + "/" + side],
                                               inv,
                                               frequencies,
-                                              labels_selc[j],
+                                              label,
                                               baseline=(-0.3, 0),
                                               baseline_mode='zscore',
                                               n_cycles=n_cycles,
