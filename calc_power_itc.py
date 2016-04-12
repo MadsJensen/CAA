@@ -22,7 +22,7 @@ labels_selc = labels[6], labels[7]
 
 frequencies = np.arange(8, 13, 1)  # define frequencies of interest
 n_cycles = frequencies / 3.  # different number of cycle per frequency
-method="MNE"
+method="dSPM"
 
 sides = ["left", "right"]
 conditions = ["ctl", "ent"]
@@ -40,7 +40,6 @@ for label in labels_selc:
                                               n_cycles=n_cycles,
                                               pca=True,
                                               n_jobs=1)
-                                              
             np.save(tf_folder + "%s_pow_%s_%s_%s_%s.npy" % (subject,
                                                          cond,
                                                          side,
