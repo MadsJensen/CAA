@@ -22,6 +22,7 @@ labels_selc = labels[6], labels[7]
 
 frequencies = np.arange(8, 13, 1)  # define frequencies of interest
 n_cycles = frequencies / 3.  # different number of cycle per frequency
+method="MNE"
 
 sides = ["left", "right"]
 conditions = ["ctl", "ent"]
@@ -33,17 +34,22 @@ for label in labels_selc:
                                               inv,
                                               frequencies,
                                               label,
-                                              baseline=(-0.3, 0),
-                                              baseline_mode='zscore',
+                                              method=method,
+                                              baseline=None,
+                                              # baseline_mode='mean',
                                               n_cycles=n_cycles,
+                                              pca=True,
                                               n_jobs=1)
-            np.save(tf_folder + "%s_pow_%s_%s_%s.npy" % (subject,
+                                              
+            np.save(tf_folder + "%s_pow_%s_%s_%s_%s.npy" % (subject,
                                                          cond,
                                                          side,
+                                                         method,
                                                          label.name),
                     power)
-            np.save(tf_folder + "%s_itc_%s_%s_%s.npy" % (subject,
+            np.save(tf_folder + "%s_itc_%s_%s_%s_%s.npy" % (subject,
                                                          cond,
                                                          side,
+                                                         method,
                                                          label.name),
                     itc)
