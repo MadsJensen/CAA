@@ -23,7 +23,7 @@ log_tmp = results[results.subject == int(subject)].reset_index()
 
 include = []
 raw = Raw(save_folder + "%s_filtered_ica_mc_raw_tsss.fif" % subject,
-          preload=False)
+          preload=False, add_eeg_ref=False)
 # Select events to extract epochs from.
 event_id = {"all_trials": 99}
 
