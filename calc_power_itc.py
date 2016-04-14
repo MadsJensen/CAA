@@ -33,7 +33,7 @@ for label in labels_selc:
                                               frequencies,
                                               label,
                                               method=method,
-                                              pick_ori="Normal",
+                                              pick_ori="normal",
                                               # baseline=(-0.3, 0),
                                               # baseline_mode='mean',
                                               n_cycles=n_cycles,
