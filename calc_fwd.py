@@ -17,12 +17,11 @@ from my_settings import *
 
 subject = sys.argv[1]
 
-bem_list = glob.glob("%s-8192-8192*sol.fif" % subject)
 
 raw_fname = save_folder + "%s_filtered_ica_mc_raw_tsss.fif" % subject
 trans_fname = mne_folder + "%s-trans.fif" % subject
 cov = mne.read_cov(mne_folder + "%s-cov.fif" % subject)
-bem = mne_folder + bem_list[0]
+bem = glob.glob(mne_folder + "%s-8192-8192*sol.fif" % subject)[0]
 
 src = mne.setup_source_space(subject,
                              mne_folder + "%s-all-src.fif" % subject,
