@@ -27,7 +27,7 @@ src = mne.setup_source_space(subject,
                              mne_folder + "%s-all-src.fif" % subject,
                              spacing="all",
                              subjects_dir=subjects_dir,
-                             n_jobs=2,
+                             n_jobs=1,
                              overwrite=True)  # 1 for each hemispere
 
 fwd = mne.make_forward_solution(raw_fname, trans=trans_fname,
