@@ -3,15 +3,10 @@ Doc string goes here.
 
 @author: mje mads [] cnru.dk
 """
-
-
-import socket
 import mne
-from mne.minimum_norm import make_inverse_operator
-import os
 # import subprocess
 import sys
-import glob 
+import glob
 
 from my_settings import *
 
