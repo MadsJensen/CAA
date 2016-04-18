@@ -19,6 +19,11 @@ cov = mne.read_cov(mne_folder + "%s-cov.fif" % subject)
 bem = glob.glob(mne_folder + "%s-8192-8192*sol.fif" % subject)[0]
 src = subjects_dir + "%s/bem/%s-oct-6-src.fif" % (subject, subject)
 
+raw = mne.io.Raw(raw_fname)
+raw.del_proj(0)
+
+raw.add_eeg_average_proj()
+
 # src = mne.setup_source_space(subject,
 #                              mne_folder + "%s-all-src.fif" % subject,
 #                              spacing="all",
