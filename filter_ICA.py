@@ -29,6 +29,10 @@ decim = 7  # decim value
 
 raw = Raw(maxfiltered_folder + "%s_data_mc_raw_tsss.fif" % subject,
           preload=True)
+raw.del_proj(0)
+raw.drop_channels(raw.info["bads"])
+raw.add_eeg_average_proj()
+
 raw.notch_filter(n_freq, n_jobs=n_jobs)
 raw.filter(l_freq, h_freq, n_jobs=n_jobs)
 
