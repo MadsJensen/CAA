@@ -9,6 +9,9 @@ import pandas as pd
 import numpy as np
 import sys
 from mne.io import Raw
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
 
 from my_settings import *
 
@@ -23,7 +26,9 @@ log_tmp = results[results.subject == int(subject)].reset_index()
 
 include = []
 raw = Raw(save_folder + "%s_filtered_ica_mc_raw_tsss.fif" % subject,
-          preload=False, add_eeg_ref=False)
+          preload=False)
+raw.del_proj(0)
+
 # Select events to extract epochs from.
 event_id = {"all_trials": 99}
 
@@ -87,7 +92,12 @@ picks = mne.pick_types(raw.info, meg=True, eeg=True, stim=False, eog=False,
                        include=include, exclude='bads')
 # Read epochs
 epochs = mne.Epochs(raw, events, event_id, tmin, tmax, picks=picks,
-                    baseline=(None, -0.2), reject=None, add_eeg_ref=False,
+                    baseline=(None, -0.2), reject=reject_params,
+                    add_eeg_ref=True,
                     preload=False)
+epochs.drop_bad_epochs(reject_params)
+
+fig = epochs.plot_drop_log(subject=subject, show=False)
+fig.savefig(epochs_folder + "pics/%s_drop_log.png" % subject)
 
 epochs.save(epochs_folder + "%s_trial_start-epo.fif" % subject)
