@@ -115,4 +115,3 @@ ica.save(save_folder + "%s-ica.fif" % subject)  # save ICA componenets
 # Save raw with ICA removed
 raw_ica.save(save_folder + "%s_filtered_ica_mc_raw_tsss.fif" % subject,
              overwrite=True)
-plt.close("all")
