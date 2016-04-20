@@ -8,13 +8,16 @@ import mne
 from mne.minimum_norm import (apply_inverse_epochs, read_inverse_operator)
 from mne.time_frequency import cwt_morlet
 import numpy as np
+import sys
 
 from my_settings import *
+
+subject = sys.argv[1]
 
 # Using the same inverse operator when inspecting single trials Vs. evoked
 snr = 1.0  # Standard assumption for average data but using it for single trial
 lambda2 = 1.0 / snr ** 2
-method = "MNE"  # use dSPM method (could also be MNE or sLORETA)
+method = "dSPM"  # use dSPM method (could also be MNE or sLORETA)
 freqs = np.arange(8, 13, 1)
 n_cycle = freqs / 3.
 
@@ -29,11 +32,11 @@ labels_sel = [labels[6], labels[7]]
 
 inverse_operator = read_inverse_operator(mne_folder +
                                          "%s-inv.fif" % subject)
-src = mne.read_source_spaces(mne_folder + "%s-oct6-src.fif" % subject)
-
+src = mne.read_source_spaces(subjects_dir + "%s/bem/%s-oct-6-src.fif"
+                             % (subject, subject))
 epochs = mne.read_epochs(epochs_folder +
                          "%s_trial_start-epo.fif" % subject)
-epochs.drop_bad_epochs(reject_params)
+# epochs.drop_bad_epochs(reject_params)
 # epochs.resample(250, n_jobs=4)
 
 for condition in conditions:
@@ -54,7 +57,7 @@ for condition in conditions:
             ts *= np.sign(ts[np.argmax(np.abs(ts))])
             label_ts.append(ts)
 
-        label_ts = np.asarray(labels_ts)
+        label_ts = np.asarray(label_ts)
         tfr = cwt_morlet(label_ts, epochs.info["sfreq"], freqs,
                          use_fft=True, n_cycles=n_cycle)
 
