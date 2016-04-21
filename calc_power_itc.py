@@ -33,9 +33,9 @@ for label in labels_selc:
                                               frequencies,
                                               label,
                                               method=method,
-                                              pick_ori="normal",
-                                              # baseline=(-0.3, 0),
-                                              # baseline_mode='mean',
+                                              pick_ori=None,
+                                              baseline=(-0.3, 0),
+                                              baseline_mode='zscore',
                                               n_cycles=n_cycles,
                                               pca=True,
                                               n_jobs=1)
