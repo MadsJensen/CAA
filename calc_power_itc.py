@@ -33,7 +33,7 @@ for label in labels_selc:
                                               label,
                                               method=method,
                                               pick_ori=None,
-                                              baseline=(-0.3, 0),
+                                              baseline=(-0.2, 0),
                                               baseline_mode='zscore',
                                               n_cycles=n_cycles,
                                               pca=True,
