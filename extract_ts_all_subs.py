@@ -49,21 +49,22 @@ for subject in subjects_select:
                 ts = mne.extract_label_time_course(stcs[j],
                                                    labels=label,
                                                    src=src,
-                                                   mode="mean_flip")
+                                                   mode="pca_flip")
                 ts = np.squeeze(ts)
                 ts *= np.sign(ts[np.argmax(np.abs(ts))])
                 label_ts.append(ts)
 
             label_ts = np.asarray(label_ts)
+            label_ts *= np.sign(label_ts[np.argmax(np.abs(label_ts))])
             tfr = cwt_morlet(label_ts, epochs.info["sfreq"], freqs,
                              use_fft=True, n_cycles=n_cycle)
 
-            np.save(tf_folder + "%s_%s_%s_%s_%s_mf-tfr" % (subject,
+            np.save(tf_folder + "%s_%s_%s_%s_%s_sf-tfr" % (subject,
                                                            condition[:3],
                                                            condition[4:],
                                                            label.name, method),
                     tfr)
-            np.save(tf_folder + "%s_%s_%s_%s_%s_mf-ts" % (subject,
+            np.save(tf_folder + "%s_%s_%s_%s_%s_sf-ts" % (subject,
                                                           condition[:3],
                                                           condition[4:],
                                                           label.name, method),
