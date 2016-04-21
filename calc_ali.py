@@ -3,7 +3,7 @@ import numpy as np
 from my_settings import *
 
 
-def calc_ali(subject, method="dSPM"):
+def calc_ali_raw(subject, method="dSPM"):
     """
     Params
     ------
@@ -13,29 +13,29 @@ def calc_ali(subject, method="dSPM"):
     """
 
     ctl_left_roi_left_cue = np.load(tf_folder +
-                                    "%s_ctl_left_Brodmann.17-lh_%s-tfr.npy"
+                                    "%s_ctl_left_Brodmann.17-lh_%s_mf-tfr.npy"
                                     % (subject, method))
     ctl_right_roi_left_cue = np.load(tf_folder +
-                                     "%s_ctl_left_Brodmann.17-rh_%s-tfr.npy"
+                                     "%s_ctl_left_Brodmann.17-rh_%s_mf-tfr.npy"
                                      % (subject, method))
     ctl_left_roi_right_cue = np.load(tf_folder +
-                                     "%s_ctl_right_Brodmann.17-lh_%s-tfr.npy"
+                                     "%s_ctl_right_Brodmann.17-lh_%s_mf-tfr.npy"
                                      % (subject, method))
     ctl_right_roi_right_cue = np.load(tf_folder +
-                                      "%s_ctl_right_Brodmann.17-rh_%s-tfr.npy"
+                                      "%s_ctl_right_Brodmann.17-rh_%s_mf-tfr.npy"
                                       % (subject, method))
 
     ent_left_roi_left_cue = np.load(tf_folder +
-                                    "%s_ent_left_Brodmann.17-lh_%s-tfr.npy"
+                                    "%s_ent_left_Brodmann.17-lh_%s_mf-tfr.npy"
                                     % (subject, method))
     ent_right_roi_left_cue = np.load(tf_folder +
-                                     "%s_ent_left_Brodmann.17-rh_%s-tfr.npy"
+                                     "%s_ent_left_Brodmann.17-rh_%s_mf-tfr.npy"
                                      % (subject, method))
     ent_left_roi_right_cue = np.load(tf_folder +
-                                     "%s_ent_left_Brodmann.17-lh_%s-tfr.npy"
+                                     "%s_ent_left_Brodmann.17-lh_%s_mf-tfr.npy"
                                      % (subject, method))
     ent_right_roi_right_cue = np.load(tf_folder +
-                                      "%s_ent_right_Brodmann.17-rh_%s-tfr.npy"
+                                      "%s_ent_right_Brodmann.17-rh_%s_mf-tfr.npy"
                                       % (subject, method))
 
     ali_left_cue_ctl =\
