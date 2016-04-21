@@ -9,7 +9,6 @@ subject = sys.argv[1]
 
 epochs = mne.read_epochs(epochs_folder + "%s_trial_start-epo.fif"
                          % subject)
-epochs.drop_bad_epochs(reject_params)
 
 inv = read_inverse_operator(mne_folder + "%s-inv.fif" % subject)
 
@@ -39,15 +38,15 @@ for label in labels_selc:
                                               n_cycles=n_cycles,
                                               pca=True,
                                               n_jobs=1)
-            np.save(tf_folder + "%s_pow_%s_%s_%s_%s_norm.npy" % (subject,
-                                                                 cond,
-                                                                 side,
-                                                                 method,
-                                                                 label.name),
+            np.save(tf_folder + "%s_pow_%s_%s_%s_%s.npy" % (subject,
+                                                            cond,
+                                                            side,
+                                                            method,
+                                                            label.name),
                     power)
-            np.save(tf_folder + "%s_itc_%s_%s_%s_%s_norm.npy" % (subject,
-                                                                 cond,
-                                                                 side,
-                                                                 method,
-                                                                 label.name),
+            np.save(tf_folder + "%s_itc_%s_%s_%s_%s.npy" % (subject,
+                                                            cond,
+                                                            side,
+                                                            method,
+                                                            label.name),
                     itc)
