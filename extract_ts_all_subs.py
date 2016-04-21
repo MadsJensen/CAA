@@ -11,7 +11,6 @@ import numpy as np
 
 from my_settings import *
 
-
 # Using the same inverse operator when inspecting single trials Vs. evoked
 snr = 1.0  # Standard assumption for average data but using it for single trial
 lambda2 = 1.0 / snr ** 2
@@ -50,7 +49,7 @@ for subject in subjects_select:
                 ts = mne.extract_label_time_course(stcs[j],
                                                    labels=label,
                                                    src=src,
-                                                   mode="pca_flip")
+                                                   mode="mean_flip")
                 ts = np.squeeze(ts)
                 ts *= np.sign(ts[np.argmax(np.abs(ts))])
                 label_ts.append(ts)
@@ -59,13 +58,15 @@ for subject in subjects_select:
             tfr = cwt_morlet(label_ts, epochs.info["sfreq"], freqs,
                              use_fft=True, n_cycles=n_cycle)
 
-            np.save(tf_folder + "%s_%s_%s_%s_%s-tfr" % (subject, condition[:3],
-                                                        condition[4:],
-                                                        label.name, method),
+            np.save(tf_folder + "%s_%s_%s_%s_%s_mf-tfr" % (subject,
+                                                           condition[:3],
+                                                           condition[4:],
+                                                           label.name, method),
                     tfr)
-            np.save(tf_folder + "%s_%s_%s_%s_%s-ts" % (subject, condition[:3],
-                                                       condition[4:],
-                                                       label.name, method),
+            np.save(tf_folder + "%s_%s_%s_%s_%s_mf-ts" % (subject,
+                                                          condition[:3],
+                                                          condition[4:],
+                                                          label.name, method),
                     label_ts)
 
         del stcs
