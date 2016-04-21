@@ -25,6 +25,6 @@ fig.savefig(epochs_folder + "pics/%s_drop_log.png" % subject)
 
 # Make noise cov
 cov = compute_covariance(epochs, tmin=None, tmax=0,
-                         method="shrunk")
+                         method="factor")
 mne.write_cov(mne_folder + "%s-cov.fif" % subject, cov)
 
