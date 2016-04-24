@@ -20,11 +20,11 @@ subject = sys.argv[1]
 epochs = mne.read_epochs(epochs_folder + "%s_trial_start-epo.fif" % subject)
 epochs.drop_bad_epochs(reject_params)
 
-fig = epochs.plot_drop_log(subject=subject, show=False)
-fig.savefig(epochs_folder + "pics/%s_drop_log.png" % subject)
+# fig = epochs.plot_drop_log(subject=subject, show=False)
+# fig.savefig(epochs_folder + "pics/%s_drop_log.png" % subject)
 
 # Make noise cov
 cov = compute_covariance(epochs, tmin=None, tmax=0,
-                         method="factor")
+                         method="factor_analysis")
 mne.write_cov(mne_folder + "%s-cov.fif" % subject, cov)
 

@@ -82,29 +82,29 @@ def calc_ali(subject, method="MNE"):
     """
 
     ctl_left_roi_left_cue = np.load(tf_folder +
-                                    "%s_pow_ctl_left_Brodmann.17-lh_%s.npy"
+                                    "%s_pow_ctl_left_%s_Brodmann.17-lh_norm.npy"
                                     % (subject, method))
     ctl_right_roi_left_cue = np.load(tf_folder +
-                                     "%s_pow_ctl_left_Brodmann.17-rh_%s.npy"
+                                     "%s_pow_ctl_left_%s_Brodmann.17-rh_norm.npy"
                                      % (subject, method))
     ctl_left_roi_right_cue = np.load(tf_folder +
-                                     "%s_pow_ctl_right_Brodmann.17-lh_%s.npy"
+                                     "%s_pow_ctl_right_%s_Brodmann.17-lh_norm.npy"
                                      % (subject, method))
     ctl_right_roi_right_cue = np.load(tf_folder +
-                                      "%s_pow_ctl_right_Brodmann.17-rh_%s.npy"
+                                      "%s_pow_ctl_right_%s_Brodmann.17-rh_norm.npy"
                                       % (subject, method))
 
     ent_left_roi_left_cue = np.load(tf_folder +
-                                    "%s_pow_ent_left_Brodmann.17-lh_%s.npy"
+                                    "%s_pow_ent_left_%s_Brodmann.17-lh_norm.npy"
                                     % (subject, method))
     ent_right_roi_left_cue = np.load(tf_folder +
-                                     "%s_pow_ent_left_Brodmann.17-rh_%s.npy"
+                                     "%s_pow_ent_left_%s_Brodmann.17-rh_norm.npy"
                                      % (subject, method))
     ent_left_roi_right_cue = np.load(tf_folder +
-                                     "%s_pow_ent_left_Brodmann.17-lh_%s.npy"
+                                     "%s_pow_ent_left_%s_Brodmann.17-lh_norm.npy"
                                      % (subject, method))
     ent_right_roi_right_cue = np.load(tf_folder +
-                                      "%s_pow_ent_right_Brodmann.17-rh_%s.npy"
+                                      "%s_pow_ent_right_%s_Brodmann.17-rh_norm.npy"
                                       % (subject, method))
 
     ali_left_cue_ctl =\

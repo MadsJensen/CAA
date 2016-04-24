@@ -39,13 +39,13 @@ for label in labels_selc:
                                                n_cycles=n_cycles,
                                                pca=True,
                                                n_jobs=1)
-            np.save(tf_folder + "%s_pow_%s_%s_%s_%s_n4_bs.npy" % (subject,
+            np.save(tf_folder + "%s_pow_%s_%s_%s_%s_bs.npy" % (subject,
                                                                   cond,
                                                                   side,
                                                                   method,
                                                                   label.name),
                 power)
-            np.save(tf_folder + "%s_itc_%s_%s_%s_%s_n4_bs.npy" % (subject,
+            np.save(tf_folder + "%s_itc_%s_%s_%s_%s_bs.npy" % (subject,
                                                                   cond,
                                                                   side,
                                                                   method,

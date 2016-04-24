@@ -8,9 +8,10 @@ Created on Fri Apr 22 16:55:00 2016
 import mne
 import numpy as np
 from my_settings import *
+from mne.time_frequency import tfr_morlet
 
 freqs = np.arange(8, 13, 1)  # define frequencies of interest
-n_cycles = freqs / 2.  # different number of cycle per frequency
+n_cycles = 4.  # freqs / 2.  # different number of cycle per frequency
 
 sides = ["left", "right"]
 conditions = ["ctl", "ent"]
@@ -25,9 +26,9 @@ for subject in subjects_select:
                                     n_cycles=n_cycles,
                                     use_fft=True, return_itc=True, decim=2,
                                     n_jobs=1)
-            power.save(tf_folder + "%s_%s_%s-tfr.h5" % (subject,
-                                                        condition, side),
+            power.save(tf_folder + "%s_%s_%s-4-tfr.h5" % (subject,
+                                                        cond, side),
                                                         overwrite=True)
-            itc.save(tf_folder + "%s_%s_%s-tfr.h5" % (subject,
-                                                      condition, side),
+            itc.save(tf_folder + "%s_%s_%s-4-tfr.h5" % (subject,
+                                                      cond, side),
                                                       overwrite=True)

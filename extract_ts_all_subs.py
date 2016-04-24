@@ -29,8 +29,7 @@ for subject in subjects_select:
 
     inverse_operator = read_inverse_operator(mne_folder +
                                              "%s-inv.fif" % subject)
-    src = mne.read_source_spaces(subjects_dir + "%s/bem/%s-oct-6-src.fif"
-                                 % (subject, subject))
+    src = inverse_operator["src"]
     epochs = mne.read_epochs(epochs_folder +
                              "%s_trial_start-epo.fif" % subject)
     # epochs.drop_bad_epochs(reject_params)
@@ -41,7 +40,7 @@ for subject in subjects_select:
                                     inverse_operator,
                                     lambda2,
                                     method,
-                                    pick_ori="normal")
+                                    pick_ori=None)
 
         for label in labels_sel:
             label_ts = []
@@ -55,7 +54,6 @@ for subject in subjects_select:
                 label_ts.append(ts)
 
             label_ts = np.asarray(label_ts)
-            label_ts *= np.sign(label_ts[np.argmax(np.abs(label_ts))])
             tfr = cwt_morlet(label_ts, epochs.info["sfreq"], freqs,
                              use_fft=True, n_cycles=n_cycle)
 
