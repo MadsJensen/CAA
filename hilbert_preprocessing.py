@@ -13,7 +13,9 @@ raw = mne.io.Raw(save_folder + "%s_filtered_ica_mc_raw_tsss.fif" % subject,
                  preload=True)
 raw.filter(8, 12)
 
-raw.apply_hilbert()
+picks = mne.pick_types(raw.info, meg=True, eeg=True, stim=False, eog=False,
+                       include=include, exclude='bads')
+raw.apply_hilbert(picks)
 
 raw.save(save_folder + "%s_hilbert_ica_mc_raw_tsss.fif" % subject)
 
