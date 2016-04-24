@@ -15,7 +15,10 @@ for subject in subjects_select:
                            include=include, exclude='bads')
     raw.apply_hilbert(picks)
 
-    raw.save(save_folder + "%s_hilbert_ica_mc_raw_tsss.fif" % subject)
+    include = []
+    picks = mne.pick_types(raw.info, meg=True, eeg=True, stim=False, eog=False,
+                           include=include, exclude='bads')
+    raw.apply_hilbert(picks)
 
     tmin, tmax = -0.5, 1.5  # Epoch time
 
@@ -33,8 +36,8 @@ for subject in subjects_select:
 
     #   Setup for reading the raw data
     events = mne.find_events(raw, min_duration=0.015)
-    events = mne.event.merge_events(events, [1, 2, 4, 8], 99, replace_events=True)
-
+    events = mne.event.merge_events(events, [1, 2, 4, 8], 99,
+                                    replace_events=True)
 
     event_id = {}
     epoch_ids = []
@@ -81,13 +84,12 @@ for subject in subjects_select:
         if epoch_name is not event_id:
             event_id[str(epoch_name)] = int(epoch_id)
 
-
     idx = np.arange(0, len(events), 4)
     for i in range(len(events[idx])):
         events[idx[i]][2] = epoch_ids[i]
 
-
-    # picks = mne.pick_types(raw.info, meg=True, eeg=True, stim=False, eog=False,
+    # picks = mne.pick_types(raw.info, meg=True, eeg=True, stim=False,
+    # eog=False,
     #                        include=include, exclude='bads')
     # Read epochs
     epochs = mne.Epochs(raw, events, event_id, tmin, tmax, picks=picks,
