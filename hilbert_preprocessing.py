@@ -11,6 +11,7 @@ subject = sys.argv[1]
 
 raw = mne.io.Raw(save_folder + "%s_filtered_ica_mc_raw_tsss.fif" % subject,
                  preload=True)
+raw.filter(8, 12)
 
 raw.apply_hilbert()
 
