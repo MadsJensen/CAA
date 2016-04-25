@@ -5,24 +5,21 @@ import numpy as np
 
 import matplotlib
 matplotlib.use('Agg')
+n_jobs = 3
 
 for subject in subjects_select:
     raw = mne.io.Raw(save_folder + "%s_filtered_ica_mc_raw_tsss.fif" % subject,
                      preload=True)
-    raw.filter(8, 12)
-
-    picks = mne.pick_types(raw.info, meg=True, eeg=True, stim=False, eog=False,
-                           include=include, exclude='bads')
-    raw.apply_hilbert(picks)
+    raw.resample(250, n_jobs=n_jobs, verbose=True)
+    raw.filter(8, 12, n_jobs=n_jobs, verbose=True)
 
     include = []
     picks = mne.pick_types(raw.info, meg=True, eeg=True, stim=False, eog=False,
                            include=include, exclude='bads')
-    raw.apply_hilbert(picks)
+    raw.apply_hilbert(picks, n_jobs=n_jobs, verbose=True)
+    raw.save(save_folder + "%s_hilbert_ica_mc_raw_tsss.fif" % subject)
 
     tmin, tmax = -0.5, 1.5  # Epoch time
-
-    subject = sys.argv[1]
 
     # All the behavioral results
     results = pd.read_csv(log_folder + "results_all.csv")
