@@ -90,7 +90,7 @@ epochs = mne.Epochs(raw, events, event_id, tmin, tmax, picks=picks,
                     baseline=(None, -0.2), reject=reject_params,
                     add_eeg_ref=True,
                     preload=False)
-epochs.drop_bad_epochs(reject_params)
+epochs.drop_bad(reject_params)
 
 fig = epochs.plot_drop_log(subject=subject, show=False)
 fig.savefig(epochs_folder + "pics/hilbert_%s_drop_log.png" % subject)
