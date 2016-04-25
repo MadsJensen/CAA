@@ -89,10 +89,12 @@ for i in range(len(events[idx])):
 epochs = mne.Epochs(raw, events, event_id, tmin, tmax, picks=picks,
                     baseline=(None, -0.2), reject=reject_params,
                     add_eeg_ref=True,
-                    preload=False)
+                    preload=True)
 epochs.drop_bad(reject_params)
 
-fig = epochs.plot_drop_log(subject=subject, show=False)
-fig.savefig(epochs_folder + "pics/hilbert_%s_drop_log.png" % subject)
+epochs._data = np.abs(epochs._data)**2
 
-epochs.save(epochs_folder + "%s_hilbert_trial_start-epo.fif" % subject)
+fig = epochs.plot_drop_log(subject=subject, show=False)
+fig.savefig(epochs_folder + "pics/hilbert_pow_%s_drop_log.png" % subject)
+
+epochs.save(epochs_folder + "%s_hilbert_pow_trial_start-epo.fif" % subject)
