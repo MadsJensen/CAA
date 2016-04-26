@@ -28,10 +28,10 @@ from mne.channels import read_ch_connectivity
 from my_settings import *
 
 ###############################################################################
-X_ctl_left = np.empty([len(subjects_select[:-1]), 501, 102])
-X_ctl_right = np.empty([len(subjects_select[:-1]), 501, 102])
-X_ent_left = np.empty([len(subjects_select[:-1]), 501, 102])
-X_ent_right = np.empty([len(subjects_select[:-1]), 501, 102])
+X_ctl_left = np.empty([len(subjects_select[:-1]), 501, 204])
+X_ctl_right = np.empty([len(subjects_select[:-1]), 501, 204])
+X_ent_left = np.empty([len(subjects_select[:-1]), 501, 204])
+X_ent_right = np.empty([len(subjects_select[:-1]), 501, 204])
 
 for j, subject in enumerate(subjects_select[:-1]):
     epochs = mne.read_epochs(epochs_folder +
