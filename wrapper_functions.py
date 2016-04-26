@@ -22,4 +22,4 @@ else:
 
 for subject in subjects_select:
     submit_cmd = "python %s %s" % (sys.argv[1], subject)
-    subprocess.call([cmd, "4", submit_cmd])
+    subprocess.call([cmd, "%s" % cpu_number, submit_cmd])

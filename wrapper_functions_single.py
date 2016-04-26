@@ -16,4 +16,4 @@ else:
     cpu_number = 4
 
 submit_cmd = "python %s %s" % (sys.argv[1], sys.argv[2])
-subprocess.call([cmd, "%s" cpu_number, submit_cmd])
+subprocess.call([cmd, "%s" % cpu_number, submit_cmd])
