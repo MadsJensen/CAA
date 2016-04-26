@@ -7,7 +7,7 @@ import matplotlib
 matplotlib.use('Agg')
 n_jobs = 3
 
-for subject in subjects_select:
+for subject in [subjects_select[-1]]:
     raw = mne.io.Raw(save_folder + "%s_filtered_ica_mc_raw_tsss.fif" % subject,
                      preload=True)
     raw.resample(250, n_jobs=n_jobs, verbose=True)
