@@ -16,9 +16,6 @@ be visualized using custom matplotlib code.
 # License: BSD (3-clause)
 
 import numpy as np
-import matplotlib.pyplot as plt
-from mpl_toolkits.axes_grid1 import make_axes_locatable
-from mne.viz import plot_topomap
 import cPickle as pickle
 
 import mne
@@ -28,12 +25,12 @@ from mne.channels import read_ch_connectivity
 from my_settings import *
 
 ###############################################################################
-X_ctl_left = np.empty([len(subjects_select[:-1]), 501, 102])
-X_ctl_right = np.empty([len(subjects_select[:-1]), 501, 102])
-X_ent_left = np.empty([len(subjects_select[:-1]), 501, 102])
-X_ent_right = np.empty([len(subjects_select[:-1]), 501, 102])
+X_ctl_left = np.empty([len(subjects_select), 2001, 102])
+X_ctl_right = np.empty([len(subjects_select), 2001, 102])
+X_ent_left = np.empty([len(subjects_select), 2001, 102])
+X_ent_right = np.empty([len(subjects_select), 2001, 102])
 
-for j, subject in enumerate(subjects_select[:-1]):
+for j, subject in enumerate(subjects_select):
     epochs = mne.read_epochs(epochs_folder +
                              '%s_trial_start-epo.fif' % subject)
 
