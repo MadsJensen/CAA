@@ -13,8 +13,11 @@ hostname = socket.gethostname()
 if hostname == "wintermute":
     data_path = "/home/mje/mnt/isis/scratch4/" +\
                 "MINDLAB2015_MEG-CorticalAlphaAttention/"
+    result_dir = "/home/mje/mnt/isis/projects/" +\
+                 "MINDLAB2015_MEG-CorticalAlphaAttention/result/"
 else:
     data_path = "/projects/MINDLAB2015_MEG-CorticalAlphaAttention/scratch/"
+    result_dir = data_path[:-8] + "/result/"
 
 subjects_dir = data_path + "fs_subjects_dir/"
 save_folder = data_path + "filter_ica_data/"
@@ -23,7 +26,7 @@ epochs_folder = data_path + "epoched_data/"
 tf_folder = data_path + "tf_data/"
 mne_folder = data_path + "minimum_norm/"
 log_folder = data_path + "log_files/"
-result_dir = data_path[:-8] + "result"
+
 
 
 reject_params = dict(grad=4000e-13,  # T / m (gradiometers)

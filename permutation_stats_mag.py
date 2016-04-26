@@ -35,7 +35,7 @@ X_ent_right = np.empty([len(subjects_select[:-1]), 501, 102])
 
 for j, subject in enumerate(subjects_select[:-1]):
     epochs = mne.read_epochs(epochs_folder +
-                             '%s_hilbert_pow_trial_start-epo.fif' % subject)
+                             '%s_trial_start-epo.fif' % subject)
 
     epochs.pick_types(meg="mag")
 
