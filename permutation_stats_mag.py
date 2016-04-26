@@ -64,4 +64,4 @@ T_obs, clusters, p_values, _ = cluster_stats
 good_cluster_inds = np.where(p_values < p_accept)[0]
 
 pickle.dump(cluster_stats, open(result_dir +
-                                "cluster_stats_pow_mag.p", "wb"))
+                                "/cluster_stats_pow_mag.p", "wb"))
