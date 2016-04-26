@@ -57,7 +57,7 @@ p_accept = 0.05
 
 cluster_stats = spatio_temporal_cluster_test(X, n_permutations=5000,
                                              tail=0,
-                                             n_jobs=1,
+                                             n_jobs=3,
                                              connectivity=connectivity)
 
 T_obs, clusters, p_values, _ = cluster_stats
