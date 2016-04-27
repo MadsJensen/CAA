@@ -24,61 +24,62 @@ epochs = mne.read_epochs(epochs_folder + "%s_trial_start-epo.fif"
 inv = read_inverse_operator(mne_folder + "%s-inv.fif"
                             % subject)
 
-sides = ["left", "right"]
-for side in sides:
-    evoked = epochs[side].average()
-    src = inv['src']  # get the source space
+# sides = ["left", "right"]
+# for side in sides:
+# evoked = epochs[side].average()
+evoked = epochs.average()
+src = inv['src']  # get the source space
 
-    # labels = mne.read_labels_from_annot(subject,
-    #                                     parc='PALS_B12_Brodmann',
-    #                                         regexp="Bro",
-    #                                     subjects_dir=subjects_dir)
-    # label_lh, label_rh = labels[6], labels[7]
-    labels = mne.read_labels_from_annot(subject, parc='PALS_B12_Lobes',
-                                        # regexp="Bro",
-                                        subjects_dir=subjects_dir)
-    label_lh, label_rh = labels[9], labels[10]
+# labels = mne.read_labels_from_annot(subject,
+#                                     parc='PALS_B12_Brodmann',
+#                                         regexp="Bro",
+#                                     subjects_dir=subjects_dir)
+# label_lh, label_rh = labels[6], labels[7]
+labels = mne.read_labels_from_annot(subject, parc='PALS_B12_Lobes',
+                                    # regexp="Bro",
+                                    subjects_dir=subjects_dir)
+label_lh, label_rh = labels[9], labels[10]
 
-    # Compute inverse solution
-    stc = apply_inverse(evoked, inv, lambda2, method,
-                        pick_ori='normal')
+# Compute inverse solution
+stc = apply_inverse(evoked, inv, lambda2, method,
+                    pick_ori='normal')
 
-    # Make an STC in the time interval of interest and take the mean
-    stc_mean = stc.copy().crop(tmin, tmax).mean()
+# Make an STC in the time interval of interest and take the mean
+stc_mean = stc.copy().crop(tmin, tmax).mean()
 
-    # use the stc_mean to generate a functional label
-    # region growing is halted at 60% of the peak value within the
-    # anatomical label / ROI specified by aparc_label_name
+# use the stc_mean to generate a functional label
+# region growing is halted at 60% of the peak value within the
+# anatomical label / ROI specified by aparc_label_name
 
-    # calc lh label
-    stc_mean_label = stc_mean.in_label(label_lh)
-    data = np.abs(stc_mean_label.data)
-    stc_mean_label.data[data < 0.6 * np.max(data)] = 0.
+# calc lh label
+stc_mean_label = stc_mean.in_label(label_lh)
+data = np.abs(stc_mean_label.data)
+stc_mean_label.data[data < 0.6 * np.max(data)] = 0.
 
-    func_labels_lh, _ = mne.stc_to_label(stc_mean_label,
-                                         src=src,
-                                         smooth=True,
-                                         subjects_dir=subjects_dir,
-                                         connected=True)
-    # take first as func_labels are ordered based on maximum values in stc
-    func_label_lh = func_labels_lh[0]
+func_labels_lh, _ = mne.stc_to_label(stc_mean_label,
+                                     src=src,
+                                     smooth=True,
+                                     subjects_dir=subjects_dir,
+                                     connected=True)
+# take first as func_labels are ordered based on maximum values in stc
+func_label_lh = func_labels_lh[0]
 
-    # calc rh label
-    stc_mean_label = stc_mean.in_label(label_rh)
-    data = np.abs(stc_mean_label.data)
-    stc_mean_label.data[data < 0.6 * np.max(data)] = 0.
+# calc rh label
+stc_mean_label = stc_mean.in_label(label_rh)
+data = np.abs(stc_mean_label.data)
+stc_mean_label.data[data < 0.6 * np.max(data)] = 0.
 
-    _, func_labels_rh = mne.stc_to_label(stc_mean_label,
-                                         src=src,
-                                         smooth=True,
-                                         subjects_dir=subjects_dir,
-                                         connected=True)
-    # take first as func_labels are ordered based on maximum values in stc
-    func_label_rh = func_labels_rh[0]
+_, func_labels_rh = mne.stc_to_label(stc_mean_label,
+                                     src=src,
+                                     smooth=True,
+                                     subjects_dir=subjects_dir,
+                                     connected=True)
+# take first as func_labels are ordered based on maximum values in stc
+func_label_rh = func_labels_rh[0]
 
-    func_label_lh.save(mne_folder + "%s-func_label_cond-%s_lh"
-                       % (subject, side))
-    func_label_rh.save(mne_folder + "%s-func_label_cond-%s_rh"
-                       % (subject, side))
+func_label_lh.save(mne_folder + "%s-func_label_lh"
+                   % (subject, side))
+func_label_rh.save(mne_folder + "%s-func_label_rh"
+                   % (subject, side))
 
 #        return func_label_lh, func_label_rh
