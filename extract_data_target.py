@@ -21,6 +21,7 @@ to_time = np.abs(times - 0.1).argmin()
 sides = ["left", "right"]
 conditions = ["ctl", "ent"]
 rois = ["lh", "rh"]
+corr = ["correct", "incorrect"]
 
 columns_keys = ["subject", "condition_type", "condition_side", "ROI",
                 "mean"]
@@ -30,47 +31,49 @@ for subject in subjects_select:
     for condition in conditions:
         for side in sides:
             for roi in rois:
-                data = np.load(tf_folder +
-                    "%s_pow_%s_%s_MNE_Brodmann.17-%s_target.npy" % (subject,
-                                                                    condition,
-                                                                    side,
-                                                                    roi))
-                data = data[:, :, from_time:to_time].mean(axis=1).mean(axis=1)
-                idx = np.arange(len(data))
-                for i in idx:
-                    row = pd.DataFrame([{"subject": subject,
-                                         "condition_type": condition,
-                                         "condition_side": side,
-                                         "ROI": roi,
-                                         "mean": data[i]}])
-                    df = df.append(row, ignore_index=True)
-
+                for cor in corr:
+                    data = np.load(tf_folder +
+                                   "%s_pow_%s_%s_MNE_%s_Brodmann.17-%s_target.npy" %
+                                   (subject,
+                                    condition,
+                                    side,
+                                    cor,
+                                    roi))
+                    data = data[:, :, from_time:to_time].mean(axis=1).mean(axis=1)
+                    idx = np.arange(len(data))
+                    for i in idx:
+                        row = pd.DataFrame([{"subject": subject,
+                                             "condition_type": condition,
+                                             "condition_side": side,
+                                             "ROI": roi,
+                                             "mean": data[i]}])
+                        df = df.append(row, ignore_index=True)
 
 df.to_csv(data_path + "alpha_mean_pow_data_extracted_target.csv", index=False)
 
 
-columns_keys = ["subject", "condition_type", "condition_side", "ROI",
-                "mean"]
 df = pd.DataFrame(columns=columns_keys)
 
 for subject in subjects_select:
     for condition in conditions:
         for side in sides:
             for roi in rois:
-                data = np.load(tf_folder +
-                    "%s_itc_%s_%s_MNE_Brodmann.17-%s_target.npy" % (subject,
-                                                                    condition,
-                                                                    side,
-                                                                    roi))
-                data = data[:, :, from_time:to_time].mean(axis=1).mean(axis=1)
-                idx = np.arange(len(data))
-                for i in idx:
-                    row = pd.DataFrame([{"subject": subject,
-                                         "condition_type": condition,
-                                         "condition_side": side,
-                                         "ROI": roi,
-                                         "mean": data[i]}])
-                    df = df.append(row, ignore_index=True)
-
+                for cor in corr:
+                    data = np.load(tf_folder +
+                                   "%s_itc_%s_%s_MNE_%s_Brodmann.17-%s_target.npy" %
+                                   (subject,
+                                    condition,
+                                    side,
+                                    cor,
+                                    roi))
+                    data = data[:, :, from_time:to_time].mean(axis=1).mean(axis=1)
+                    idx = np.arange(len(data))
+                    for i in idx:
+                        row = pd.DataFrame([{"subject": subject,
+                                             "condition_type": condition,
+                                             "condition_side": side,
+                                             "ROI": roi,
+                                             "mean": data[i]}])
+                        df = df.append(row, ignore_index=True)
 
 df.to_csv(data_path + "alpha_mean_itc_data_extracted_target.csv", index=False)
