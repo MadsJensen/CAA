@@ -23,31 +23,38 @@ method = "MNE"
 
 sides = ["left", "right"]
 conditions = ["ctl", "ent"]
+cor = ["correct", "incorrect"]
 
 for label in labels_selc:
     for cond in conditions:
-        for j, side in enumerate(sides):
-            power, itc = source_induced_power(epochs[cond + "/" + side],
-                                              inv,
-                                              frequencies,
-                                              label=label,
-                                              method=method,
-                                              pick_ori=None,
-                                              use_fft=True,
-                                              # baseline=(-0.2, 0),
-                                              # baseline_mode='zscore',
-                                              n_cycles=n_cycles,
-                                              pca=True,
-                                              n_jobs=1)
-            np.save(tf_folder + "%s_pow_%s_%s_%s_%s_target.npy" % (subject,
-                                                                   cond,
-                                                                   side,
-                                                                   method,
-                                                                   label.name),
-                    power)
-            np.save(tf_folder + "%s_itc_%s_%s_%s_%s_target.npy" % (subject,
-                                                                   cond,
-                                                                   side,
-                                                                   method,
-                                                                   label.name),
-                    itc)
+        for corr in cor:
+            for j, side in enumerate(sides):
+                power, itc = source_induced_power(epochs[cond + "/" + side +
+                                                         "/" + corr],
+                                                  inv,
+                                                  frequencies,
+                                                  label=label,
+                                                  method=method,
+                                                  pick_ori=None,
+                                                  use_fft=True,
+                                                  # baseline=(-0.2, 0),
+                                                  # baseline_mode='zscore',
+                                                  n_cycles=n_cycles,
+                                                  pca=True,
+                                                  n_jobs=1)
+                np.save(tf_folder + "%s_pow_%s_%s_%s_%s_%s_target.npy" %
+                        (subject,
+                         cond,
+                         side,
+                         method,
+                         corr,
+                         label.name),
+                        power)
+                np.save(tf_folder + "%s_itc_%s_%s_%s_%s_%s_target.npy" %
+                        (subject,
+                         cond,
+                         side,
+                         method,
+                         corr,
+                         label.name),
+                        itc)
