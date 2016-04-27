@@ -17,7 +17,8 @@ for subject in [subjects_select[-1]]:
     picks = mne.pick_types(raw.info, meg=True, eeg=True, stim=False, eog=False,
                            include=include, exclude='bads')
     raw.apply_hilbert(picks, n_jobs=n_jobs, verbose=True)
-    raw.save(save_folder + "%s_hilbert_ica_mc_raw_tsss.fif" % subject)
+    raw.save(save_folder + "%s_hilbert_ica_mc_raw_tsss.fif" % subject,
+             overwrite=True)
 
     tmin, tmax = -0.5, 1.5  # Epoch time
 
