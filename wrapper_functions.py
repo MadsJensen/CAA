@@ -14,7 +14,7 @@ subjects_select = ["0005", "0006", "0007", "0008", "0009", "0010",
                    "0011", "0015", "0016", "0017", "0020", "0021",
                    "0022", "0024", "0025"]
 
-if sys.argv[2]:
+if len(sys.argv) == 3:
     cpu_number = sys.argv[2]
 else:
     cpu_number = 4
