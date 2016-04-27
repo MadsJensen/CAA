@@ -10,7 +10,7 @@ import subprocess
 
 cmd = "/usr/local/common/meeg-cfin/configurations/bin/submit_to_isis"
 
-if sys.argv[3]:
+if len(sys.argv) == 4:
     cpu_number = sys.argv[3]
 else:
     cpu_number = 4
