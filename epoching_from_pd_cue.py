@@ -15,12 +15,12 @@ import matplotlib.pyplot as plt
 
 from my_settings import *
 
-tmin, tmax = -1.5, 0.5  # Epoch time
+tmin, tmax = -1.5, 1  # Epoch time
 
 subject = sys.argv[1]
 
 # All the behavioral results
-results = pd.read_csv(log_folder + "results_all.csv")
+results = pd.read_csv(log_folder + "results_selected.csv")
 # select only the relevant subject
 log_tmp = results[results.subject == int(subject)].reset_index()
 
@@ -75,15 +75,15 @@ for i, row in log_tmp.iterrows():
         epoch_name = epoch_name + "/" + "out_phase"
         epoch_id = epoch_id + "0"
 
-    epoch_name = epoch_name + "/" + str(row.PAS)
-    epoch_id = epoch_id + str(row.PAS)
+    epoch_name = epoch_name + "/" + str(int(row.PAS))
+    epoch_id = epoch_id + str(int(row.PAS))
     epoch_ids.append(int(epoch_id))
 
     if epoch_name is not event_id:
         event_id[str(epoch_name)] = int(epoch_id)
 
 
-idx = np.arange(0, len(events), 4)
+idx = np.arange(1, len(events), 4)
 for i in range(len(events[idx])):
     events[idx[i]][2] = epoch_ids[i]
 
