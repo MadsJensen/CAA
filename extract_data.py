@@ -27,7 +27,7 @@ columns_keys = ["subject", "condition_type", "condition_side", "ROI",
 df = pd.DataFrame(columns=columns_keys)
 
 for subject in subjects_select:
-    for condition in conditions:    
+    for condition in conditions:
         for side in sides:
             for roi in rois:
                 data = np.load(tf_folder +
@@ -44,8 +44,8 @@ for subject in subjects_select:
                                          "ROI": roi,
                                          "mean": data[i]}])
                     df = df.append(row, ignore_index=True)
-                    
-                    
+
+
 df.to_csv(data_path + "alpha_mean_pow_data_extracted.csv", index=False)
 
 
@@ -54,7 +54,7 @@ columns_keys = ["subject", "condition_type", "condition_side", "ROI",
 df = pd.DataFrame(columns=columns_keys)
 
 for subject in subjects_select:
-    for condition in conditions:    
+    for condition in conditions:
         for side in sides:
             for roi in rois:
                 data = np.load(tf_folder +
@@ -71,6 +71,6 @@ for subject in subjects_select:
                                          "ROI": roi,
                                          "mean": data[i]}])
                     df = df.append(row, ignore_index=True)
-                    
-                    
+
+
 df.to_csv(data_path + "alpha_mean_itc_data_extracted.csv", index=False)
