@@ -54,7 +54,7 @@ stc_mean = stc.copy().crop(tmin, tmax).mean()
 # calc lh label
 stc_mean_label = stc_mean.in_label(label_lh)
 data = np.abs(stc_mean_label.data)
-stc_mean_label.data[data < 0.6 * np.max(data)] = 0.
+stc_mean_label.data[data < 0.5 * np.max(data)] = 0.
 
 func_labels_lh, _ = mne.stc_to_label(stc_mean_label,
                                      src=src,
