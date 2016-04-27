@@ -78,8 +78,8 @@ _, func_labels_rh = mne.stc_to_label(stc_mean_label,
 func_label_rh = func_labels_rh[0]
 
 func_label_lh.save(mne_folder + "%s-func_label_lh"
-                   % (subject, side))
+                   % (subject))
 func_label_rh.save(mne_folder + "%s-func_label_rh"
-                   % (subject, side))
+                   % (subject))
 
 #        return func_label_lh, func_label_rh
