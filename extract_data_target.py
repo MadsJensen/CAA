@@ -24,7 +24,7 @@ rois = ["lh", "rh"]
 corr = ["correct", "incorrect"]
 
 columns_keys = ["subject", "condition_type", "condition_side", "ROI",
-                "mean"]
+                "correct", "mean"]
 df = pd.DataFrame(columns=columns_keys)
 
 for subject in subjects_select:
@@ -46,7 +46,8 @@ for subject in subjects_select:
                                              "condition_type": condition,
                                              "condition_side": side,
                                              "ROI": roi,
-                                             "mean": data[i]}])
+                                             "correct": cor,
+                                             "power": data[i]}])
                         df = df.append(row, ignore_index=True)
 
 df.to_csv(data_path + "alpha_mean_pow_data_extracted_target.csv", index=False)
@@ -73,7 +74,8 @@ for subject in subjects_select:
                                              "condition_type": condition,
                                              "condition_side": side,
                                              "ROI": roi,
-                                             "mean": data[i]}])
+                                             "correct": cor,
+                                             "itc": data[i]}])
                         df = df.append(row, ignore_index=True)
 
 df.to_csv(data_path + "alpha_mean_itc_data_extracted_target.csv", index=False)
