@@ -10,7 +10,7 @@ import mne
 import numpy as np
 import pandas as pd
 
-epochs = mne.read_epochs(epochs_folder + "0005_trial_start-epo.fif",
+epochs = mne.read_epochs(epochs_folder + "0005_target-epo.fif",
                          preload=False)
 times = epochs.times
 
