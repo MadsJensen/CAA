@@ -33,7 +33,7 @@ for subject in subjects_select:
         for side in sides:
             for roi in rois:
                 for cor in corr:
-                    for p  in ohase:
+                    for p  in phase:
                         data = np.load(tf_folder +
                                        "%s_pow_%s_%s_MNE_%s_%s_Brodmann.17-%s_target.npy" %
                                        (subject,
@@ -50,6 +50,7 @@ for subject in subjects_select:
                                                  "condition_side": side,
                                                  "ROI": roi,
                                                  "correct": cor,
+                                                 "phase": p,
                                                  "power": data[i]}])
                             df = df.append(row, ignore_index=True)
 
@@ -80,6 +81,7 @@ for subject in subjects_select:
                                                  "condition_side": side,
                                                  "ROI": roi,
                                                  "correct": cor,
+                                                 "phase": p,
                                                  "itc": data[i]}])
                             df = df.append(row, ignore_index=True)
 
