@@ -36,7 +36,7 @@ ada_params = {"gradientboostingclassifier__n_estimators": np.arange(1, 50, 1),
 scaler_pipe = make_pipeline(StandardScaler(), GradientBoostingClassifier())
 grid = GridSearchCV(scaler_pipe, param_grid=ada_params, cv=cv)
 
-ada_grid.fit(X, y)
+grid.fit(X, y)
 
 ada = ada_grid.best_estimator_
 
