@@ -1,141 +1,125 @@
-import numpy as np
-
 from my_settings import *
+import mne
+import numpy as np
+import pandas as pd
+
+epochs = mne.read_epochs(epochs_folder + "0005_target-epo.fif",
+                         preload=False)
+times = epochs.times
 
 
-def calc_ali_raw(subject, method="dSPM"):
-    """
-    Params
-    ------
-    subject : the subject number
-    method : str
-        The method used for inverse model.
-    """
+from_time = np.abs(times + 0.1).argmin()
+to_time = np.abs(times - 0.1).argmin()
 
-    ctl_left_roi_left_cue = np.load(tf_folder +
-                                    "%s_ctl_left_Brodmann.17-lh_%s_mf-tfr.npy"
-                                    % (subject, method))
-    ctl_right_roi_left_cue = np.load(tf_folder +
-                                     "%s_ctl_left_Brodmann.17-rh_%s_mf-tfr.npy"
-                                     % (subject, method))
-    ctl_left_roi_right_cue = np.load(tf_folder +
-                                     "%s_ctl_right_Brodmann.17-lh_%s_mf-tfr.npy"
-                                     % (subject, method))
-    ctl_right_roi_right_cue = np.load(tf_folder +
-                                      "%s_ctl_right_Brodmann.17-rh_%s_mf-tfr.npy"
-                                      % (subject, method))
+sides = ["left", "right"]
+conditions = ["ctl", "ent"]
+rois = ["lh", "rh"]
+corr = ["correct", "incorrect"]
+phase = ["in_phase", "out_phase"]
 
-    ent_left_roi_left_cue = np.load(tf_folder +
-                                    "%s_ent_left_Brodmann.17-lh_%s_mf-tfr.npy"
-                                    % (subject, method))
-    ent_right_roi_left_cue = np.load(tf_folder +
-                                     "%s_ent_left_Brodmann.17-rh_%s_mf-tfr.npy"
-                                     % (subject, method))
-    ent_left_roi_right_cue = np.load(tf_folder +
-                                     "%s_ent_left_Brodmann.17-lh_%s_mf-tfr.npy"
-                                     % (subject, method))
-    ent_right_roi_right_cue = np.load(tf_folder +
-                                      "%s_ent_right_Brodmann.17-rh_%s_mf-tfr.npy"
-                                      % (subject, method))
+columns_keys = ["subject", "timepoint", "type", "side",
+                "correct", "phase", "ALI_pow"]
 
-    ali_left_cue_ctl =\
-        ((np.mean(np.mean(np.abs(ctl_left_roi_left_cue)**2, axis=0), axis=0) -
-          np.mean(np.mean(np.abs(ctl_right_roi_left_cue)**2, axis=0),
-                  axis=0)) /
-         (np.mean(np.mean(np.abs(ctl_left_roi_left_cue)**2, axis=0), axis=0) +
-          np.mean(np.mean(np.abs(ctl_right_roi_left_cue)**2, axis=0), axis=0)))
+df = pd.DataFrame(columns=columns_keys)
 
-    ali_right_cue_ctl =\
-        ((np.mean(np.mean(np.abs(ctl_left_roi_right_cue)**2, axis=0), axis=0) -
-          np.mean(np.mean(np.abs(ctl_right_roi_right_cue)**2, axis=0),
-                  axis=0)) /
-         (np.mean(np.mean(np.abs(ctl_left_roi_right_cue)**2, axis=0), axis=0) +
-          np.mean(np.mean(np.abs(ctl_right_roi_right_cue)**2, axis=0),
-                  axis=0)))
+for subject in subjects_select[:1]:
+    for cor in corr:
+        for p in phase:
+            ctl_lc_lr = np.load(tf_folder +
+                                "%s_pow_ctl_left_MNE_%s_%s" %
+                                (subject, cor, p) +
+                                "_Brodmann.17-lh_target.npy")
+            ctl_lc_rr = np.load(tf_folder +
+                                "%s_pow_ctl_left_MNE_%s_%s" %
+                                (subject, cor, p) +
+                                "_Brodmann.17-rh_target.npy")
+            ctl_lc_lr = ctl_lc_lr.mean(axis=0).mean(axis=0)
+            ctl_lc_rr = ctl_lc_rr.mean(axis=0).mean(axis=0)
 
-    ali_left_cue_ent =\
-        ((np.mean(np.mean(np.abs(ent_left_roi_left_cue)**2, axis=0), axis=0) -
-          np.mean(np.mean(np.abs(ent_right_roi_left_cue)**2, axis=0),
-                  axis=0)) /
-         (np.mean(np.mean(np.abs(ent_left_roi_left_cue)**2, axis=0), axis=0) +
-          np.mean(np.mean(np.abs(ent_right_roi_left_cue)**2, axis=0), axis=0)))
+            ali_ctl_left = ((ctl_lc_lr - ctl_lc_rr) /
+                            (ctl_lc_lr + ctl_lc_rr))
 
-    ali_right_cue_ent =\
-        ((np.mean(np.mean(np.abs(ent_left_roi_right_cue)**2, axis=0), axis=0) -
-          np.mean(np.mean(np.abs(ent_right_roi_right_cue)**2, axis=0),
-                  axis=0)) /
-         (np.mean(np.mean(np.abs(ent_left_roi_right_cue)**2, axis=0), axis=0) +
-          np.mean(np.mean(np.abs(ent_right_roi_right_cue)**2, axis=0),
-                  axis=0)))
+            ctl_rc_lr = np.load(tf_folder +
+                                "%s_pow_ctl_right_MNE_%s_%s" %
+                                (subject, cor, p) +
+                                "_Brodmann.17-lh_target.npy")
+            ctl_rc_rr = np.load(tf_folder +
+                                "%s_pow_ctl_right_MNE_%s_%s" %
+                                (subject, cor, p) +
+                                "_Brodmann.17-rh_target.npy")
+            ctl_rc_lr = ctl_rc_lr.mean(axis=0).mean(axis=0)
+            ctl_rc_rr = ctl_rc_rr.mean(axis=0).mean(axis=0)
 
-    return (ali_left_cue_ctl, ali_right_cue_ctl,
-            ali_left_cue_ent, ali_right_cue_ent)
+            ali_ctl_right = ((ctl_rc_lr - ctl_rc_rr) /
+                             (ctl_rc_lr + ctl_rc_rr))
+
+            for j in range(len(times[::4])):
+                row = pd.DataFrame([{"subject": subject,
+                                     "type": "ctl",
+                                     "side": "left",
+                                     "correct": cor,
+                                     "phase": p,
+                                     "timepoint": times[::4][j],
+                                     "ALI_pow": ali_ctl_left[::4][j]}])
+                df = df.append(row, ignore_index=True)
+
+            for j in range(len(times[::4])):
+                row = pd.DataFrame([{"subject": subject,
+                                     "type": "ctl",
+                                     "side": "right",
+                                     "correct": cor,
+                                     "phase": p,
+                                     "timepoint": times[::4][j],
+                                     "ALI_pow": ali_ctl_right[::4][j]}])
+                df = df.append(row, ignore_index=True)
+
+            ent_lc_lr = np.load(tf_folder +
+                                "%s_pow_ent_left_MNE_%s_%s" %
+                                (subject, cor, p) +
+                                "_Brodmann.17-lh_target.npy")
+            ent_lc_rr = np.load(tf_folder +
+                                "%s_pow_ent_left_MNE_%s_%s" %
+                                (subject, cor, p) +
+                                "_Brodmann.17-rh_target.npy")
+            ent_lc_lr = ent_lc_lr.mean(axis=0).mean(axis=0)
+            ent_lc_rr = ent_lc_rr.mean(axis=0).mean(axis=0)
+
+            ali_ent_left = ((ent_lc_lr - ent_lc_rr) /
+                            (ent_lc_lr + ent_lc_rr))
+
+            ent_rc_lr = np.load(tf_folder +
+                                "%s_pow_ent_right_MNE_%s_%s" %
+                                (subject, cor, p) +
+                                "_Brodmann.17-lh_target.npy")
+            ent_rc_rr = np.load(tf_folder +
+                                "%s_pow_ent_right_MNE_%s_%s" %
+                                (subject, cor, p) +
+                                "_Brodmann.17-rh_target.npy")
+            ent_rc_lr = ent_rc_lr.mean(axis=0).mean(axis=0)
+            ent_rc_rr = ent_rc_rr.mean(axis=0).mean(axis=0)
+
+            ali_ent_right = ((ent_rc_lr - ent_rc_rr) /
+                             (ent_rc_lr + ent_rc_rr))
+
+            for j in range(len(times[::4])):
+                row = pd.DataFrame([{"subject": subject,
+                                     "type": "ent",
+                                     "side": "left",
+                                     "correct": cor,
+                                     "phase": p,
+                                     "timepoint": times[::4][j],
+                                     "ALI_pow": ali_ent_left[::4][j]}])
+                df = df.append(row, ignore_index=True)
+
+            for j in range(len(times[::4])):
+                row = pd.DataFrame([{"subject": subject,
+                                     "type": "ent",
+                                     "side": "right",
+                                     "correct": cor,
+                                     "phase": p,
+                                     "timepoint": times[::4][j],
+                                     "ALI_pow": ali_ent_right[::4][j]}])
+                df = df.append(row, ignore_index=True)
 
 
-def calc_ali(subject, method="MNE"):
-    """
-    Params
-    ------
-    subject : the subject number
-    method : str
-        The method used for inverse model.
-    """
-
-    ctl_left_roi_left_cue = np.load(tf_folder +
-                                    "%s_pow_ctl_left_%s_Brodmann.17-lh_norm.npy"
-                                    % (subject, method))
-    ctl_right_roi_left_cue = np.load(tf_folder +
-                                     "%s_pow_ctl_left_%s_Brodmann.17-rh_norm.npy"
-                                     % (subject, method))
-    ctl_left_roi_right_cue = np.load(tf_folder +
-                                     "%s_pow_ctl_right_%s_Brodmann.17-lh_norm.npy"
-                                     % (subject, method))
-    ctl_right_roi_right_cue = np.load(tf_folder +
-                                      "%s_pow_ctl_right_%s_Brodmann.17-rh_norm.npy"
-                                      % (subject, method))
-
-    ent_left_roi_left_cue = np.load(tf_folder +
-                                    "%s_pow_ent_left_%s_Brodmann.17-lh_norm.npy"
-                                    % (subject, method))
-    ent_right_roi_left_cue = np.load(tf_folder +
-                                     "%s_pow_ent_left_%s_Brodmann.17-rh_norm.npy"
-                                     % (subject, method))
-    ent_left_roi_right_cue = np.load(tf_folder +
-                                     "%s_pow_ent_left_%s_Brodmann.17-lh_norm.npy"
-                                     % (subject, method))
-    ent_right_roi_right_cue = np.load(tf_folder +
-                                      "%s_pow_ent_right_%s_Brodmann.17-rh_norm.npy"
-                                      % (subject, method))
-
-    ali_left_cue_ctl =\
-        ((np.mean(np.mean(ctl_left_roi_left_cue, axis=0), axis=0) -
-          np.mean(np.mean(ctl_right_roi_left_cue, axis=0),
-                  axis=0)) /
-         (np.mean(np.mean(ctl_left_roi_left_cue, axis=0), axis=0) +
-          np.mean(np.mean(ctl_right_roi_left_cue, axis=0), axis=0)))
-
-    ali_right_cue_ctl =\
-        ((np.mean(np.mean(ctl_left_roi_right_cue, axis=0), axis=0) -
-          np.mean(np.mean(ctl_right_roi_right_cue, axis=0),
-                  axis=0)) /
-         (np.mean(np.mean(ctl_left_roi_right_cue, axis=0), axis=0) +
-          np.mean(np.mean(ctl_right_roi_right_cue, axis=0),
-                  axis=0)))
-
-    ali_left_cue_ent =\
-        ((np.mean(np.mean(ent_left_roi_left_cue, axis=0), axis=0) -
-          np.mean(np.mean(ent_right_roi_left_cue, axis=0),
-                  axis=0)) /
-         (np.mean(np.mean(ent_left_roi_left_cue, axis=0), axis=0) +
-          np.mean(np.mean(ent_right_roi_left_cue, axis=0), axis=0)))
-
-    ali_right_cue_ent =\
-        ((np.mean(np.mean(ent_left_roi_right_cue, axis=0), axis=0) -
-          np.mean(np.mean(ent_right_roi_right_cue, axis=0),
-                  axis=0)) /
-         (np.mean(np.mean(ent_left_roi_right_cue, axis=0), axis=0) +
-          np.mean(np.mean(ent_right_roi_right_cue, axis=0),
-                  axis=0)))
-
-    return (ali_left_cue_ctl, ali_right_cue_ctl,
-            ali_left_cue_ent, ali_right_cue_ent)
+# df.to_csv(data_path + "alpha_mean_pow_data_extracted_phase_target.csv", index=False)

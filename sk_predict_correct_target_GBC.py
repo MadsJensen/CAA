@@ -1,6 +1,6 @@
 import numpy as np
-import pandas as pd
 from my_settings import *
+import mne
 
 from sklearn.ensemble import GradientBoostingClassifier 
 from sklearn.cross_validation import StratifiedShuffleSplit, cross_val_score
@@ -8,20 +8,43 @@ from sklearn.grid_search import GridSearchCV
 from sklearn.preprocessing import StandardScaler
 from sklearn.pipeline import make_pipeline
 
-data = pd.read_csv(data_path +
-                   "alpha_mean_pow_data_extracted_phase_target.csv")
-data = data.drop("mean", 1)
-data["corr"], corr_lbl = pd.factorize(data.correct)
 
-data_dv = pd.get_dummies(data[["ROI", "condition_side",
-                               "condition_type", "phase"]])
-data_dv["pow"] = data.power
+epochs = mne.read_epochs(epochs_folder + "0005_target-epo.fif",
+                         preload=False)
+times = epochs.times
 
-data_itc = pd.read_csv(data_path +
-                       "alpha_mean_itc_data_extracted_phase_target.csv")
-data_itc = data_itc.drop("mean", 1)
+from_time = np.abs(times + 0.9).argmin()
+to_time = np.abs(times - 0.1).argmin()
 
-data_dv["itc"] = data_itc["itc"]
+
+sides = ["left", "right"]
+conditions = ["ctl", "ent"]
+rois = ["lh", "rh"]
+phase = ["in_phase", "out_phase"]
+correct = ["correct", "incorrect"]
+
+
+# data = np.empty([30, len(times[from_time:to_time])])
+X_data =[]
+
+for c in correct:
+    for subject in subjects_select:
+        for condition in conditions:
+            for side in sides:
+                for roi in rois:
+                    for p  in phase:
+                        data = np.load(tf_folder +
+                                       "%s_pow_%s_%s_MNE_%s_%s_Brodmann.17-%s_target.npy" %
+                                       (subject,
+                                        condition,
+                                        side,
+                                        c,
+                                        p,
+                                        roi))
+                        X_data.append(data[:, :, from_time:to_time].mean(axis=0).mean(axis=0))
+
+
+
 
 y = data["corr"].get_values()
 X = data_dv.get_values()
