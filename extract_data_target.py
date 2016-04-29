@@ -42,17 +42,16 @@ for subject in subjects_select:
                                         cor,
                                         p,
                                         roi))
-                        data = data[:, :, from_time:to_time].mean(axis=1).mean(axis=1)
-                        idx = np.arange(len(data))
-                        for i in idx:
-                            row = pd.DataFrame([{"subject": subject,
-                                                 "condition_type": condition,
-                                                 "condition_side": side,
-                                                 "ROI": roi,
-                                                 "correct": cor,
-                                                 "phase": p,
-                                                 "power": data[i]}])
-                            df = df.append(row, ignore_index=True)
+                        data = data[:, :, from_time:to_time].mean()
+                        
+                        row = pd.DataFrame([{"subject": subject,
+                                             "condition_type": condition,
+                                             "condition_side": side,
+                                             "ROI": roi,
+                                             "correct": cor,
+                                             "phase": p,
+                                             "power": data}])
+                        df = df.append(row, ignore_index=True)
 
 df.to_csv(data_path + "alpha_mean_pow_data_extracted_phase_target.csv", index=False)
 
@@ -73,16 +72,14 @@ for subject in subjects_select:
                                         cor,
                                         p,
                                         roi))
-                        data = data[:, :, from_time:to_time].mean(axis=1).mean(axis=1)
-                        idx = np.arange(len(data))
-                        for i in idx:
-                            row = pd.DataFrame([{"subject": subject,
-                                                 "condition_type": condition,
-                                                 "condition_side": side,
-                                                 "ROI": roi,
-                                                 "correct": cor,
-                                                 "phase": p,
-                                                 "itc": data[i]}])
-                            df = df.append(row, ignore_index=True)
+                        data = data[:, :, from_time:to_time].mean()
+                        row = pd.DataFrame([{"subject": subject,
+                                             "condition_type": condition,
+                                             "condition_side": side,
+                                             "ROI": roi,
+                                             "correct": cor,
+                                             "phase": p,
+                                             "itc": data}])
+                        df = df.append(row, ignore_index=True)
 
 df.to_csv(data_path + "alpha_mean_itc_data_extracted_phase_target.csv", index=False)

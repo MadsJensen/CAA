@@ -29,7 +29,7 @@ phase = ["in_phase", "out_phase"]
 congrunet = ["cong", "incong"]
 
 columns_keys = ["subject", "side", "condition",
-               "phase", "congruent", "ROI", "n"]
+               "phase", "congruent", "ROI","correct","n"]
 df = pd.DataFrame(columns=columns_keys)
 
 
@@ -88,8 +88,9 @@ for label in labels_selc:
                                              "phase": p,
                                              "congruent": cong,
                                              "ROI": label.name,
+                                             "correct": corr,
                                              "n": n}])
                         df = df.append(row, ignore_index=True)
 
 
-df.to_csv(tf_folder + "%s_tf_epochs.csv" % subjects)
+df.to_csv(tf_folder + "%s_tf_epochs.csv" % subject)
