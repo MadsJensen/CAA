@@ -2,6 +2,7 @@ from my_settings import *
 import mne
 import sys
 import numpy as np
+import pandas as pd
 
 from mne.minimum_norm import read_inverse_operator, source_induced_power
 
@@ -25,42 +26,68 @@ sides = ["left", "right"]
 conditions = ["ctl", "ent"]
 cor = ["correct", "incorrect"]
 phase = ["in_phase", "out_phase"]
+congrunet = ["cong", "incong"]
+
+column_keys = ["subject", "side", "condition",
+               "phase", "congruent", "ROI", "n"]
+
 
 for label in labels_selc:
     for cond in conditions:
         for corr in cor:
             for p in phase:
-                for j, side in enumerate(sides):
-                    power, itc = source_induced_power(epochs[cond +
-                                                             "/" + side +
-                                                             "/" + corr +
-                                                             "/" + p],
-                                                      inv,
-                                                      frequencies,
-                                                      label=label,
-                                                      method=method,
-                                                      pick_ori=None,
-                                                      use_fft=True,
-                                                      # baseline=(-0.2, 0),
-                                                      # baseline_mode='zscore',
-                                                      n_cycles=n_cycles,
-                                                      pca=True,
-                                                      n_jobs=1)
-                    np.save(tf_folder + "%s_pow_%s_%s_%s_%s_%s_%s_target.npy" %
-                            (subject,
-                             cond,
-                             side,
-                             method,
-                             corr,
-                             p,
-                             label.name),
-                            power)
-                    np.save(tf_folder + "%s_itc_%s_%s_%s_%s_%s_%s_target.npy" %
-                            (subject,
-                             cond,
-                             side,
-                             method,
-                             corr,
-                             p,
-                             label.name),
-                            itc)
+                for cong in congrunet:
+                    for j, side in enumerate(sides):
+                        power, itc = source_induced_power(epochs[cond +
+                                                                 "/" + side +
+                                                                 "/" + corr +
+                                                                 "/" + p,
+                                                                 "/" + cong],
+                                                          inv,
+                                                          frequencies,
+                                                          label=label,
+                                                          method=method,
+                                                          pick_ori=None,
+                                                          use_fft=True,
+                                                          # baseline=(-0.2, 0),
+                                                          # baseline_mode='zscore',
+                                                          n_cycles=n_cycles,
+                                                          pca=True,
+                                                          n_jobs=1)
+                        np.save(tf_folder +
+                                "%s_pow_%s_%s_%s_%s_%s_%s_%s_target.npy" %
+                                (subject,
+                                 cond,
+                                 side,
+                                 method,
+                                 corr,
+                                 p,
+                                 cong,
+                                 label.name),
+                                power)
+                        np.save(tf_folder +
+                                "%s_itc_%s_%s_%s_%s_%s_%s_%s_target.npy" %
+                                (subject,
+                                 cond,
+                                 side,
+                                 method,
+                                 corr,
+                                 p,
+                                 cong,
+                                 label.name),
+                                itc)
+
+                        n = len(epochs[cond + "/" + side + "/" +
+                                       corr + "/" + p, "/" + cong])
+
+                        row = pd.DataFrame([{"subject": subject,
+                                             "side": side,
+                                             "condition": cond,
+                                             "phase": p,
+                                             "congruent": cong,
+                                             "ROI": label.name,
+                                             "n": n}])
+                        df = df.append(row, ignore_index=True)
+
+
+df.to_csv(tf_folder + "%s_tf_epochs.csv" % subjects)
