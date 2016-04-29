@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 from my_settings import *
 
-from sklearn.ensemble import AdaBoostClassifier, GradientBoostingClassifier
+from sklearn.ensemble import AdaBoostClassifier
 from sklearn.cross_validation import StratifiedShuffleSplit, cross_val_score
 from sklearn.grid_search import GridSearchCV
 from sklearn.preprocessing import StandardScaler
@@ -35,9 +35,6 @@ ada = AdaBoostClassifier
 scaler_pipe = make_pipeline(StandardScaler(), AdaBoostClassifier())
 grid = GridSearchCV(scaler_pipe, param_grid=ada_params, cv=cv)
 
-
-ada_grid = GridSearchCV(AdaBoostClassifier(), param_grid=ada_params, cv=cv,
-                        scoring="roc_auc")
 ada_grid.fit(X, y)
 
 ada = ada_grid.best_estimator_
