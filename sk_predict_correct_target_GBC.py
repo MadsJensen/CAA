@@ -31,7 +31,7 @@ cv = StratifiedShuffleSplit(y, n_iter=10)
 ada_params = {"gradientboostingclassifier__n_estimators": np.arange(1, 50, 1),
               "gradientboostingclassifier__learning_rate":
               np.arange(0.01, 1, 0.2),
-              "gradientboostingclassifier__max_depth": np.araange(1, 8, 2)}
+              "gradientboostingclassifier__max_depth": np.arange(1, 8, 2)}
 
 scaler_pipe = make_pipeline(StandardScaler(), GradientBoostingClassifier())
 grid = GridSearchCV(scaler_pipe, param_grid=ada_params, cv=cv)
