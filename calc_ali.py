@@ -54,26 +54,6 @@ for subject in subjects_select:
             ali_ctl_right = ((ctl_rc_lr - ctl_rc_rr) /
                              (ctl_rc_lr + ctl_rc_rr))
 
-            for j in range(len(times[::4])):
-                row = pd.DataFrame([{"subject": subject,
-                                     "type": "ctl",
-                                     "side": "left",
-                                     "correct": cor,
-                                     "phase": p,
-                                     "timepoint": times[::4][j],
-                                     "ALI_pow": ali_ctl_left[::4][j]}])
-                df = df.append(row, ignore_index=True)
-
-            for j in range(len(times[::4])):
-                row = pd.DataFrame([{"subject": subject,
-                                     "type": "ctl",
-                                     "side": "right",
-                                     "correct": cor,
-                                     "phase": p,
-                                     "timepoint": times[::4][j],
-                                     "ALI_pow": ali_ctl_right[::4][j]}])
-                df = df.append(row, ignore_index=True)
-
             ent_lc_lr = np.load(tf_folder +
                                 "%s_pow_ent_left_MNE_%s_%s" %
                                 (subject, cor, p) +
@@ -103,16 +83,7 @@ for subject in subjects_select:
                              (ent_rc_lr + ent_rc_rr))
 
             for j in range(len(times[::4])):
-                row = pd.DataFrame([{"subject": subject,
-                                     "type": "ent",
-                                     "side": "left",
-                                     "correct": cor,
-                                     "phase": p,
-                                     "timepoint": times[::4][j],
-                                     "ALI_pow": ali_ent_left[::4][j]}])
-                df = df.append(row, ignore_index=True)
-
-            for j in range(len(times[::4])):
+                # ent right
                 row = pd.DataFrame([{"subject": subject,
                                      "type": "ent",
                                      "side": "right",
@@ -121,6 +92,37 @@ for subject in subjects_select:
                                      "timepoint": times[::4][j],
                                      "ALI_pow": ali_ent_right[::4][j]}])
                 df = df.append(row, ignore_index=True)
+                # ent left
+                row = pd.DataFrame([{"subject": subject,
+                                     "type": "ent",
+                                     "side": "left",
+                                     "correct": cor,
+                                     "phase": p,
+                                     "timepoint": times[::4][j],
+                                     "ALI_pow": ali_ent_left[::4][j]}])
+                df = df.append(row, ignore_index=True)
+                # ctl right
+                row = pd.DataFrame([{"subject": subject,
+                                     "type": "ctl",
+                                     "side": "right",
+                                     "correct": cor,
+                                     "phase": p,
+                                     "timepoint": times[::4][j],
+                                     "ALI_pow": ali_ctl_right[::4][j]}])
+                df = df.append(row, ignore_index=True)
+                # ctl left
+                row = pd.DataFrame([{"subject": subject,
+                                     "type": "ctl",
+                                     "side": "left",
+                                     "correct": cor,
+                                     "phase": p,
+                                     "timepoint": times[::4][j],
+                                     "ALI_pow": ali_ctl_left[::4][j]}])
+                df = df.append(row, ignore_index=True)
+
+
+
+
 
 
 # df.to_csv(data_path + "alpha_mean_pow_data_extracted_phase_target.csv", index=False)
