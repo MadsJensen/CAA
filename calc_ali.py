@@ -22,7 +22,8 @@ columns_keys = ["subject", "timepoint", "type", "side",
 
 df = pd.DataFrame(columns=columns_keys)
 
-for subject in subjects_select[:1]:
+for subject in subjects_select:
+    print("Working on subject: %s\n" % subject)
     for cor in corr:
         for p in phase:
             ctl_lc_lr = np.load(tf_folder +
