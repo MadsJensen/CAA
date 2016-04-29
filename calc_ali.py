@@ -17,7 +17,7 @@ rois = ["lh", "rh"]
 corr = ["correct", "incorrect"]
 phase = ["in_phase", "out_phase"]
 
-columns_keys = ["subject", "timepoint", "type", "side",
+columns_keys = ["subject", "type", "side",
                 "correct", "phase", "ALI_pow"]
 
 df = pd.DataFrame(columns=columns_keys)
@@ -82,43 +82,38 @@ for subject in subjects_select:
             ali_ent_right = ((ent_rc_lr - ent_rc_rr) /
                              (ent_rc_lr + ent_rc_rr))
 
-            for j in range(len(times[::4])):
-                # ent right
-                row = pd.DataFrame([{"subject": subject,
-                                     "type": "ent",
-                                     "side": "right",
-                                     "correct": cor,
-                                     "phase": p,
-                                     "timepoint": times[::4][j],
-                                     "ALI_pow": ali_ent_right[::4][j]}])
-                df = df.append(row, ignore_index=True)
-                # ent left
-                row = pd.DataFrame([{"subject": subject,
-                                     "type": "ent",
-                                     "side": "left",
-                                     "correct": cor,
-                                     "phase": p,
-                                     "timepoint": times[::4][j],
-                                     "ALI_pow": ali_ent_left[::4][j]}])
-                df = df.append(row, ignore_index=True)
-                # ctl right
-                row = pd.DataFrame([{"subject": subject,
-                                     "type": "ctl",
-                                     "side": "right",
-                                     "correct": cor,
-                                     "phase": p,
-                                     "timepoint": times[::4][j],
-                                     "ALI_pow": ali_ctl_right[::4][j]}])
-                df = df.append(row, ignore_index=True)
-                # ctl left
-                row = pd.DataFrame([{"subject": subject,
-                                     "type": "ctl",
-                                     "side": "left",
-                                     "correct": cor,
-                                     "phase": p,
-                                     "timepoint": times[::4][j],
-                                     "ALI_pow": ali_ctl_left[::4][j]}])
-                df = df.append(row, ignore_index=True)
+            # ent right
+            row = pd.DataFrame([{"subject": subject,
+                                 "type": "ent",
+                                 "side": "right",
+                                 "correct": cor,
+                                 "phase": p,
+                                 "ALI_pow": ali_ent_righty[from_time:to_time].mean()}])
+            df = df.append(row, ignore_index=True)
+            # ent left
+            row = pd.DataFrame([{"subject": subject,
+                                 "type": "ent",
+                                 "side": "left",
+                                 "correct": cor,
+                                 "phase": p,
+                                 "ALI_pow": ali_ent_left[from_time:to_time].mean()}])
+            df = df.append(row, ignore_index=True)
+            # ctl right
+            row = pd.DataFrame([{"subject": subject,
+                                 "type": "ctl",
+                                 "side": "right",
+                                 "correct": cor,
+                                 "phase": p,
+                                 "ALI_pow": ali_ctl_right[from_time:to_time].mean()}])
+            df = df.append(row, ignore_index=True)
+            # ctl left
+            row = pd.DataFrame([{"subject": subject,
+                                 "type": "ctl",
+                                 "side": "left",
+                                 "correct": cor,
+                                 "phase": p,
+                                 "ALI_pow": ali_ctl_left[from_time:to_time].mean()}])
+            df = df.append(row, ignore_index=True)
 
 
-df.to_csv(data_path + "alpha_ali_data_extracted_phase_target.csv", index=False)
+df.to_csv(data_path + "alpha_ali_mean_data_extracted_phase_target.csv", index=False)
