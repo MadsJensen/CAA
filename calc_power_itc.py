@@ -28,8 +28,9 @@ cor = ["correct", "incorrect"]
 phase = ["in_phase", "out_phase"]
 congrunet = ["cong", "incong"]
 
-column_keys = ["subject", "side", "condition",
+columns_keys = ["subject", "side", "condition",
                "phase", "congruent", "ROI", "n"]
+df = pd.DataFrame(columns=columns_keys)
 
 
 for label in labels_selc:
@@ -40,9 +41,9 @@ for label in labels_selc:
                     for j, side in enumerate(sides):
                         power, itc = source_induced_power(epochs[cond +
                                                                  "/" + side +
+                                                                 "/" + cong +
                                                                  "/" + corr +
-                                                                 "/" + p,
-                                                                 "/" + cong],
+                                                                 "/" + p],
                                                           inv,
                                                           frequencies,
                                                           label=label,
@@ -78,7 +79,8 @@ for label in labels_selc:
                                 itc)
 
                         n = len(epochs[cond + "/" + side + "/" +
-                                       corr + "/" + p, "/" + cong])
+                                       cong + "/" +
+                                       corr + "/" + p])
 
                         row = pd.DataFrame([{"subject": subject,
                                              "side": side,
