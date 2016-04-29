@@ -121,8 +121,4 @@ for subject in subjects_select:
                 df = df.append(row, ignore_index=True)
 
 
-
-
-
-
-# df.to_csv(data_path + "alpha_mean_pow_data_extracted_phase_target.csv", index=False)
+df.to_csv(data_path + "alpha_ali_data_extracted_phase_target.csv", index=False)
