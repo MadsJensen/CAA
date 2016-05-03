@@ -8,7 +8,7 @@ from mne.minimum_norm import read_inverse_operator, source_induced_power
 
 subject = sys.argv[1]
 
-epochs = mne.read_epochs(epochs_folder + "%s_target-epo.fif"
+epochs = mne.read_epochs(epochs_folder + "%s_trial_start-epo.fif"
                          % subject)
 
 inv = read_inverse_operator(mne_folder + "%s-inv.fif" % subject)
@@ -29,7 +29,7 @@ phase = ["in_phase", "out_phase"]
 congrunet = ["cong", "incong"]
 
 columns_keys = ["subject", "side", "condition",
-               "phase", "congruent", "ROI","correct","n"]
+                "phase", "congruent", "ROI", "correct", "n"]
 df = pd.DataFrame(columns=columns_keys)
 
 
@@ -56,7 +56,7 @@ for label in labels_selc:
                                                           pca=True,
                                                           n_jobs=1)
                         np.save(tf_folder +
-                                "%s_pow_%s_%s_%s_%s_%s_%s_%s_target.npy" %
+                                "%s_pow_%s_%s_%s_%s_%s_%s_%s_start.npy" %
                                 (subject,
                                  cond,
                                  side,
@@ -67,7 +67,7 @@ for label in labels_selc:
                                  label.name),
                                 power)
                         np.save(tf_folder +
-                                "%s_itc_%s_%s_%s_%s_%s_%s_%s_target.npy" %
+                                "%s_itc_%s_%s_%s_%s_%s_%s_%s_start.npy" %
                                 (subject,
                                  cond,
                                  side,
@@ -93,4 +93,4 @@ for label in labels_selc:
                         df = df.append(row, ignore_index=True)
 
 
-df.to_csv(tf_folder + "%s_tf_epochs.csv" % subject)
+df.to_csv(tf_folder + "%s_tf_start_epochs.csv" % subject)
