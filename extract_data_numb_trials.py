@@ -3,7 +3,7 @@
 @author: mje
 """
 
-from my_settings import
+from my_settings import *
 import mne
 import numpy as np
 import pandas as pd
