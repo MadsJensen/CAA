@@ -5,7 +5,6 @@
 
 from my_settings import *
 import mne
-import numpy as np
 import pandas as pd
 
 sides = ["left", "right"]
@@ -19,7 +18,7 @@ columns_keys = ["subject", "condition_type", "condition_side", "ROI",
 df = pd.DataFrame(columns=columns_keys)
 
 for subject in subjects_select:
-    epochs = mne.read_epochs(epochs_folder + "%s_target-epo.fif" % subjject,
+    epochs = mne.read_epochs(epochs_folder + "%s_target-epo.fif" % subject,
                              preload=False)
 
     for condition in conditions:
