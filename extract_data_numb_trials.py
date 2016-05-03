@@ -13,8 +13,8 @@ rois = ["lh", "rh"]
 corr = ["correct", "incorrect"]
 phase = ["in_phase", "out_phase"]
 
-columns_keys = ["subject", "condition_type", "condition_side", "ROI",
-                "correct", "mean"]
+columns_keys = ["subject", "condition_type", "condition_side",
+                "correct", "n"]
 df = pd.DataFrame(columns=columns_keys)
 
 for subject in subjects_select:
@@ -34,8 +34,8 @@ for subject in subjects_select:
                                              "phase": p,
                                              "n": len(epochs[condition + "/" +
                                                              side + "/" +
-                                                             roi + "/" +
-                                                             cor + "/" + p])}])
+                                                             cor + "/" +
+                                                             p])}])
                         df = df.append(row, ignore_index=True)
 
 df.to_csv(data_path + "alpha_mean_n_data_extracted_phase_target.csv",
