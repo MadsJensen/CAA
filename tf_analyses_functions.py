@@ -130,7 +130,7 @@ def calc_power(subject, epochs, condition=None, label=None, save=True):
     method = "dSPM"  # use dSPM method (could also be MNE or sLORETA)
 
     if condition:
-        epochs_test = epochs[condition]
+       epochs_test = epochs[condition]
     else:
         epochs_test = epochs
 

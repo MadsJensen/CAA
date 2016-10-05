@@ -27,6 +27,7 @@ tf_folder = data_path + "tf_data/"
 mne_folder = data_path + "minimum_norm/"
 log_folder = data_path + "log_files/"
 
+func_label_folder = mne_folder + "func_labels"
 
 
 reject_params = dict(grad=4000e-13,  # T / m (gradiometers)

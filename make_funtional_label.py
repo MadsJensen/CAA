@@ -77,9 +77,13 @@ _, func_labels_rh = mne.stc_to_label(stc_mean_label,
 # take first as func_labels are ordered based on maximum values in stc
 func_label_rh = func_labels_rh[0]
 
-func_label_lh.save(mne_folder + "%s-func_label_lh"
-                   % (subject))
-func_label_rh.save(mne_folder + "%s-func_label_rh"
-                   % (subject))
+
+
+
+
+# func_label_lh.save(mne_folder + "%s-func_label_lh"
+#                    % (subject))
+# func_label_rh.save(mne_folder + "%s-func_label_rh"
+#                    % (subject))
 
 #        return func_label_lh, func_label_rh
