@@ -25,6 +25,6 @@ epochs.drop_bad_epochs(reject_params)
 
 # Make noise cov
 cov = compute_covariance(epochs, tmin=None, tmax=0,
-                         method="factor_analysis")
+                         method="shrunk")
 mne.write_cov(mne_folder + "%s-cov.fif" % subject, cov)
 

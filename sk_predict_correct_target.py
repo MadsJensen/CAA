@@ -35,8 +35,8 @@ ada = AdaBoostClassifier
 scaler_pipe = make_pipeline(StandardScaler(), AdaBoostClassifier())
 grid = GridSearchCV(scaler_pipe, param_grid=ada_params, cv=cv)
 
-ada_grid.fit(X, y)
+grid.fit(X, y)
 
-ada = ada_grid.best_estimator_
+ada = grid.best_estimator_
 
 scores = cross_val_score(ada, X, y, cv=cv, scoring="roc_auc")

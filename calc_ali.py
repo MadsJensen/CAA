@@ -23,7 +23,7 @@ columns_keys = ["subject", "type", "side",
 df = pd.DataFrame(columns=columns_keys)
 
 for subject in subjects_select:
-    print("Working on subject: %s\n" % subject)
+    print("Working on subject: %s" % subject)
     for cor in corr:
         for p in phase:
             ctl_lc_lr = np.load(tf_folder +
@@ -88,7 +88,7 @@ for subject in subjects_select:
                                  "side": "right",
                                  "correct": cor,
                                  "phase": p,
-                                 "ALI_pow": ali_ent_righty[from_time:to_time].mean()}])
+                                 "ALI_pow": ali_ent_right[from_time:to_time].mean()}])
             df = df.append(row, ignore_index=True)
             # ent left
             row = pd.DataFrame([{"subject": subject,
