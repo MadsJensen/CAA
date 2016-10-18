@@ -18,21 +18,18 @@ reject = dict(
 subject = sys.argv[1]
 
 epochs = mne.read_epochs(epochs_folder + "%s_trial_start-epo.fif" % subject)
-epochs.drop_bad_epochs(reject_params)
-
-# fig = epochs.plot_drop_log(subject=subject, show=False)
-# fig.savefig(epochs_folder + "pics/%s_drop_log.png" % subject)
+epochs.drop_bad(reject)
 
 # Make noise cov
 cov = mne.compute_covariance(
     epochs,
     method=['empirical', 'shrunk'],
-    tmin=-0.8,
+    tmin=-0.5,
     tmax=0.0,
     return_estimators=True,
     verbose=True)
 
 evoked = epochs.average()
 fig = evoked.plot_white(cov, show=False)
-fig.subtitle("subject: %s" % subject)
-fig.savefig(mne_folder + "cov_plots/sub_%.png" % subject)
+fig.suptitle("subject: %s" % subject)
+fig.savefig(mne_folder + "cov_plots/sub_%s.png" % subject)
