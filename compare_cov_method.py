@@ -35,4 +35,4 @@ cov = mne.compute_covariance(
 evoked = epochs.average()
 fig = evoked.plot_white(cov, show=False)
 fig.subtitle("subject: %s" % subject)
-fig.savefig(mne_folder + "sub_%.png" % subject)
+fig.savefig(mne_folder + "cov_plots/sub_%.png" % subject)
