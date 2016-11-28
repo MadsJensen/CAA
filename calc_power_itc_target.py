@@ -1,4 +1,4 @@
-from my_settings import *
+from my_settings import (epochs_folder, tf_folder, subjects_dir, mne_folder)
 import mne
 import sys
 import numpy as np
@@ -26,8 +26,7 @@ cor = ["correct", "incorrect"]
 phase = ["in_phase", "out_phase"]
 congrunet = ["cong", "incong"]
 
-columns_keys = [
-    "subject", "side", "condition", "phase", "ROI"]
+columns_keys = ["subject", "side", "condition", "phase", "ROI"]
 df = pd.DataFrame(columns=columns_keys)
 
 for label in labels_selc:
@@ -41,7 +40,7 @@ for label in labels_selc:
                 method=method,
                 pick_ori=None,
                 use_fft=True,
-            baseline=(-1.45, -1.02),
+                baseline=(-1.45, -1.02),
                 baseline_mode='zscore',
                 n_cycles=n_cycles,
                 pca=True,
