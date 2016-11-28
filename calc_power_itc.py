@@ -27,8 +27,7 @@ phase = ["in_phase", "out_phase"]
 congrunet = ["cong", "incong"]
 
 columns_keys = [
-    "subject", "side", "condition", "phase", "congruent", "ROI", "correct", "n"
-]
+    "subject", "side", "condition", "phase", "ROI"]
 df = pd.DataFrame(columns=columns_keys)
 
 for label in labels_selc:
@@ -47,9 +46,9 @@ for label in labels_selc:
                 n_cycles=n_cycles,
                 pca=True,
                 n_jobs=1)
-            np.save(tf_folder + "%s_pow_%s_%s_%s_start.npy" %
+            np.save(tf_folder + "%s_pow_%s_%s_%s_%s_start.npy" %
                     (subject, cond, side, method, label.name), power)
-            np.save(tf_folder + "%s_itc_%s_%s_start.npy" %
+            np.save(tf_folder + "%s_itc_%s_%s_%s_%s_start.npy" %
                     (subject, cond, side, method, label.name), itc)
 
             n = len(epochs[cond + "/" + side])
