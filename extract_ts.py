@@ -35,7 +35,7 @@ epochs = mne.read_epochs(epochs_folder + "%s_trial_start-epo.fif" % subject)
 # epochs.drop_bad_epochs(reject_params)
 # epochs.resample(250, n_jobs=4)
 
-for condition in conditions:
+for condition in conditions[:1]:
     stcs = apply_inverse_epochs(
         epochs[condition],
         inverse_operator,
@@ -45,7 +45,7 @@ for condition in conditions:
 
     for label in labels_sel:
         label_ts = []
-        for j in range(len(stcs)):
+        for j in range(len(stcs[:1])):
             ts = mne.extract_label_time_course(
                 stcs[j], labels=label, src=src, mode="pca_flip")
             ts = np.squeeze(ts)
