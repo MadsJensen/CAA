@@ -27,7 +27,7 @@ for subject in subjects_select:
     for condition in conditions:
         for side in sides:
             for roi in ROIS:
-                dat = np.load(tf_folder + "%s_pow_%s_%s_dSPM_Brodmann.17-%s_target.npy" %
+                dat = np.load(tf_folder + "%s_itc_%s_%s_dSPM_Brodmann.17-%s_target.npy" %
                               (subject, condition, side, roi))
 
                 value = dat[:, :, from_time:to_time].mean(axis=0).mean(axis=0).mean(axis=0)

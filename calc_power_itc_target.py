@@ -1,4 +1,4 @@
-from my_settings import (epochs_folder, tf_folder, subjects_dir)
+from my_settings import (epochs_folder, tf_folder, subjects_dir, mne_folder)
 import mne
 import sys
 import numpy as np
