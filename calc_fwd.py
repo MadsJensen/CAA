@@ -22,7 +22,7 @@ src = subjects_dir + "%s/bem/%s-oct-6-src.fif" % (subject, subject)
 raw = mne.io.Raw(raw_fname)
 raw.del_proj(0)
 
-raw.add_eeg_average_proj()
+raw.set_eeg_reference()
 
 # src = mne.setup_source_space(subject,
 #                              mne_folder + "%s-all-src.fif" % subject,
