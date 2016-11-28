@@ -18,7 +18,7 @@ labels_selc = labels[6], labels[7]
 
 frequencies = np.arange(8, 13, 1)  # define frequencies of interest
 n_cycles = frequencies / 3.  # different number of cycle per frequency
-method = "dSPM"
+method = "MNE"
 
 sides = ["left", "right"]
 conditions = ["ctl", "ent"]
