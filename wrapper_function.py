@@ -20,5 +20,5 @@ else:
 
 for subject in subjects_select:
     submit_cmd = 'submit_to_cluster \"python %s %s\"' % (sys.argv[1], subject)
-    # print(submit_cmd)
-    subprocess.call([submit_cmd])
+    print(submit_cmd)
+    #subprocess.call([submit_cmd])
