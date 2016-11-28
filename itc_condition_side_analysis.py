@@ -36,7 +36,7 @@ for subject in subjects_select:
                                      "condition": condition,
                                      "side": side,
                                      "roi": roi,
-                                     "power": value}])
+                                     "itc": value}])
                                     
                 df = df.append(row, ignore_index=True)
 
