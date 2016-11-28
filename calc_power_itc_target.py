@@ -1,4 +1,4 @@
-from my_settings import (epochs_folder, tf_folder, subjects_dir, mne_folder)
+from my_settings import (epochs_folder, tf_folder, subjects_dir)
 import mne
 import sys
 import numpy as np
@@ -40,8 +40,8 @@ for label in labels_selc:
                 method=method,
                 pick_ori=None,
                 use_fft=True,
-                baseline=(-1.45, -1.02),
-                baseline_mode='zscore',
+                baseline=(-1.4, -1.02),
+                baseline_mode='percent',
                 n_cycles=n_cycles,
                 pca=True,
                 n_jobs=1)
