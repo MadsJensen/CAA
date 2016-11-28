@@ -3,11 +3,11 @@ import sys
 
 from mne import compute_covariance
 
+from my_settings import (epochs_folder, mne_folder)
+
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
-
-from my_settings import *
 
 reject = dict(
     grad=4000e-13,  # T / m (gradiometers)
