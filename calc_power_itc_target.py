@@ -41,7 +41,7 @@ for label in labels_selc:
                 pick_ori=None,
                 use_fft=True,
                 baseline=(-1.4, -1.1),
-                baseline_mode='percent',
+                baseline_mode='zscore',
                 n_cycles=n_cycles,
                 pca=True,
                 n_jobs=1)
