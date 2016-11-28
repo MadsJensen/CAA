@@ -40,7 +40,7 @@ for label in labels_selc:
                 method=method,
                 pick_ori=None,
                 use_fft=True,
-                baseline=(-1.4, -1.02),
+                baseline=(-1.4, -1.1),
                 baseline_mode='percent',
                 n_cycles=n_cycles,
                 pca=True,
