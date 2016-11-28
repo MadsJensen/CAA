@@ -57,7 +57,7 @@ for condition in conditions:
             label_ts,
             epochs.info["sfreq"],
             freqs,
-            use_fft=True,
+            # use_fft=True,
             n_cycles=n_cycle)
 
         np.save(tf_folder + "%s_%s_%s_%s_%s-tfr" %
