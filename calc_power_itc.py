@@ -41,7 +41,7 @@ for label in labels_selc:
                 method=method,
                 pick_ori=None,
                 use_fft=True,
-                baseline=(-0.45, -0.1),
+            baseline=(-0.45, -0.02),
                 baseline_mode='zscore',
                 n_cycles=n_cycles,
                 pca=True,
