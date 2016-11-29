@@ -46,4 +46,4 @@ for subject in subjects_select:
                 df = df.append(row, ignore_index=True)
 
 df.to_csv(
-    result_dir + "power_condition_side_mean_%s.csv" % method, index=False)
+    result_dir + "power_condition_side_mean_%s_lobes.csv" % method, index=False)
