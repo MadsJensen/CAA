@@ -13,14 +13,15 @@ epochs = mne.read_epochs(epochs_folder + "%s_target-epo.fif" % subject)
 inv = read_inverse_operator(mne_folder + "%s-inv.fif" % subject)
 
 labels = mne.read_labels_from_annot(
-    subject, parc='PALS_B12_Lobes',
+    subject,
+    parc='PALS_B12_Lobes',
     # regexp="Bro",
     subjects_dir=subjects_dir)
 labels_selc = labels[9], labels[10]
 
 frequencies = np.arange(8, 13, 1)  # define frequencies of interest
 n_cycles = frequencies / 3.  # different number of cycle per frequency
-method = "MNE"
+method = "dSPM"
 
 sides = ["left", "right"]
 conditions = ["ctl", "ent"]
