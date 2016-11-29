@@ -3,7 +3,9 @@ import numpy as np
 import mne
 import pandas as pd
 
-from my_settings import (epochs_folder, tf_folder)
+from my_settings import (epochs_folder, tf_folder, result_dir)
+
+method = "MNE"
 
 subjects_select = ["0005", "0006", "0007", "0008", "0009", "0010",
                    "0011", "0015", "0016", "0017", "0020", "0021",
@@ -27,8 +29,8 @@ for subject in subjects_select:
     for condition in conditions:
         for side in sides:
             for roi in ROIS:
-                dat = np.load(tf_folder + "%s_itc_%s_%s_dSPM_Brodmann.17-%s_target.npy" %
-                              (subject, condition, side, roi))
+                dat = np.load(tf_folder + "%s_itc_%s_%s_%s_Brodmann.17-%s_target.npy" %
+                              (subject, condition, side, method, roi))
 
                 value = dat[:, :, from_time:to_time].mean(axis=0).mean(axis=0).mean(axis=0)
                 
@@ -40,3 +42,5 @@ for subject in subjects_select:
                                     
                 df = df.append(row, ignore_index=True)
 
+
+df.to_csv(result_dir + "itc_condition_side_mean_%s.csv" % method, index=False)

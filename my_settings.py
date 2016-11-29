@@ -5,20 +5,9 @@ These are general settings to be used in the current project.
 @email: mads [] cnru.dk
 """
 
-import socket
-
-# Setup paths and prepare raw data
-hostname = socket.gethostname()
-
-if hostname == "wintermute":
-    data_path = "/home/mje/mnt/isis/scratch4/" +\
-                "MINDLAB2015_MEG-CorticalAlphaAttention/"
-    result_dir = "/home/mje/mnt/isis/projects/" +\
-                 "MINDLAB2015_MEG-CorticalAlphaAttention/result/"
-else:
-    data_path = "/projects/MINDLAB2015_MEG-CorticalAlphaAttention/scratch/"
-    result_dir = data_path[:-8] + "/result/"
-
+data_path = "/projects/MINDLAB2015_MEG-CorticalAlphaAttention/scratch/"
+    
+result_dir = data_path[:-8] + "/result/"
 subjects_dir = data_path + "fs_subjects_dir/"
 save_folder = data_path + "filter_ica_data/"
 maxfiltered_folder = data_path + "maxfiltered_data/"
