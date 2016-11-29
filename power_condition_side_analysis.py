@@ -5,7 +5,7 @@ import pandas as pd
 
 from my_settings import (epochs_folder, tf_folder, result_dir)
 
-method = "MNE"
+method = "dSPM"
 
 subjects_select = [
     "0005", "0006", "0007", "0008", "0009", "0010", "0011", "0015", "0016",
@@ -29,8 +29,8 @@ for subject in subjects_select:
         for side in sides:
             for roi in ROIS:
                 dat = np.load(tf_folder +
-                              "%s_pow_%s_%s_%s_LOBE.OCCIPITAL-%s_target.npy" % (
-                                  subject, condition, side, method, roi))
+                              "%s_pow_%s_%s_%s_LOBE.OCCIPITAL-%s_target.npy" %
+                              (subject, condition, side, method, roi))
 
                 value = dat[:, :, from_time:to_time].mean(axis=0).mean(
                     axis=0).mean(axis=0)
@@ -46,4 +46,5 @@ for subject in subjects_select:
                 df = df.append(row, ignore_index=True)
 
 df.to_csv(
-    result_dir + "power_condition_side_mean_%s_lobes.csv" % method, index=False)
+    result_dir + "power_condition_side_mean_%s_lobes.csv" % method,
+    index=False)
