@@ -22,36 +22,36 @@ df = pd.DataFrame(columns=columns_keys)
 for subject in subjects_select:
     print("Working on subject: %s" % subject)
     ctl_lc_lr = np.load(tf_folder + "%s_pow_ctl_left_dSPM" % (subject) +
-                        "_Brodmann.17-lh_target.npy")
+                        "_LOBE.OCCIPITAL-lh_target.npy")
     ctl_lc_rr = np.load(tf_folder + "%s_pow_ctl_left_dSPM" % (subject) +
-                        "_Brodmann.17-rh_target.npy")
+                        "_LOBE.OCCIPITAL-rh_target.npy")
     ctl_lc_lr = ctl_lc_lr.mean(axis=0).mean(axis=0)
     ctl_lc_rr = ctl_lc_rr.mean(axis=0).mean(axis=0)
 
     ali_ctl_left = ((ctl_lc_lr - ctl_lc_rr) / (ctl_lc_lr + ctl_lc_rr))
 
     ctl_rc_lr = np.load(tf_folder + "%s_pow_ctl_right_dSPM" % (subject) +
-                        "_Brodmann.17-lh_target.npy")
+                        "_LOBE.OCCIPITAL-lh_target.npy")
     ctl_rc_rr = np.load(tf_folder + "%s_pow_ctl_right_dSPM" % (subject) +
-                        "_Brodmann.17-rh_target.npy")
+                        "_LOBE.OCCIPITAL-rh_target.npy")
     ctl_rc_lr = ctl_rc_lr.mean(axis=0).mean(axis=0)
     ctl_rc_rr = ctl_rc_rr.mean(axis=0).mean(axis=0)
 
     ali_ctl_right = ((ctl_rc_lr - ctl_rc_rr) / (ctl_rc_lr + ctl_rc_rr))
 
     ent_lc_lr = np.load(tf_folder + "%s_pow_ent_left_dSPM" % (subject) +
-                        "_Brodmann.17-lh_target.npy")
+                        "_LOBE.OCCIPITAL-lh_target.npy")
     ent_lc_rr = np.load(tf_folder + "%s_pow_ent_left_dSPM" % (subject) +
-                        "_Brodmann.17-rh_target.npy")
+                        "_LOBE.OCCIPITAL-rh_target.npy")
     ent_lc_lr = ent_lc_lr.mean(axis=0).mean(axis=0)
     ent_lc_rr = ent_lc_rr.mean(axis=0).mean(axis=0)
 
     ali_ent_left = ((ent_lc_lr - ent_lc_rr) / (ent_lc_lr + ent_lc_rr))
 
     ent_rc_lr = np.load(tf_folder + "%s_pow_ent_right_dSPM" % (subject) +
-                        "_Brodmann.17-lh_target.npy")
+                        "_LOBE.OCCIPITAL-lh_target.npy")
     ent_rc_rr = np.load(tf_folder + "%s_pow_ent_right_dSPM" % (subject) +
-                        "_Brodmann.17-rh_target.npy")
+                        "_LOBE.OCCIPITAL-rh_target.npy")
     ent_rc_lr = ent_rc_lr.mean(axis=0).mean(axis=0)
     ent_rc_rr = ent_rc_rr.mean(axis=0).mean(axis=0)
 
