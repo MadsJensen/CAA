@@ -46,8 +46,11 @@ epochs.crop(tmin=tmin, tmax=tmax)
 stc = compute_source_psd_epochs(epochs, inv, fmin=8, fmax=12, bandwidth=1)
 
 # Make an STC in the time interval of interest and take the mean
-stc_mean = stc.copy().mean()
+mean_data = np.mean(np.asarray([s.data for s in stc]), axis=0)
+stc_tmp = mne.SourceEstimate(mean_data, vertices=stc[0].vertices,
+                              tmin=stc[0].tmin, tstep=stc[0].tstep)
 
+stc_mean = stc_tmp.copy().mean()
 # use the stc_mean to generate a functional label
 # region growing is halted at 60% of the peak value within the
 # anatomical label / ROI specified by aparc_label_name
@@ -55,7 +58,7 @@ stc_mean = stc.copy().mean()
 # calc lh label
 stc_mean_label = stc_mean.in_label(label_lh)
 data = np.abs(stc_mean_label.data)
-stc_mean_label.data[data < 0.5 * np.max(data)] = 0.
+stc_mean_label.data[data < 0.6 * np.max(data)] = 0.
 
 func_labels_lh, _ = mne.stc_to_label(
     stc_mean_label,
