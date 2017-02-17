@@ -48,7 +48,10 @@ epochs.crop(tmin=tmin, tmax=tmax)
 stc = compute_source_psd_epochs(epochs, inv, fmin=8, fmax=12, bandwidth=1)
 
 # Make an STC in the time interval of interest and take the mean
-stc_mean = stc.copy().mean()
+stc_mean = stc[0].copy()
+mean_data = np.mean(np.asarray([s.data for s in stc]), axis=0)
+
+stc_mean.data = mean_data
 
 # use the stc_mean to generate a functional label
 # region growing is halted at 60% of the peak value within the
