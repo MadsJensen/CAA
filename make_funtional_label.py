@@ -71,7 +71,7 @@ func_label_lh = func_labels_lh[0]
 # calc rh label
 stc_mean_label = stc_mean.in_label(label_rh)
 data = np.abs(stc_mean_label.data)
-stc_mean_label.data[data < 0.5 * np.max(data)] = 0.
+stc_mean_label.data[data < 0.7 * np.max(data)] = 0.
 
 _, func_labels_rh = mne.stc_to_label(
     stc_mean_label,
