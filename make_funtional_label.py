@@ -26,10 +26,8 @@ inv = read_inverse_operator(mne_folder + "%s-inv.fif" % subject)
 evoked = epochs.average()
 src = inv['src']  # get the source space
 
-labels = mne.read_labels_from_annot(subject,
-                                    parc='PALS_B12_Brodmann',
-                                        regexp="Bro",
-                                    subjects_dir=subjects_dir)
+labels = mne.read_labels_from_annot(
+    subject, parc='PALS_B12_Brodmann', regexp="Bro", subjects_dir=subjects_dir)
 label_lh = labels[6] + labels[8] + labels[10]
 label_rh = labels[7] + labels[9] + labels[11]
 
@@ -48,10 +46,9 @@ epochs.crop(tmin=tmin, tmax=tmax)
 stc = compute_source_psd_epochs(epochs, inv, fmin=8, fmax=12, bandwidth=1)
 
 # Make an STC in the time interval of interest and take the mean
-stc_mean = stc[0].copy()
 mean_data = np.mean(np.asarray([s.data for s in stc]), axis=0)
-
-stc_mean.data = mean_data
+stc_mean = mne.SourceEstimate(
+    mean_data, stc[0].vertices, tmin=stc[0].tmin, tstep=stc[0].tstep)
 
 # use the stc_mean to generate a functional label
 # region growing is halted at 60% of the peak value within the
