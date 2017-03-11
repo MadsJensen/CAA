@@ -20,7 +20,9 @@ sides = ["left", "right"]
 conditions = ["ctl", "ent"]
 
 epochs = mne.read_epochs(
-    epochs_folder + "%s_trial_start-epo.fif" % subject, preload=False)
+    epochs_folder + "%s_trial_start-epo.fif" % subject, preload=True)
+epochs.resample(250)
+
 for cond in conditions:
     for side in sides:
         power = tfr_array_morlet(
