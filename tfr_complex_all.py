@@ -25,7 +25,8 @@ for cond in conditions:
     for side in sides:
         power = tfr_array_morlet(
             epochs[cond + "/" + side],
-            freqs=freqs,
+            sfreq=epochs.info["sfreq"],
+            frequencies=freqs,
             n_cycles=n_cycles,
             use_fft=True,
             output="complex",
