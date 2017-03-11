@@ -25,14 +25,11 @@ for cond in conditions:
     for side in sides:
         power = tfr_array_morlet(
             epochs[cond + "/" + side],
-<<<<<<< HEAD
             sfreq=epochs.info["sfreq"],
-=======
->>>>>>> 2aa695b345e4f4064fa0a834f6ba01cb27bccf05
             frequencies=freqs,
             n_cycles=n_cycles,
             use_fft=True,
             output="complex",
             n_jobs=1)
-        np.save(
-            tf_folder + "%s_%s_%s-4-tfr.npy" % (subject, cond, side))
+        np.save(tf_folder + "%s_%s_%s-4-tfr.npy" %
+                (subject, cond, side), power)
