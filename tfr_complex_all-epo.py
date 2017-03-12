@@ -8,7 +8,7 @@ Created on Fri Apr 22 16:55:00 2016
 import mne
 import numpy as np
 from my_settings import (epochs_folder, tf_folder)
-from mne.time_frequency import tfr_morlet
+from mne.time_frequency import tfr_morlet, write_tfrs
 import sys
 
 subject = sys.argv[1]
@@ -25,12 +25,14 @@ epochs.resample(250)
 
 for cond in conditions:
     for side in sides:
-        power = tfr_morlet(
-            epochs[cond + "/" + side],
+        tfrs = tfr_morlet(
+            epochs[cond + "/" + side][:10],
             freqs=freqs,
             n_cycles=n_cycles,
             use_fft=True,
             average=False,
             return_itc=False,
             n_jobs=1)
-        power.save(tf_folder + "%s_%s_%s-4-tfr.npy" % (subject, cond, side))
+        tfrs.nave = 1
+        write_tfrs(tf_folder + "%s_%s_%s-4-tfr.hd5" % (subject, cond, side),
+                   tfrs, overwrite=True)
