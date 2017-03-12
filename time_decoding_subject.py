@@ -45,7 +45,7 @@ gat = GeneralizationAcrossTime(
     predict_mode='mean-prediction', scorer="roc_auc", n_jobs=1)
 
 # Fit model
-
+gat.fit(epochs, y=y)
 # Scoring and visualise result
 gat.score(epochs, y=y)
 
