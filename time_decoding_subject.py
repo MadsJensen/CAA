@@ -45,14 +45,19 @@ gat = GeneralizationAcrossTime(
     predict_mode='mean-prediction', scorer="roc_auc", n_jobs=1)
 
 # Fit model
-gat.fit(epochs, y=y)
-# Scoring and visualise result
-gat.score(epochs, y=y)
+gat.fit(epochs_data, y=y)
+
+# Scoring
+gat.score(epochs_data, y=y)
 
 # Save model
 joblib.dump(gat, data_path + "decode_time_gen/%s_gat_2.jl" % subject)
 
+# make matrix plot and save it
 fig = gat.plot(
-    title="Temporal Gen (Classic vs planning): left to right sub: %s" %
-    subject)
-fig.savefig(data_path + "decode_time_gen/%s_gat_matrix_2.png" % subject)
+    cmap="viridis", title="Temporal Gen for subject: %s" % subject)
+fig.savefig(data_path + "decode_time_gen/%s_gat_matrix.png" % subject)
+
+fig = gat.plot_diagonal(
+    chance=0.5, title="Temporal Gen for subject: %s" % subject)
+fig.savefig(data_path + "decode_time_gen/%s_gat_diagonal.png" % subject)
