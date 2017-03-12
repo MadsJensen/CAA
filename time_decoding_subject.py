@@ -28,26 +28,27 @@ y = np.concatenate(
 # Create epochs to use for classification
 n_trial, n_chan, n_time = X.shape
 events = np.vstack((range(n_trial), np.zeros(n_trial, int), y.astype(int))).T
-sfreq = 250
 
-info = epochs.info
+info = epochs["ctl"].info
 epochs_data = mne.EpochsArray(data=X, info=info, events=events, verbose=False)
 epochs_data.times = epochs.times
 
 # Equalise channels and epochs, and concatenate epochs
-mne.epochs.equalize_epoch_counts(epochs_data)
+# mne.epochs.equalize_epoch_counts(epochs_data)
 
 # Crop and downsmample to make it faster
-epochs.crop(tmin=None, tmax=1)
+epochs_data.crop(tmin=None, tmax=1)
 
 # Setup the y vector and GAT
 gat = GeneralizationAcrossTime(
     predict_mode='mean-prediction', scorer="roc_auc", n_jobs=1)
 
 # Fit model
+print("fitting GAT")
 gat.fit(epochs_data, y=y)
 
 # Scoring
+print("Scoring GAT")
 gat.score(epochs_data, y=y)
 
 # Save model
