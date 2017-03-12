@@ -18,25 +18,29 @@ epochs = mne.read_epochs(
     epochs_folder + "%s_trial_start-epo.fif" % subject, preload=True)
 epochs.resample(250)
 
-# Fix the events for the plan epochs so they can be concatenated
-epochs_ctl_left = mne.EpochsArray(np.mean(np.abs(data_ctl_left)**2,axis=2),
-                                  epochs.info)
-epochs_ctl_right = mne.EpochsArray(np.mean(np.abs(data_ctl_right)**2, axis=2),
-                                   epochs.info)
+X = np.vstack([
+    np.mean(np.abs(data_ctl_left)**2, axis=2),
+    np.mean(np.abs(data_ctl_right)**2, axis=2)
+])
+y = np.concatenate(
+    [np.zeros(len(data_ctl_left)), np.ones(len(data_ctl_right))])
+
+# Create epochs to use for classification
+n_trial, n_chan, n_time = X.shape
+events = np.vstack((range(n_trial), np.zeros(n_trial, int), y.astype(int))).T
+sfreq = 250
+
+info = epochs.info
+epochs_data = mne.EpochsArray(data=X, info=info, events=events, verbose=False)
+epochs_data.times = epochs.times
 
 # Equalise channels and epochs, and concatenate epochs
-mne.equalize_channels([epochs_ctl_left, epochs_ctl_right])
-mne.epochs.equalize_epoch_counts([epochs_ctl_left, epochs_ctl_right])
-
-
-epochs_tfr = mne.concatenate_epochs([epochs_ctl_left, epochs_ctl_right])
+mne.epochs.equalize_epoch_counts(epochs_data)
 
 # Crop and downsmample to make it faster
 epochs.crop(tmin=None, tmax=1)
 
 # Setup the y vector and GAT
-y = np.concatenate(
-    (np.zeros(len(epochs["press"])), np.ones(len(epochs["plan"]))))
 gat = GeneralizationAcrossTime(
     predict_mode='mean-prediction', scorer="roc_auc", n_jobs=1)
 
