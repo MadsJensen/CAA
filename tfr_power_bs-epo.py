@@ -26,7 +26,7 @@ epochs.resample(250)
 for cond in conditions:
     for side in sides:
         power = tfr_morlet(
-            epochs[cond + "/" + side][:10],
+            epochs[cond + "/" + side],
             freqs=freqs,
             n_cycles=n_cycles,
             use_fft=True,
