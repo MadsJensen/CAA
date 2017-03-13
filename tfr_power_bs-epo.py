@@ -35,4 +35,4 @@ for cond in conditions:
             n_jobs=1)
         power.apply_baseline(baseline=(-0.3, -0.1), mode="zscore")
         np.save(tf_folder + "%s_%s_%s-4-tfr.npy" % (subject, cond, side),
-                power)
+                power.data)
