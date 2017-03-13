@@ -19,8 +19,8 @@ epochs = mne.read_epochs(
 epochs.resample(250)
 
 X = np.vstack([
-    np.mean(np.abs(data_ctl_left)**2, axis=2),
-    np.mean(np.abs(data_ctl_right)**2, axis=2)
+    np.mean(data_ctl_left, axis=2),
+    np.mean(data_ctl_right, axis=2)
 ])
 y = np.concatenate(
     [np.zeros(len(data_ctl_left)), np.ones(len(data_ctl_right))])
