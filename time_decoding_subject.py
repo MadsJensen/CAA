@@ -17,7 +17,7 @@ subject = sys.argv[1]
 # Load epochs from both conditions
 data_ctl_left = np.load(tf_folder + "%s_ctl_left-4-tfr.npy" % (subject))
 data_ent_left = np.load(tf_folder + "%s_ent_left-4-tfr.npy" % (subject))
-data_ctl_right = np.load(tf_folder + "%s_clt_right-4-tfr.npy" % (subject))
+data_ctl_right = np.load(tf_folder + "%s_ctl_right-4-tfr.npy" % (subject))
 data_ent_right = np.load(tf_folder + "%s_ent_right-4-tfr.npy" % (subject))
 epochs = mne.read_epochs(
     epochs_folder + "%s_trial_start-epo.fif" % subject, preload=True)
