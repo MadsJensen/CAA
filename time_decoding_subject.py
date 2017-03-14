@@ -60,7 +60,7 @@ gat.fit(epochs_data)
 
 # Scoring
 print("Scoring GAT")
-gat.score(epochs_data, y=y)
+gat.score(epochs_data)
 
 # Save model
 joblib.dump(gat, data_path + "decode_time_gen/%s_gat_all.jl" % subject)
