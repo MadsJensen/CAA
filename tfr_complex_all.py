@@ -33,5 +33,5 @@ for cond in conditions:
             use_fft=True,
             output="complex",
             n_jobs=1)
-        np.save(tf_folder + "%s_%s_%s-4-tfr.npy" %
+        np.save(tf_folder + "%s_%s_%s-4-complex-tfr.npy" %
                 (subject, cond, side), power)
