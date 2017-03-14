@@ -22,7 +22,6 @@ data_ent_right = np.load(tf_folder + "%s_ent_right-4-tfr.npy" % (subject))
 epochs = mne.read_epochs(
     epochs_folder + "%s_trial_start-epo.fif" % subject, preload=False)
 
-
 X = np.vstack([
     np.mean(data_ctl_left, axis=2), np.mean(data_ctl_right, axis=2),
     np.mean(data_ent_left, axis=2), np.mean(data_ent_right, axis=2)
@@ -40,15 +39,16 @@ info = epochs.info
 epochs_data = mne.EpochsArray(data=X, info=info, events=events, verbose=False)
 epochs_data.times = epochs.times[::4][:-1]
 
-# Equalise channels and epochs, and concatenate epochs
-# mne.epochs.equalize_epoch_counts(epochs_data)
-
 # Crop and downsmample to make it faster
 epochs_data.crop(tmin=None, tmax=1)
 
+# Equalise channels and epochs, and concatenate epochs
+epochs_data.equalize_event_counts(["0", "1", "2", "3"])
+
 # Classifier
-clf = make_pipeline(StandardScaler(), 
-                    LogisticRegression(C=1, solver="lbfgs"))
+clf = make_pipeline(
+    StandardScaler(),
+    LogisticRegression(C=1, solver="lbfgs", multi_class="multinomial"))
 
 # Setup the y vector and GAT
 gat = GeneralizationAcrossTime(
@@ -56,7 +56,7 @@ gat = GeneralizationAcrossTime(
 
 # Fit model
 print("fitting GAT")
-gat.fit(epochs_data, y=y)
+gat.fit(epochs_data)
 
 # Scoring
 print("Scoring GAT")
