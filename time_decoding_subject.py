@@ -3,6 +3,9 @@ import numpy as np
 import mne
 from mne.decoding import GeneralizationAcrossTime
 from sklearn.externals import joblib
+from sklearn.linear_model import LogisticRegression
+from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import StandardScaler
 
 from my_settings import (tf_folder, data_path, epochs_folder)
 
@@ -13,8 +16,8 @@ subject = sys.argv[1]
 
 # Load epochs from both conditions
 data_ctl_left = np.load(tf_folder + "%s_ctl_left-4-tfr.npy" % (subject))
-data_ent_left = np.load(tf_folder + "%s_ctl_left-4-tfr.npy" % (subject))
-data_ctl_right = np.load(tf_folder + "%s_ent_right-4-tfr.npy" % (subject))
+data_ent_left = np.load(tf_folder + "%s_ent_left-4-tfr.npy" % (subject))
+data_ctl_right = np.load(tf_folder + "%s_clt_right-4-tfr.npy" % (subject))
 data_ent_right = np.load(tf_folder + "%s_ent_right-4-tfr.npy" % (subject))
 epochs = mne.read_epochs(
     epochs_folder + "%s_trial_start-epo.fif" % subject, preload=True)
@@ -43,9 +46,13 @@ epochs_data.times = epochs.times
 # Crop and downsmample to make it faster
 epochs_data.crop(tmin=None, tmax=1)
 
+# Classifier
+clf = make_pipeline(StandardScaler(), 
+                    LogisticRegression(C=1, solver="lbfgs"))
+
 # Setup the y vector and GAT
 gat = GeneralizationAcrossTime(
-    predict_mode='mean-prediction', scorer="roc_auc", n_jobs=1)
+    predict_mode='mean-prediction', scorer="accuracy", n_jobs=1)
 
 # Fit model
 print("fitting GAT")
@@ -56,12 +63,12 @@ print("Scoring GAT")
 gat.score(epochs_data, y=y)
 
 # Save model
-joblib.dump(gat, data_path + "decode_time_gen/%s_gat_2.jl" % subject)
+joblib.dump(gat, data_path + "decode_time_gen/%s_gat_all.jl" % subject)
 
 # make matrix plot and save it
 fig = gat.plot(cmap="viridis", title="Temporal Gen for subject: %s" % subject)
-fig.savefig(data_path + "decode_time_gen/%s_gat_matrix.png" % subject)
+fig.savefig(data_path + "decode_time_gen/%s_gat_matrix_all.png" % subject)
 
 fig = gat.plot_diagonal(
     chance=0.5, title="Temporal Gen for subject: %s" % subject)
-fig.savefig(data_path + "decode_time_gen/%s_gat_diagonal.png" % subject)
+fig.savefig(data_path + "decode_time_gen/%s_gat_diagonal_all.png" % subject)
