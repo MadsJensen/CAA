@@ -20,8 +20,8 @@ data_ent_left = np.load(tf_folder + "%s_ent_left-4-tfr.npy" % (subject))
 data_ctl_right = np.load(tf_folder + "%s_ctl_right-4-tfr.npy" % (subject))
 data_ent_right = np.load(tf_folder + "%s_ent_right-4-tfr.npy" % (subject))
 epochs = mne.read_epochs(
-    epochs_folder + "%s_trial_start-epo.fif" % subject, preload=True)
-epochs.resample(250)
+    epochs_folder + "%s_trial_start-epo.fif" % subject, preload=False)
+
 
 X = np.vstack([
     np.mean(data_ctl_left, axis=2), np.mean(data_ctl_right, axis=2),
@@ -29,16 +29,16 @@ X = np.vstack([
 ])
 y = np.concatenate([
     np.zeros(len(data_ctl_left)), np.ones(len(data_ctl_right)),
-    np.ones(len(data_ent_right)) * 2, np.ones(len(data_ent_right)) * 3
+    np.ones(len(data_ent_left)) * 2, np.ones(len(data_ent_right)) * 3
 ])
 
 # Create epochs to use for classification
 n_trial, n_chan, n_time = X.shape
 events = np.vstack((range(n_trial), np.zeros(n_trial, int), y.astype(int))).T
 
-info = epochs["ctl"].info
+info = epochs.info
 epochs_data = mne.EpochsArray(data=X, info=info, events=events, verbose=False)
-epochs_data.times = epochs.times
+epochs_data.times = epochs.times[::4][:-1]
 
 # Equalise channels and epochs, and concatenate epochs
 # mne.epochs.equalize_epoch_counts(epochs_data)
