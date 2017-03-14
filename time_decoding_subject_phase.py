@@ -46,10 +46,11 @@ epochs_data = mne.EpochsArray(data=X, info=info, events=events, verbose=False)
 epochs_data.times = epochs.times[::4][:-1]
 
 # Crop and downsmample to make it faster
-epochs_data.crop(tmin=None, tmax=1)
+epochs_data.crop(tmin=-0.2, tmax=1)
 
 # Equalise channels and epochs, and concatenate epochs
 epochs_data.equalize_event_counts(["0", "1", "2", "3"])
+epochs_data.pick_types(meg="grad")
 
 # Classifier
 clf = make_pipeline(
@@ -69,14 +70,14 @@ print("Scoring GAT")
 gat.score(epochs_data)
 
 # Save model
-joblib.dump(gat, data_path + "decode_time_gen/%s_gat_all_phase.jl" % subject)
+joblib.dump(gat, data_path + "decode_time_gen/%s_gat_all_phase_grad.jl" % subject)
 
 # make matrix plot and save it
 fig = gat.plot(cmap="viridis", title="Temporal Gen for subject: %s" % subject)
-fig.savefig(data_path + "decode_time_gen/%s_gat_matrix_all_phase.png" %
+fig.savefig(data_path + "decode_time_gen/%s_gat_matrix_all_phase_grad.png" %
             subject)
 
 fig = gat.plot_diagonal(
     chance=0.5, title="Temporal Gen for subject: %s" % subject)
-fig.savefig(data_path + "decode_time_gen/%s_gat_diagonal_all_phase.png" %
+fig.savefig(data_path + "decode_time_gen/%s_gat_diagonal_all_phase_grad.png" %
             subject)
