@@ -35,6 +35,6 @@ for cond in conditions:
             n_jobs=1)
         tfrs.nave = 1
         write_tfrs(
-            tf_folder + "%s_%s_%s-4-tfr.hd5" % (subject, cond, side),
+            tf_folder + "%s_%s_%s-4-tfr.h5" % (subject, cond, side),
             tfrs,
             overwrite=True)
