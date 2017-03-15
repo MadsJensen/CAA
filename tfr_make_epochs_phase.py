@@ -1,16 +1,8 @@
 import sys
 import numpy as np
 import mne
-from mne.decoding import GeneralizationAcrossTime
-from sklearn.externals import joblib
-from sklearn.linear_model import LogisticRegression
-from sklearn.pipeline import make_pipeline
-from sklearn.preprocessing import StandardScaler
 
-from my_settings import (tf_folder, data_path, epochs_folder)
-
-import matplotlib
-matplotlib.use('Agg')
+from my_settings import (tf_folder, epochs_folder)
 
 subject = sys.argv[1]
 

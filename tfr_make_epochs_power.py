@@ -1,16 +1,7 @@
 import sys
 import numpy as np
 import mne
-from mne.decoding import GeneralizationAcrossTime
-from sklearn.externals import joblib
-from sklearn.linear_model import LogisticRegression
-from sklearn.pipeline import make_pipeline
-from sklearn.preprocessing import StandardScaler
-
-from my_settings import (tf_folder, data_path, epochs_folder)
-
-import matplotlib
-matplotlib.use('Agg')
+from my_settings import (tf_folder, epochs_folder)
 
 subject = sys.argv[1]
 
@@ -39,10 +30,7 @@ info = epochs.info
 epochs_data = mne.EpochsArray(data=X, info=info, events=events, verbose=False)
 epochs_data.times = epochs.times[::4][:-1]
 
-event_id = {"ctl/left": 0,
-            "ctl/right": 1,
-            "ent/left": 2,
-            "ent/right": 3}
+event_id = {"ctl/left": 0, "ctl/right": 1, "ent/left": 2, "ent/right": 3}
 epochs_data.event_id = event_id
 
 epochs_data.save(tf_folder + "%s_power-epo.fif" % subject)
