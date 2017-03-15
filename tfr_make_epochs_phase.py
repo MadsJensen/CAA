@@ -46,4 +46,4 @@ epochs_data.times = epochs.times[::4][:-1]
 event_id = {"ctl/left": 0, "ctl/right": 1, "ent/left": 2, "ent/right": 3}
 epochs_data.event_id = event_id
 
-epochs_data.save(tf_folder + "%s_power-epo.fif" % subject)
+epochs_data.save(tf_folder + "%s_phase-epo.fif" % subject)
