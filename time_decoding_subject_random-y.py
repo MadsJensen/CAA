@@ -67,13 +67,15 @@ print("Scoring GAT")
 gat.score(epochs_data, y=y)
 
 # Save model
-joblib.dump(gat, data_path + "decode_time_gen/%s_gat_all_grad.jl" % subject)
+joblib.dump(gat,
+            data_path + "decode_time_gen/%s_gat_all_grad_random.jl" % subject)
 
 # make matrix plot and save it
 fig = gat.plot(cmap="viridis", title="Temporal Gen for subject: %s" % subject)
-fig.savefig(data_path + "decode_time_gen/%s_gat_matrix_all_grad.png" % subject)
+fig.savefig(data_path + "decode_time_gen/%s_gat_matrix_all_grad_random.png" %
+            subject)
 
 fig = gat.plot_diagonal(
     chance=0.5, title="Temporal Gen for subject: %s" % subject)
-fig.savefig(data_path + "decode_time_gen/%s_gat_diagonal_all_grad.png" %
+fig.savefig(data_path + "decode_time_gen/%s_gat_diagonal_all_grad_random.png" %
             subject)
