@@ -19,7 +19,7 @@ epochs = mne.read_epochs(
     epochs_folder + "%s_trial_start-epo.fif" % subject, preload=True)
 
 # Crop and downsmample to make it faster
-epochs.crop(tmin=-0.2, tmax=1)
+epochs.crop(None, tmax=1)
 epochs.pick_types(meg="grad")
 
 epochs_clt_left = epochs["ctl/left"].copy()
