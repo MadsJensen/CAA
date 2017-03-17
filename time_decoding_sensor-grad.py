@@ -22,9 +22,28 @@ epochs = mne.read_epochs(
 epochs.crop(tmin=-0.2, tmax=1)
 epochs.pick_types(meg="grad")
 
+epochs_clt_left = epochs["ctl/left"].copy()
+epochs_clt_right = epochs["ctl/right"].copy()
+epochs_ent_left = epochs["ent/left"].copy()
+epochs_ent_right = epochs["ent/right"].copy()
+
+del epochs
+
+epochs_clt_left.events[:2] = 0
+epochs_clt_right.events[:2] = 1
+epochs_ent_left.events[:2] = 2
+epochs_ent_right.events[:2] = 3
+
+epochs_clt_left.event_id = {"0": 0}
+epochs_clt_right.event_id = {"1": 1}
+epochs_ent_left.event_id = {"2": 2}
+epochs_ent_right.event_id = {"3": 3}
+
+epochs_data = mne.concatenate_epochs(
+    [epochs_clt_left, epochs_clt_right, epochs_ent_left, epochs_ent_right])
+
 # Equalise channels and epochs, and concatenate epochs
-epochs.equalize_event_counts(
-    ["clt/left", "ctl/right", "ent/left", "ent/right"])
+epochs_data.equalize_event_counts(["0", "1", "2", "3"])
 
 # Classifier
 clf = make_pipeline(
@@ -37,11 +56,11 @@ gat = GeneralizationAcrossTime(
 
 # Fit model
 print("fitting GAT")
-gat.fit(epochs)
+gat.fit(epochs_data)
 
 # Scoring
 print("Scoring GAT")
-gat.score(epochs)
+gat.score(epochs_data)
 
 # Save model
 joblib.dump(gat,
