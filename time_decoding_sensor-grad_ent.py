@@ -22,18 +22,18 @@ epochs = mne.read_epochs(
 epochs.crop(None, tmax=1)
 epochs.pick_types(meg="grad")
 
-epochs_clt_left = epochs["ctl/left"].copy()
-epochs_clt_right = epochs["ctl/right"].copy()
+epochs_ent_left = epochs["ent/left"].copy()
+epochs_ent_right = epochs["ent/right"].copy()
 
 del epochs
 
-epochs_clt_left.events[:2] = 0
-epochs_clt_right.events[:2] = 1
+epochs_ent_left.events[:2] = 0
+epochs_ent_right.events[:2] = 1
 
-epochs_clt_left.event_id = {"0": 0}
-epochs_clt_right.event_id = {"1": 1}
+epochs_ent_left.event_id = {"0": 0}
+epochs_ent_right.event_id = {"1": 1}
 
-epochs_data = mne.concatenate_epochs([epochs_clt_left, epochs_clt_right])
+epochs_data = mne.concatenate_epochs([epochs_ent_left, epochs_ent_right])
 
 # Equalise channels and epochs, and concatenate epochs
 epochs_data.equalize_event_counts(["0", "1"])
@@ -55,14 +55,14 @@ gat.score(epochs_data)
 
 # Save model
 joblib.dump(
-    gat, data_path + "decode_time_gen/%s_gat_allsensor-grad_ctl.jl" % subject)
+    gat, data_path + "decode_time_gen/%s_gat_allsensor-grad_ent.jl" % subject)
 
 # make matrix plot and save it
 fig = gat.plot(cmap="viridis", title="Temporal Gen for subject: %s" % subject)
-fig.savefig(data_path + "decode_time_gen/%s_gat_matrix_allsensor-grad_ctl.png"
+fig.savefig(data_path + "decode_time_gen/%s_gat_matrix_allsensor-grad_ent.png"
             % subject)
 
 fig = gat.plot_diagonal(
     chance=0.5, title="Temporal Gen for subject: %s" % subject)
 fig.savefig(data_path +
-            "decode_time_gen/%s_gat_diagonal_allsensor-grad_ctl.png" % subject)
+            "decode_time_gen/%s_gat_diagonal_allsensor-grad_ent.png" % subject)
