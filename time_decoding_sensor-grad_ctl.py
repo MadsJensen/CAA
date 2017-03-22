@@ -27,8 +27,8 @@ epochs_clt_right = epochs["ctl/right"].copy()
 
 del epochs
 
-epochs_clt_left.events[:2] = 0
-epochs_clt_right.events[:2] = 1
+epochs_clt_left.events[:, 2] = 0
+epochs_clt_right.events[:, 2] = 1
 
 epochs_clt_left.event_id = {"0": 0}
 epochs_clt_right.event_id = {"1": 1}

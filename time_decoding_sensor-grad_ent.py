@@ -1,5 +1,4 @@
 import sys
-import numpy as np
 import mne
 from mne.decoding import GeneralizationAcrossTime
 from sklearn.externals import joblib
@@ -27,8 +26,8 @@ epochs_ent_right = epochs["ent/right"].copy()
 
 del epochs
 
-epochs_ent_left.events[:2] = 0
-epochs_ent_right.events[:2] = 1
+epochs_ent_left.events[:, 2] = 0
+epochs_ent_right.events[:, 2] = 1
 
 epochs_ent_left.event_id = {"0": 0}
 epochs_ent_right.event_id = {"1": 1}

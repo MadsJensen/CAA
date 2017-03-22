@@ -21,6 +21,7 @@ epochs = mne.read_epochs(
 # Crop and downsmample to make it faster
 epochs.crop(None, tmax=1)
 epochs.pick_types(meg="grad")
+epochs.resample(250)
 
 epochs_clt_left = epochs["ctl/left"].copy()
 epochs_clt_right = epochs["ctl/right"].copy()
@@ -29,10 +30,10 @@ epochs_ent_right = epochs["ent/right"].copy()
 
 del epochs
 
-epochs_clt_left.events[:2] = 0
-epochs_clt_right.events[:2] = 1
-epochs_ent_left.events[:2] = 2
-epochs_ent_right.events[:2] = 3
+epochs_clt_left.events[:, 2] = 0
+epochs_clt_right.events[:, 2] = 1
+epochs_ent_left.events[:, 2] = 2
+epochs_ent_right.events[:, 2] = 3
 
 epochs_clt_left.event_id = {"0": 0}
 epochs_clt_right.event_id = {"1": 1}
