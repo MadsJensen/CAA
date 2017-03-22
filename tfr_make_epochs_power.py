@@ -27,6 +27,7 @@ n_trial, n_chan, n_time = X.shape
 events = np.vstack((range(n_trial), np.zeros(n_trial, int), y.astype(int))).T
 
 info = epochs.info
+info["sfreq"] = 250
 epochs_data = mne.EpochsArray(data=X, info=info, events=events, verbose=False)
 epochs_data.times = epochs.times[::4][:-1]
 
