@@ -17,7 +17,7 @@ subject = sys.argv[1]
 epochs = mne.read_epochs(
     epochs_folder + "%s_trial_start-epo.fif" % subject, preload=False)
 selection = mne.read_selection("Left-occipital")
-selection = [f.split()[0] + f.split()[1] for f in selection]
+selection = [f.replace(' ', '') for f in selection]
 left_idx = mne.pick_types(
     epochs.info,
     meg='grad',
@@ -28,7 +28,7 @@ left_idx = mne.pick_types(
     selection=selection)
 
 selection = mne.read_selection("Right-occipital")
-selection = [f.split()[0] + f.split()[1] for f in selection]
+selection = [f.replace(' ', '') for f in selection]
 right_idx = mne.pick_types(
     epochs.info,
     meg='grad',
@@ -93,5 +93,12 @@ def calc_ALI(subject, show_plot=False):
         plt.title("ALI curves for subject: %s" % subject)
         plt.show()
 
-    return (ALI_left_cue_ctl, ALI_right_cue_ctl, ALI_left_cue_ent,
-            ALI_right_cue_ent)
+    return (ALI_left_cue_ctl.mean(axis=0), ALI_right_cue_ctl.mean(axis=0),
+            ALI_left_cue_ent.mean(axis=0), ALI_right_cue_ent.mean(axis=0))
+
+
+
+ctl_left_ali, ctl_right_ali, ent_left_ali, ent_right_ali = calc_ALI(subject)
+
+data = np.vstack((ctl_left_ali, ctl_right_ali, ent_left_ali, ent_right_ali))
+np.save(tf_folder + "%s_ali.npy" % subject)
