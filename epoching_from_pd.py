@@ -17,7 +17,7 @@ from my_settings import *
 
 tmin, tmax = -0.5, 1.5  # Epoch time
 
-subject = "0005" #sys.argv[1]
+subject = sys.argv[1]
 
 # All the behavioral results
 results = pd.read_csv(log_folder + "results_all.csv")
@@ -93,9 +93,9 @@ picks = mne.pick_types(raw.info, meg=True, eeg=True, stim=False, eog=False,
 # Read epochs
 epochs = mne.Epochs(raw, events, event_id, tmin, tmax, picks=picks,
                     baseline=(None, -0.2), reject=reject_params,
-                    add_eeg_ref=True,
                     preload=False)
-epochs.drop_bad_epochs(reject_params)
+epochs.set_eeg_reference()
+epochs.drop_bad(reject_params)
 
 fig = epochs.plot_drop_log(subject=subject, show=False)
 fig.savefig(epochs_folder + "pics/%s_drop_log.png" % subject)
