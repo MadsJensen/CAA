@@ -62,25 +62,25 @@ def calc_ALI(subject, show_plot=False):
     ent_left = np.load(tf_folder + "%s_ent_left-4-tfr.npy" % (subject))
     ent_right = np.load(tf_folder + "%s_ent_right-4-tfr.npy" % (subject))
 
-    ALI_left_cue_ctl = ((ctl_left[:, left_idx, :, :].mean(axis=0) -
-                         ctl_left[:, right_idx, :, :].mean(axis=0)) /
-                        (ctl_left[:, left_idx, :, :].mean(axis=0) +
-                         ctl_left[:, right_idx, :, :].mean(axis=0)))
+    ALI_left_cue_ctl = ((ctl_left[:, left_idx, :, :].mean(axis=0).mean(
+        axis=0) - ctl_left[:, right_idx, :, :].mean(axis=0).mean(axis=0)) / (
+            ctl_left[:, left_idx, :, :].mean(axis=0).mean(axis=0) +
+            ctl_left[:, right_idx, :, :].mean(axis=0).mean(axis=0)))
 
-    ALI_right_cue_ctl = ((ctl_right[:, left_idx, :, :].mean(axis=0) -
-                          ctl_right[:, right_idx, :, :].mean(axis=0)) /
-                         (ctl_right[:, left_idx, :, :].mean(axis=0) +
-                          ctl_right[:, right_idx, :, :].mean(axis=0)))
+    ALI_right_cue_ctl = ((ctl_right[:, left_idx, :, :].mean(axis=0).mean(
+        axis=0) - ctl_right[:, right_idx, :, :].mean(axis=0).mean(axis=0)) / (
+            ctl_right[:, left_idx, :, :].mean(axis=0).mean(axis=0) +
+            ctl_right[:, right_idx, :, :].mean(axis=0).mean(axis=0)))
 
-    ALI_left_cue_ent = ((ent_left[:, left_idx, :, :].mean(axis=0) -
-                         ent_left[:, right_idx, :, :].mean(axis=0)) /
-                        (ent_left[:, left_idx, :, :].mean(axis=0) +
-                         ent_left[:, right_idx, :, :].mean(axis=0)))
+    ALI_left_cue_ent = ((ent_left[:, left_idx, :, :].mean(axis=0).mean(
+        axis=0) - ent_left[:, right_idx, :, :].mean(axis=0).mean(axis=0)) / (
+            ent_left[:, left_idx, :, :].mean(axis=0).mean(axis=0) +
+            ent_left[:, right_idx, :, :].mean(axis=0).mean(axis=0)))
 
-    ALI_right_cue_ent = ((ent_right[:, left_idx, :, :].mean(axis=0) -
-                          ent_right[:, right_idx, :, :].mean(axis=0)) /
-                         (ent_right[:, left_idx, :, :].mean(axis=0) +
-                          ent_right[:, right_idx, :, :].mean(axis=0)))
+    ALI_right_cue_ent = ((ent_right[:, left_idx, :, :].mean(axis=0).mean(
+        axis=0) - ent_right[:, right_idx, :, :].mean(axis=0).mean(axis=0)) / (
+            ent_right[:, left_idx, :, :].mean(axis=0).mean(axis=0) +
+            ent_right[:, right_idx, :, :].mean(axis=0).mean(axis=0)))
 
     if show_plot:
         times = epochs.times
