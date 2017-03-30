@@ -12,25 +12,31 @@ import mne
 import sys
 import matplotlib.pyplot as plt
 
-selection_name = "Left-occipital"
 subject = sys.argv[1]
 
+epochs = mne.read_epochs(
+    epochs_folder + "%s_trial_start-epo.fif" % subject, preload=False)
+selection = mne.read_selection("Left-occipital")
+selection = [f.split()[0] + f.split()[1] for f in selection]
+left_idx = mne.pick_types(
+    epochs.info,
+    meg='grad',
+    eeg=False,
+    eog=False,
+    stim=False,
+    exclude=[],
+    selection=selection)
 
-def find_channel_index(subject, selection=selection_name):
-    epochs = mne.read_epochs(
-        epochs_folder + "%s_trial_start-epo.fif" % subject, preload=False)
-    selection = mne.read_selection(selection_name)
-    selection = [f.split()[0] + f.split()[1] for f in selection]
-    picks = mne.pick_types(
-        epochs.info,
-        meg='grad',
-        eeg=False,
-        eog=False,
-        stim=False,
-        exclude=[],
-        selection=selection)
-
-    return picks
+selection = mne.read_selection("Right-occipital")
+selection = [f.split()[0] + f.split()[1] for f in selection]
+right_idx = mne.pick_types(
+    epochs.info,
+    meg='grad',
+    eeg=False,
+    eog=False,
+    stim=False,
+    exclude=[],
+    selection=selection)
 
 
 def calc_ALI(subject, show_plot=False):
@@ -56,45 +62,28 @@ def calc_ALI(subject, show_plot=False):
     ent_left = np.load(tf_folder + "%s_ent_left-4-tfr.npy" % (subject))
     ent_right = np.load(tf_folder + "%s_ent_right-4-tfr.npy" % (subject))
 
-    ALI_left_cue_ctl = ((ctl_left_roi_left_cue.data.mean(axis=0) -
-                         ctl_right_roi_left_cue.data.mean(axis=0)) /
-                        (ctl_left_roi_left_cue.data.mean(axis=0) +
-                         ctl_right_roi_left_cue.data.mean(axis=0)))
+    ALI_left_cue_ctl = ((ctl_left[:, left_idx, :, :].mean(axis=0) -
+                         ctl_left[:, right_idx, :, :].mean(axis=0)) /
+                        (ctl_left[:, left_idx, :, :].mean(axis=0) +
+                         ctl_left[:, right_idx, :, :].mean(axis=0)))
 
-    ALI_right_cue_ctl = ((ctl_left_roi_right_cue.data.mean(axis=0) -
-                          ctl_right_roi_right_cue.data.mean(axis=0)) /
-                         (ctl_left_roi_right_cue.data.mean(axis=0) +
-                          ctl_right_roi_right_cue.data.mean(axis=0)))
+    ALI_right_cue_ctl = ((ctl_right[:, left_idx, :, :].mean(axis=0) -
+                          ctl_right[:, right_idx, :, :].mean(axis=0)) /
+                         (ctl_right[:, left_idx, :, :].mean(axis=0) +
+                          ctl_right[:, right_idx, :, :].mean(axis=0)))
 
-    ent_left_roi_left_cue =\
-        mne.read_source_estimate(tf_folder +
-                                 "BP_%s_ent_left_OCCIPITAL_lh_dSPM"
-                                 % (subject))
-    ent_right_roi_left_cue =\
-        mne.read_source_estimate(tf_folder +
-                                 "BP_%s_ent_left_OCCIPITAL_rh_dSPM"
-                                 % (subject))
-    ent_left_roi_right_cue =\
-        mne.read_source_estimate(tf_folder +
-                                 "BP_%s_ent_right_OCCIPITAL_lh_dSPM"
-                                 % (subject))
-    ent_right_roi_right_cue =\
-        mne.read_source_estimate(tf_folder +
-                                 "BP_%s_ent_right_OCCIPITAL_rh_dSPM"
-                                 % (subject))
+    ALI_left_cue_ent = ((ent_left[:, left_idx, :, :].mean(axis=0) -
+                         ent_left[:, right_idx, :, :].mean(axis=0)) /
+                        (ent_left[:, left_idx, :, :].mean(axis=0) +
+                         ent_left[:, right_idx, :, :].mean(axis=0)))
 
-    ALI_left_cue_ent = ((ent_left_roi_left_cue.data.mean(axis=0) -
-                         ent_right_roi_left_cue.data.mean(axis=0)) /
-                        (ent_left_roi_left_cue.data.mean(axis=0) +
-                         ent_right_roi_left_cue.data.mean(axis=0)))
-
-    ALI_right_cue_ent = ((ent_left_roi_right_cue.data.mean(axis=0) -
-                          ent_right_roi_right_cue.data.mean(axis=0)) /
-                         (ent_left_roi_right_cue.data.mean(axis=0) +
-                          ent_right_roi_right_cue.data.mean(axis=0)))
+    ALI_right_cue_ent = ((ent_right[:, left_idx, :, :].mean(axis=0) -
+                          ent_right[:, right_idx, :, :].mean(axis=0)) /
+                         (ent_right[:, left_idx, :, :].mean(axis=0) +
+                          ent_right[:, right_idx, :, :].mean(axis=0)))
 
     if show_plot:
-        times = ent_left_roi_left_cue.times
+        times = epochs.times
         plt.figure()
         plt.plot(times, ALI_left_cue_ctl, 'r', label="ALI Left cue control")
         plt.plot(times, ALI_left_cue_ent, 'b', label="ALI Left ent control")
