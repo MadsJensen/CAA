@@ -16,10 +16,11 @@ selection_name = "Left-occipital"
 subject = sys.argv[1]
 
 
-def find_channel_index(epochs, selection=selection_name):
+def find_channel_index(subject, selection=selection_name):
     epochs = mne.read_epochs(
         epochs_folder + "%s_trial_start-epo.fif" % subject, preload=False)
     selection = mne.read_selection(selection_name)
+    selection = [f.split()[0] + f.split()[1] for f in selection]
     picks = mne.pick_types(epochs.info, meg='grad', eeg=False, eog=False,
                            stim=False, exclude=[], selection=selection)
 
