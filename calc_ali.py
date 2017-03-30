@@ -1,94 +1,115 @@
-from my_settings import (tf_folder, epochs_folder, subjects_select, result_dir)
-import mne
+# coding=utf-8
+"""
+This is a group of function to be used on TF data.
+
+@author: mje
+@email: mads [] cnru.dk
+"""
+
+from my_settings import (epochs_folder)
 import numpy as np
-import pandas as pd
+import mne
+import sys
+import matplotlib.pyplot as plt
 
-epochs = mne.read_epochs(epochs_folder + "0005_target-epo.fif", preload=False)
-times = epochs.times
+selection_name = "Left-occipital"
+subject = sys.argv[1]
 
-from_time = np.abs(times + 0.1).argmin()
-to_time = np.abs(times - 0.1).argmin()
 
-sides = ["left", "right"]
-conditions = ["ctl", "ent"]
-rois = ["lh", "rh"]
-corr = ["correct", "incorrect"]
-phase = ["in_phase", "out_phase"]
+def find_channel_index(epochs, selection=selection_name):
+    epochs = mne.read_epochs(
+        epochs_folder + "%s_trial_start-epo.fif" % subject, preload=False)
+    selection = mne.read_selection(selection_name)
+    picks = mne.pick_types(epochs.info, meg='grad', eeg=False, eog=False,
+                           stim=False, exclude=[], selection=selection)
 
-columns_keys = ["subject", "condition", "side", "ALI_pow"]
+    return picks
 
-df = pd.DataFrame(columns=columns_keys)
 
-for subject in subjects_select:
-    print("Working on subject: %s" % subject)
-    ctl_lc_lr = np.load(tf_folder + "%s_pow_ctl_left_dSPM" % (subject) +
-                        "_LOBE.OCCIPITAL-lh_target.npy")
-    ctl_lc_rr = np.load(tf_folder + "%s_pow_ctl_left_dSPM" % (subject) +
-                        "_LOBE.OCCIPITAL-rh_target.npy")
-    ctl_lc_lr = ctl_lc_lr.mean(axis=0).mean(axis=0)
-    ctl_lc_rr = ctl_lc_rr.mean(axis=0).mean(axis=0)
+def calc_ALI(subject, show_plot=False):
+    """Function calculates the alpha lateralization index (ALI).
 
-    ali_ctl_left = ((ctl_lc_lr - ctl_lc_rr) / (ctl_lc_lr + ctl_lc_rr))
+    The alpha lateralization index (ALI) is based on:
+    Huurne, N. ter, Onnink, M., Kan, C., Franke, B., Buitelaar, J.,
+    & Jensen, O. (2013).
+    Parameters
+    ----------
+    subject : string
+        The name of the subject to calculate ALI for.
+    show_plot : bool
+        Whether to plot the data or not.
 
-    ctl_rc_lr = np.load(tf_folder + "%s_pow_ctl_right_dSPM" % (subject) +
-                        "_LOBE.OCCIPITAL-lh_target.npy")
-    ctl_rc_rr = np.load(tf_folder + "%s_pow_ctl_right_dSPM" % (subject) +
-                        "_LOBE.OCCIPITAL-rh_target.npy")
-    ctl_rc_lr = ctl_rc_lr.mean(axis=0).mean(axis=0)
-    ctl_rc_rr = ctl_rc_rr.mean(axis=0).mean(axis=0)
+    RETURNS
+    -------
+    ali_left : the ALI for the left cue
+    ali_right : the ALI for the right cue
+    """
+    ctl_left_roi_left_cue =\
+        mne.read_source_estimate(tf_folder +
+                                 "BP_%s_ctl_left_OCCIPITAL_lh_dSPM"
+                                 % (subject))
+    ctl_right_roi_left_cue =\
+        mne.read_source_estimate(tf_folder +
+                                 "BP_%s_ctl_left_OCCIPITAL_rh_dSPM"
+                                 % (subject))
+    ctl_left_roi_right_cue =\
+        mne.read_source_estimate(tf_folder +
+                                 "BP_%s_ctl_right_OCCIPITAL_lh_dSPM"
+                                 % (subject))
+    ctl_right_roi_right_cue =\
+        mne.read_source_estimate(tf_folder +
+                                 "BP_%s_ctl_right_OCCIPITAL_rh_dSPM"
+                                 % (subject))
 
-    ali_ctl_right = ((ctl_rc_lr - ctl_rc_rr) / (ctl_rc_lr + ctl_rc_rr))
+    ALI_left_cue_ctl = ((ctl_left_roi_left_cue.data.mean(axis=0) -
+                         ctl_right_roi_left_cue.data.mean(axis=0)) /
+                        (ctl_left_roi_left_cue.data.mean(axis=0) +
+                         ctl_right_roi_left_cue.data.mean(axis=0)))
 
-    ent_lc_lr = np.load(tf_folder + "%s_pow_ent_left_dSPM" % (subject) +
-                        "_LOBE.OCCIPITAL-lh_target.npy")
-    ent_lc_rr = np.load(tf_folder + "%s_pow_ent_left_dSPM" % (subject) +
-                        "_LOBE.OCCIPITAL-rh_target.npy")
-    ent_lc_lr = ent_lc_lr.mean(axis=0).mean(axis=0)
-    ent_lc_rr = ent_lc_rr.mean(axis=0).mean(axis=0)
+    ALI_right_cue_ctl = ((ctl_left_roi_right_cue.data.mean(axis=0) -
+                          ctl_right_roi_right_cue.data.mean(axis=0)) /
+                         (ctl_left_roi_right_cue.data.mean(axis=0) +
+                          ctl_right_roi_right_cue.data.mean(axis=0)))
 
-    ali_ent_left = ((ent_lc_lr - ent_lc_rr) / (ent_lc_lr + ent_lc_rr))
+    ent_left_roi_left_cue =\
+        mne.read_source_estimate(tf_folder +
+                                 "BP_%s_ent_left_OCCIPITAL_lh_dSPM"
+                                 % (subject))
+    ent_right_roi_left_cue =\
+        mne.read_source_estimate(tf_folder +
+                                 "BP_%s_ent_left_OCCIPITAL_rh_dSPM"
+                                 % (subject))
+    ent_left_roi_right_cue =\
+        mne.read_source_estimate(tf_folder +
+                                 "BP_%s_ent_right_OCCIPITAL_lh_dSPM"
+                                 % (subject))
+    ent_right_roi_right_cue =\
+        mne.read_source_estimate(tf_folder +
+                                 "BP_%s_ent_right_OCCIPITAL_rh_dSPM"
+                                 % (subject))
 
-    ent_rc_lr = np.load(tf_folder + "%s_pow_ent_right_dSPM" % (subject) +
-                        "_LOBE.OCCIPITAL-lh_target.npy")
-    ent_rc_rr = np.load(tf_folder + "%s_pow_ent_right_dSPM" % (subject) +
-                        "_LOBE.OCCIPITAL-rh_target.npy")
-    ent_rc_lr = ent_rc_lr.mean(axis=0).mean(axis=0)
-    ent_rc_rr = ent_rc_rr.mean(axis=0).mean(axis=0)
+    ALI_left_cue_ent = ((ent_left_roi_left_cue.data.mean(axis=0) -
+                         ent_right_roi_left_cue.data.mean(axis=0)) /
+                        (ent_left_roi_left_cue.data.mean(axis=0) +
+                         ent_right_roi_left_cue.data.mean(axis=0)))
 
-    ali_ent_right = ((ent_rc_lr - ent_rc_rr) / (ent_rc_lr + ent_rc_rr))
+    ALI_right_cue_ent = ((ent_left_roi_right_cue.data.mean(axis=0) -
+                          ent_right_roi_right_cue.data.mean(axis=0)) /
+                         (ent_left_roi_right_cue.data.mean(axis=0) +
+                          ent_right_roi_right_cue.data.mean(axis=0)))
 
-    # ent right
-    row = pd.DataFrame([{
-        "subject": subject,
-        "condition": "ent",
-        "side": "right",
-        "ALI_pow": ali_ent_right[from_time:to_time].mean()
-    }])
-    df = df.append(row, ignore_index=True)
-    # ent left
-    row = pd.DataFrame([{
-        "subject": subject,
-        "condition": "ent",
-        "side": "left",
-        "ALI_pow": ali_ent_left[from_time:to_time].mean()
-    }])
-    df = df.append(row, ignore_index=True)
-    # ctl right
-    row = pd.DataFrame([{
-        "subject": subject,
-        "condition": "ctl",
-        "side": "right",
-        "ALI_pow": ali_ctl_right[from_time:to_time].mean()
-    }])
-    df = df.append(row, ignore_index=True)
-    # ctl left
-    row = pd.DataFrame([{
-        "subject": subject,
-        "condition": "ctl",
-        "side": "left",
-        "ALI_pow": ali_ctl_left[from_time:to_time].mean()
-    }])
-    df = df.append(row, ignore_index=True)
+    if show_plot:
+        times = ent_left_roi_left_cue.times
+        plt.figure()
+        plt.plot(times, ALI_left_cue_ctl, 'r', label="ALI Left cue control")
+        plt.plot(times, ALI_left_cue_ent, 'b', label="ALI Left ent control")
+        plt.plot(times, ALI_right_cue_ctl, 'g', label="ALI Right cue control")
+        plt.plot(times, ALI_right_cue_ent, 'm', label="ALI Right ent control")
+        plt.legend()
+        plt.title("ALI curves for subject: %s" % subject)
+        plt.show()
 
-df.to_csv(
-    result_dir + "alpha_ali_mean_data_extracted_phase_target.csv", index=False)
+    return (ALI_left_cue_ctl, ALI_right_cue_ctl,
+            ALI_left_cue_ent, ALI_right_cue_ent)
+
+
