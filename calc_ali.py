@@ -101,4 +101,4 @@ def calc_ALI(subject, show_plot=False):
 ctl_left_ali, ctl_right_ali, ent_left_ali, ent_right_ali = calc_ALI(subject)
 
 data = np.vstack((ctl_left_ali, ctl_right_ali, ent_left_ali, ent_right_ali))
-np.save(tf_folder + "%s_ali.npy" % subject)
+np.save(tf_folder + "%s_ali.npy" % subject, data)
