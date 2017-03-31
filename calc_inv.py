@@ -1,4 +1,4 @@
-from my_settings import *
+from my_settings import (mne_folder, epochs_folder)
 import sys
 import mne
 from mne.minimum_norm import make_inverse_operator

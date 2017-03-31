@@ -8,7 +8,7 @@ import mne
 import sys
 import glob
 
-from my_settings import *
+from my_settings import (save_folder, mne_folder, subjects_dir)
 
 subject = sys.argv[1]
 
