@@ -46,8 +46,8 @@ for subject in subjects_select:
     d_right = (data_left[right_idx, :, :] - data_right[right_idx, :, :])
     d_left = (data_left[left_idx, :, :] - data_right[left_idx, :, :])
 
-d_ali_ent_right = np.asarray(d_right)
-d_ali_ent_left = np.asarray(d_left)
+d_ali_ent_right = np.asarray(d_right).mean(axis=1)
+d_ali_ent_left = np.asarray(d_left).mean(axis=1)
 
 T_obs, clusters, cluster_pv, H0 = permutation_cluster_test(
     [d_ali_ent_left, d_ali_ent_right], n_permutations=5000)
