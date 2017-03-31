@@ -33,6 +33,6 @@ for cond in conditions:
             average=False,
             return_itc=False,
             n_jobs=1)
-        power.apply_baseline(baseline=(-0.4, 0.1), mode="ratio")
+        power.apply_baseline(baseline=(-0.4, -0.1), mode="ratio")
         np.save(tf_folder + "%s_%s_%s-4-tfr.npy" % (subject, cond, side),
                 power.data)
