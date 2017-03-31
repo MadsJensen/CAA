@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
 Created on Thu Mar 30 13:14:24 2017
@@ -11,6 +10,8 @@ from mne.stats import permutation_cluster_test
 import mne
 
 from my_settings import (subjects_select, tf_folder, epochs_folder)
+
+plt.style.use("seaborn")
 
 ctl_left = []
 ctl_right = []
@@ -43,8 +44,8 @@ plt.title("Ctl left v right")
 plt.plot(
     times,
     ctl_left.mean(axis=0) - ctl_right.mean(axis=0),
-    label="ERF Contrast (Event 1 - Event 2)")
-plt.ylabel("MEG (T / m)")
+    label="Contrast (Event 1 - Event 2)")
+plt.ylabel("ALI")
 plt.legend()
 plt.subplot(212)
 for i_c, c in enumerate(clusters):
@@ -76,8 +77,8 @@ plt.title("Ctl v ent ")
 plt.plot(
     times,
     d_ctl_ali.mean(axis=0) - d_ent_ali.mean(axis=0),
-    label="ERF Contrast (Event 1 - Event 2)")
-plt.ylabel("MEG (T / m)")
+    label="Contrast (Event 1 - Event 2)")
+plt.ylabel("delta ALI")
 plt.legend()
 plt.subplot(212)
 for i_c, c in enumerate(clusters):
@@ -107,7 +108,7 @@ plt.plot(
     times,
     d_ctl_ali.mean(axis=0) - d_ent_ali.mean(axis=0),
     label="ERF Contrast (Event 1 - Event 2)")
-plt.ylabel("MEG (T / m)")
+plt.ylabel("ALI")
 plt.legend()
 plt.subplot(212)
 for i_c, c in enumerate(clusters):
