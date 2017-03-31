@@ -1,4 +1,4 @@
-from my_settings import *
+from my_settings import (epochs_folder, mne_folder, subjects_dir, tf_folder)
 import mne
 import sys
 import numpy as np
@@ -17,7 +17,7 @@ labels = mne.read_labels_from_annot(
 labels_selc = labels[6], labels[7]
 
 frequencies = np.arange(8, 13, 1)  # define frequencies of interest
-n_cycles = frequencies / 3.  # different number of cycle per frequency
+n_cycles = 4.  # frequencies / 3.  # different number of cycle per frequency
 method = "dSPM"
 
 sides = ["left", "right"]
@@ -26,8 +26,7 @@ cor = ["correct", "incorrect"]
 phase = ["in_phase", "out_phase"]
 congrunet = ["cong", "incong"]
 
-columns_keys = [
-    "subject", "side", "condition", "phase", "ROI"]
+columns_keys = ["subject", "side", "condition", "phase", "ROI"]
 df = pd.DataFrame(columns=columns_keys)
 
 for label in labels_selc:
@@ -41,8 +40,8 @@ for label in labels_selc:
                 method=method,
                 pick_ori=None,
                 use_fft=True,
-            baseline=(-0.45, -0.02),
-                baseline_mode='zscore',
+                baseline=(-0.4, -0.1),
+                baseline_mode='ratio',
                 n_cycles=n_cycles,
                 pca=True,
                 n_jobs=1)
