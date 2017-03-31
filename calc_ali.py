@@ -97,6 +97,63 @@ def calc_ALI(subject, show_plot=False):
             ALI_left_cue_ent.mean(axis=0), ALI_right_cue_ent.mean(axis=0))
 
 
+def calc_ALI_itc(subject, show_plot=False):
+    """Function calculates the alpha lateralization index (ALI).
+
+    The alpha lateralization index (ALI) is based on:
+    Huurne, N. ter, Onnink, M., Kan, C., Franke, B., Buitelaar, J.,
+    & Jensen, O. (2013).
+    Parameters
+    ----------
+    subject : string
+        The name of the subject to calculate ALI for.
+    show_plot : bool
+        Whether to plot the data or not.
+
+    RETURNS
+    -------
+    ali_left : the ALI for the left cue
+    ali_right : the ALI for the right cue
+    """
+    ctl_left = np.load(tf_folder + "%s_ctl_left-4-itc.npy" % (subject))
+    ctl_right = np.load(tf_folder + "%s_ctl_right-4-itc.npy" % (subject))
+    ent_left = np.load(tf_folder + "%s_ent_left-4-itc.npy" % (subject))
+    ent_right = np.load(tf_folder + "%s_ent_right-4-itc.npy" % (subject))
+
+    ALI_left_cue_ctl = ((ctl_left[:, left_idx, :, :].mean(axis=0).mean(
+        axis=0) - ctl_left[:, right_idx, :, :].mean(axis=0).mean(axis=0)) / (
+            ctl_left[:, left_idx, :, :].mean(axis=0).mean(axis=0) +
+            ctl_left[:, right_idx, :, :].mean(axis=0).mean(axis=0)))
+
+    ALI_right_cue_ctl = ((ctl_right[:, left_idx, :, :].mean(axis=0).mean(
+        axis=0) - ctl_right[:, right_idx, :, :].mean(axis=0).mean(axis=0)) / (
+            ctl_right[:, left_idx, :, :].mean(axis=0).mean(axis=0) +
+            ctl_right[:, right_idx, :, :].mean(axis=0).mean(axis=0)))
+
+    ALI_left_cue_ent = ((ent_left[:, left_idx, :, :].mean(axis=0).mean(
+        axis=0) - ent_left[:, right_idx, :, :].mean(axis=0).mean(axis=0)) / (
+            ent_left[:, left_idx, :, :].mean(axis=0).mean(axis=0) +
+            ent_left[:, right_idx, :, :].mean(axis=0).mean(axis=0)))
+
+    ALI_right_cue_ent = ((ent_right[:, left_idx, :, :].mean(axis=0).mean(
+        axis=0) - ent_right[:, right_idx, :, :].mean(axis=0).mean(axis=0)) / (
+            ent_right[:, left_idx, :, :].mean(axis=0).mean(axis=0) +
+            ent_right[:, right_idx, :, :].mean(axis=0).mean(axis=0)))
+
+    if show_plot:
+        times = epochs.times
+        plt.figure()
+        plt.plot(times, ALI_left_cue_ctl, 'r', label="ALI Left cue control")
+        plt.plot(times, ALI_left_cue_ent, 'b', label="ALI Left ent control")
+        plt.plot(times, ALI_right_cue_ctl, 'g', label="ALI Right cue control")
+        plt.plot(times, ALI_right_cue_ent, 'm', label="ALI Right ent control")
+        plt.legend()
+        plt.title("ALI curves for subject: %s" % subject)
+        plt.show()
+
+    return (ALI_left_cue_ctl.mean(axis=0), ALI_right_cue_ctl.mean(axis=0),
+            ALI_left_cue_ent.mean(axis=0), ALI_right_cue_ent.mean(axis=0))
+
 
 ctl_left_ali, ctl_right_ali, ent_left_ali, ent_right_ali = calc_ALI(subject)
 
