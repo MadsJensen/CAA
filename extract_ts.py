@@ -10,7 +10,7 @@ from mne.time_frequency import morlet
 import numpy as np
 import sys
 
-from my_settings import *
+from my_settings import (tf_folder, subjects_dir, epochs_folder, mne_folder)
 
 subject = sys.argv[1]
 
@@ -19,7 +19,7 @@ snr = 1.0  # Standard assumption for average data but using it for single trial
 lambda2 = 1.0 / snr**2
 method = "dSPM"  # use dSPM method (could also be MNE or sLORETA)
 freqs = np.arange(8, 13, 1)
-n_cycle = freqs / 3.
+n_cycle = 4.  # freqs / 3.
 
 conditions = ["ent/left", "ctl/left", "ent/right", "ctl/right"]
 
@@ -60,10 +60,10 @@ for condition in conditions[:1]:
             # use_fft=True,
             n_cycles=n_cycle)
 
-        np.save(tf_folder + "%s_%s_%s_%s_%s-tfr" %
+        np.save(tf_folder + "%s_%s_%s_%s_%s_pca-tfr" %
                 (subject, condition[:3], condition[4:], label.name, method),
                 tfr)
-        np.save(tf_folder + "%s_%s_%s_%s_%s-ts" %
+        np.save(tf_folder + "%s_%s_%s_%s_%s_pca-ts" %
                 (subject, condition[:3], condition[4:], label.name, method),
                 label_ts)
 
