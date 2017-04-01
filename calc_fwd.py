@@ -12,7 +12,6 @@ from my_settings import (save_folder, mne_folder, subjects_dir)
 
 subject = sys.argv[1]
 
-
 raw_fname = save_folder + "%s_filtered_ica_mc_raw_tsss.fif" % subject
 trans_fname = mne_folder + "%s-trans.fif" % subject
 cov = mne.read_cov(mne_folder + "%s-cov.fif" % subject)
@@ -31,10 +30,8 @@ raw.set_eeg_reference()
 #                              n_jobs=1,
 #                              overwrite=True)  # 1 for each hemispere
 
-fwd = mne.make_forward_solution(raw_fname, trans=trans_fname,
-                                src=src,
-                                bem=bem,
-                                meg=True,
-                                eeg=True,
-                                fname=mne_folder + "%s-fwd.fif" % subject,
-                                overwrite=True)
+fwd = mne.make_forward_solution(
+    raw_fname, trans=trans_fname, src=src, bem=bem, meg=True, eeg=True)
+
+mne.write_forward_solution(
+    mne_folder + "%s-fwd.fif" % subject, fwd, overwrite=True)
