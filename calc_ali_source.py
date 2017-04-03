@@ -101,7 +101,7 @@ def calc_ALI(subject, show_plot=False):
             ALI_left_cue_ent.mean(axis=0), ALI_right_cue_ent.mean(axis=0))
 
 
-def calc_ALI_itc(subject):
+def calc_ALI_source(subject):
     """Function calculates the alpha lateralization index (ALI).
 
     The alpha lateralization index (ALI) is based on:
@@ -161,11 +161,11 @@ def calc_ALI_itc(subject):
         (ent_right_lh.mean(axis=0) - ent_right_rh.mean(axis=0)) /
         (ent_right_lh.mean(axis=0) + ent_right_lh.mean(axis=0)))
 
-    return (ALI_left_cue_ctl.mean(axis=0), ALI_right_cue_ctl.mean(axis=0),
-            ALI_left_cue_ent.mean(axis=0), ALI_right_cue_ent.mean(axis=0))
+    return (ALI_left_cue_ctl, ALI_right_cue_ctl,
+            ALI_left_cue_ent, ALI_right_cue_ent)
 
 
-ctl_left_ali, ctl_right_ali, ent_left_ali, ent_right_ali = calc_ALI(subject)
+ctl_left_ali, ctl_right_ali, ent_left_ali, ent_right_ali = calc_ALI_source(subject)
 
 data = np.vstack((ctl_left_ali, ctl_right_ali, ent_left_ali, ent_right_ali))
-np.save(tf_folder + "%s_ali.npy" % subject, data)
+np.save(tf_folder + "%s_ali_source.npy" % subject, data)
