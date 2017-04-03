@@ -6,7 +6,7 @@ Created on Mon Aug 31 10:17:09 2015
 """
 import mne
 from mne.minimum_norm import (apply_inverse_epochs, read_inverse_operator)
-from mne.time_frequency import morlet
+from mne.time_frequency import tfr_array_morlet
 import numpy as np
 import sys
 
@@ -35,17 +35,17 @@ epochs = mne.read_epochs(epochs_folder + "%s_trial_start-epo.fif" % subject)
 # epochs.drop_bad_epochs(reject_params)
 # epochs.resample(250, n_jobs=4)
 
-for condition in conditions[:1]:
+for condition in conditions:
     stcs = apply_inverse_epochs(
         epochs[condition],
         inverse_operator,
         lambda2,
         method,
-        pick_ori="normal")
+        pick_ori=None)
 
     for label in labels_sel:
         label_ts = []
-        for j in range(len(stcs[:1])):
+        for j in range(len(stcs)):
             ts = mne.extract_label_time_course(
                 stcs[j], labels=label, src=src, mode="pca_flip")
             ts = np.squeeze(ts)
@@ -53,7 +53,8 @@ for condition in conditions[:1]:
             label_ts.append(ts)
 
         label_ts = np.asarray(label_ts)
-        tfr = morlet(
+        label_ts = label_ts[:, np.newaxis, :]
+        tfr = tfr_array_morlet(
             label_ts,
             epochs.info["sfreq"],
             freqs,
