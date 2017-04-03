@@ -49,7 +49,7 @@ for condition in conditions:
             ts = mne.extract_label_time_course(
                 stcs[j], labels=label, src=src, mode="mean_flip")
             ts = np.squeeze(ts)
-            ts *= np.sign(ts[np.argmax(np.abs(ts))])
+            # ts *= np.sign(ts[np.argmax(np.abs(ts))])
             label_ts.append(ts)
 
         label_ts = np.asarray(label_ts)
