@@ -15,7 +15,7 @@ from my_settings import (tf_folder, subjects_dir, epochs_folder, mne_folder)
 subject = sys.argv[1]
 
 # Using the same inverse operator when inspecting single trials Vs. evoked
-snr = 1.0  # Standard assumption for average data but using it for single trial
+snr = 3.0  # Standard assumption for average data but using it for single trial
 lambda2 = 1.0 / snr**2
 method = "dSPM"  # use dSPM method (could also be MNE or sLORETA)
 freqs = np.arange(8, 13, 1)
@@ -61,10 +61,10 @@ for condition in conditions:
             # use_fft=True,
             n_cycles=n_cycle)
 
-        np.save(tf_folder + "%s_%s_%s_%s_%s_pca-tfr" %
+        np.save(tf_folder + "%s_%s_%s_%s_%s_pca_snr_3-tfr" %
                 (subject, condition[:3], condition[4:], label.name, method),
                 tfr)
-        np.save(tf_folder + "%s_%s_%s_%s_%s_pca-ts" %
+        np.save(tf_folder + "%s_%s_%s_%s_%s_pca_snr_3-ts" %
                 (subject, condition[:3], condition[4:], label.name, method),
                 label_ts)
 
