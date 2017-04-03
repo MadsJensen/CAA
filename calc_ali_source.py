@@ -62,25 +62,29 @@ def calc_ALI(subject, show_plot=False):
     ent_left = np.load(tf_folder + "%s_ent_left-4-tfr.npy" % (subject))
     ent_right = np.load(tf_folder + "%s_ent_right-4-tfr.npy" % (subject))
 
-    ALI_left_cue_ctl = ((ctl_left[:, left_idx, :, :].mean(axis=0).mean(
-        axis=0) - ctl_left[:, right_idx, :, :].mean(axis=0).mean(axis=0)) / (
-            ctl_left[:, left_idx, :, :].mean(axis=0).mean(axis=0) +
-            ctl_left[:, right_idx, :, :].mean(axis=0).mean(axis=0)))
+    ALI_left_cue_ctl = (
+        (ctl_left[:, left_idx, :, :].mean(axis=0).mean(axis=0) -
+         ctl_left[:, right_idx, :, :].mean(axis=0).mean(axis=0)) /
+        (ctl_left[:, left_idx, :, :].mean(axis=0).mean(axis=0) +
+         ctl_left[:, right_idx, :, :].mean(axis=0).mean(axis=0)))
 
-    ALI_right_cue_ctl = ((ctl_right[:, left_idx, :, :].mean(axis=0).mean(
-        axis=0) - ctl_right[:, right_idx, :, :].mean(axis=0).mean(axis=0)) / (
-            ctl_right[:, left_idx, :, :].mean(axis=0).mean(axis=0) +
-            ctl_right[:, right_idx, :, :].mean(axis=0).mean(axis=0)))
+    ALI_right_cue_ctl = (
+        (ctl_right[:, left_idx, :, :].mean(axis=0).mean(axis=0) -
+         ctl_right[:, right_idx, :, :].mean(axis=0).mean(axis=0)) /
+        (ctl_right[:, left_idx, :, :].mean(axis=0).mean(axis=0) +
+         ctl_right[:, right_idx, :, :].mean(axis=0).mean(axis=0)))
 
-    ALI_left_cue_ent = ((ent_left[:, left_idx, :, :].mean(axis=0).mean(
-        axis=0) - ent_left[:, right_idx, :, :].mean(axis=0).mean(axis=0)) / (
-            ent_left[:, left_idx, :, :].mean(axis=0).mean(axis=0) +
-            ent_left[:, right_idx, :, :].mean(axis=0).mean(axis=0)))
+    ALI_left_cue_ent = (
+        (ent_left[:, left_idx, :, :].mean(axis=0).mean(axis=0) -
+         ent_left[:, right_idx, :, :].mean(axis=0).mean(axis=0)) /
+        (ent_left[:, left_idx, :, :].mean(axis=0).mean(axis=0) +
+         ent_left[:, right_idx, :, :].mean(axis=0).mean(axis=0)))
 
-    ALI_right_cue_ent = ((ent_right[:, left_idx, :, :].mean(axis=0).mean(
-        axis=0) - ent_right[:, right_idx, :, :].mean(axis=0).mean(axis=0)) / (
-            ent_right[:, left_idx, :, :].mean(axis=0).mean(axis=0) +
-            ent_right[:, right_idx, :, :].mean(axis=0).mean(axis=0)))
+    ALI_right_cue_ent = (
+        (ent_right[:, left_idx, :, :].mean(axis=0).mean(axis=0) -
+         ent_right[:, right_idx, :, :].mean(axis=0).mean(axis=0)) /
+        (ent_right[:, left_idx, :, :].mean(axis=0).mean(axis=0) +
+         ent_right[:, right_idx, :, :].mean(axis=0).mean(axis=0)))
 
     if show_plot:
         times = epochs.times
@@ -115,35 +119,45 @@ def calc_ALI_itc(subject):
     ali_left : the ALI for the left cue
     ali_right : the ALI for the right cue
     """
-    ctl_right_rh = np.load(tf_folder + "%s_ctl_right_Brodmann.17-rh_dSPM_pca-ts.npy" % (subject))
-    ctl_right_lh = np.load(tf_folder + "%s_ctl_right_Brodmann.17-lh_dSPM_pca-ts.npy" % (subject))
-    ctl_left_rh = np.load(tf_folder + "%s_ctl_left_Brodmann.17-rh_dSPM_pca-ts.npy" % (subject))
-    ctl_left_lh = np.load(tf_folder + "%s_ctl_left_Brodmann.17-lh_dSPM_pca-ts.npy" % (subject))
+    ctl_right_rh = np.load(tf_folder +
+                           "%s_ctl_right_Brodmann.17-rh_dSPM_pca-ts.npy" %
+                           (subject)).squzee()
+    ctl_right_lh = np.load(tf_folder +
+                           "%s_ctl_right_Brodmann.17-lh_dSPM_pca-ts.npy" %
+                           (subject)).squzee()
+    ctl_left_rh = np.load(tf_folder +
+                          "%s_ctl_left_Brodmann.17-rh_dSPM_pca-ts.npy" %
+                          (subject)).squzee()
+    ctl_left_lh = np.load(tf_folder +
+                          "%s_ctl_left_Brodmann.17-lh_dSPM_pca-ts.npy" %
+                          (subject)).squzee()
 
-    ent_right_rh = np.load(tf_folder + "%s_ent_right_Brodmann.17-rh_dSPM_pca-ts.npy" % (subject))
-    ent_right_lh = np.load(tf_folder + "%s_ent_right_Brodmann.17-lh_dSPM_pca-ts.npy" % (subject))
-    ent_left_rh = np.load(tf_folder + "%s_ent_left_Brodmann.17-rh_dSPM_pca-ts.npy" % (subject))
-    ent_left_lh = np.load(tf_folder + "%s_ent_left_Brodmann.17-lh_dSPM_pca-ts.npy" % (subject))
-    
-    ALI_left_cue_ctl = ((ctl_left[:, left_idx, :, :].mean(axis=0).mean(
-        axis=0) - ctl_left[:, right_idx, :, :].mean(axis=0).mean(axis=0)) / (
-            ctl_left[:, left_idx, :, :].mean(axis=0).mean(axis=0) +
-            ctl_left[:, right_idx, :, :].mean(axis=0).mean(axis=0)))
+    ent_right_rh = np.load(tf_folder +
+                           "%s_ent_right_Brodmann.17-rh_dSPM_pca-ts.npy" %
+                           (subject)).squzee()
+    ent_right_lh = np.load(tf_folder +
+                           "%s_ent_right_Brodmann.17-lh_dSPM_pca-ts.npy" %
+                           (subject)).squzee()
+    ent_left_rh = np.load(tf_folder +
+                          "%s_ent_left_Brodmann.17-rh_dSPM_pca-ts.npy" %
+                          (subject)).squzee()
+    ent_left_lh = np.load(tf_folder +
+                          "%s_ent_left_Brodmann.17-lh_dSPM_pca-ts.npy" %
+                          (subject)).squzee()
 
-    ALI_right_cue_ctl = ((ctl_right[:, left_idx, :, :].mean(axis=0).mean(
-        axis=0) - ctl_right[:, right_idx, :, :].mean(axis=0).mean(axis=0)) / (
-            ctl_right[:, left_idx, :, :].mean(axis=0).mean(axis=0) +
-            ctl_right[:, right_idx, :, :].mean(axis=0).mean(axis=0)))
+    ALI_left_cue_ctl = ((ctl_left_lh.mean(axis=0) - ctl_left_rh.mean(axis=0)) /
+                        (ctl_left_lh.mean(axis=0) + ctl_left_rh.mean(axis=0)))
 
-    ALI_left_cue_ent = ((ent_left[:, left_idx, :, :].mean(axis=0).mean(
-        axis=0) - ent_left[:, right_idx, :, :].mean(axis=0).mean(axis=0)) / (
-            ent_left[:, left_idx, :, :].mean(axis=0).mean(axis=0) +
-            ent_left[:, right_idx, :, :].mean(axis=0).mean(axis=0)))
+    ALI_right_cue_ctl = (
+        (ctl_right_lh.mean(axis=0) - ctl_right_rh.mean(axis=0)) /
+        (ctl_right_lh.mean(axis=0) + ctl_right_lh.mean(axis=0)))
 
-    ALI_right_cue_ent = ((ent_right[:, left_idx, :, :].mean(axis=0).mean(
-        axis=0) - ent_right[:, right_idx, :, :].mean(axis=0).mean(axis=0)) / (
-            ent_right[:, left_idx, :, :].mean(axis=0).mean(axis=0) +
-            ent_right[:, right_idx, :, :].mean(axis=0).mean(axis=0)))
+    ALI_left_cue_ent = ((ent_left_lh.mean(axis=0) - ent_left_rh.mean(axis=0)) /
+                        (ent_left_lh.mean(axis=0) + ent_left_rh.mean(axis=0)))
+
+    ALI_right_cue_ent = (
+        (ent_right_lh.mean(axis=0) - ent_right_rh.mean(axis=0)) /
+        (ent_right_lh.mean(axis=0) + ent_right_lh.mean(axis=0)))
 
     return (ALI_left_cue_ctl.mean(axis=0), ALI_right_cue_ctl.mean(axis=0),
             ALI_left_cue_ent.mean(axis=0), ALI_right_cue_ent.mean(axis=0))
