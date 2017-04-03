@@ -119,23 +119,31 @@ def calc_ALI_source(subject):
     ali_left : the ALI for the left cue
     ali_right : the ALI for the right cue
     """
-    ctl_right_rh = np.load(
-        tf_folder + "%s_ctl_right_Brodmann.17-rh_dSPM_pca-ts.npy" % (subject))
-    ctl_right_lh = np.load(
-        tf_folder + "%s_ctl_right_Brodmann.17-lh_dSPM_pca-ts.npy" % (subject))
-    ctl_left_rh = np.load(
-        tf_folder + "%s_ctl_left_Brodmann.17-rh_dSPM_pca-ts.npy" % (subject))
-    ctl_left_lh = np.load(
-        tf_folder + "%s_ctl_left_Brodmann.17-lh_dSPM_pca-ts.npy" % (subject))
+    ctl_right_rh = np.load(tf_folder +
+                           "%s_ctl_right_LOBE.OCCIPITAL-rh_dSPM_pca-ts.npy" %
+                           (subject))
+    ctl_right_lh = np.load(tf_folder +
+                           "%s_ctl_right_LOBE.OCCIPITAL-lh_dSPM_pca-ts.npy" %
+                           (subject))
+    ctl_left_rh = np.load(tf_folder +
+                          "%s_ctl_left_LOBE.OCCIPITAL-rh_dSPM_pca-ts.npy" %
+                          (subject))
+    ctl_left_lh = np.load(tf_folder +
+                          "%s_ctl_left_LOBE.OCCIPITAL-lh_dSPM_pca-ts.npy" %
+                          (subject))
 
-    ent_right_rh = np.load(
-        tf_folder + "%s_ent_right_Brodmann.17-rh_dSPM_pca-ts.npy" % (subject))
-    ent_right_lh = np.load(
-        tf_folder + "%s_ent_right_Brodmann.17-lh_dSPM_pca-ts.npy" % (subject))
-    ent_left_rh = np.load(
-        tf_folder + "%s_ent_left_Brodmann.17-rh_dSPM_pca-ts.npy" % (subject))
-    ent_left_lh = np.load(
-        tf_folder + "%s_ent_left_Brodmann.17-lh_dSPM_pca-ts.npy" % (subject))
+    ent_right_rh = np.load(tf_folder +
+                           "%s_ent_right_LOBE.OCCIPITAL-rh_dSPM_pca-ts.npy" %
+                           (subject))
+    ent_right_lh = np.load(tf_folder +
+                           "%s_ent_right_LOBE.OCCIPITAL-lh_dSPM_pca-ts.npy" %
+                           (subject))
+    ent_left_rh = np.load(tf_folder +
+                          "%s_ent_left_LOBE.OCCIPITAL-rh_dSPM_pca-ts.npy" %
+                          (subject))
+    ent_left_lh = np.load(tf_folder +
+                          "%s_ent_left_LOBE.OCCIPITAL-lh_dSPM_pca-ts.npy" %
+                          (subject))
 
     ctl_left_lh = np.squeeze(ctl_left_lh)
     ctl_left_rh = np.squeeze(ctl_left_rh)
