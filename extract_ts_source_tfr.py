@@ -14,7 +14,7 @@ from my_settings import (tf_folder, subjects_dir, epochs_folder, mne_folder)
 subject = sys.argv[1]
 
 # Using the same inverse operator when inspecting single trials Vs. evoked
-snr = 1.0  # Standard assumption for average data but using it for single trial
+snr = 3.0  # Standard assumption for average data but using it for single trial
 lambda2 = 1.0 / snr**2
 method = "dSPM"  # use dSPM method (could also be MNE or sLORETA)
 freqs = np.arange(8, 13, 1)
@@ -49,9 +49,9 @@ for condition in conditions:
         power = np.mean(power, axis=0)  # average over sources
         itc = np.mean(itc, axis=0)  # average over sources
 
-        np.save(tf_folder + "%s_%s_%s_%s_%s_source_power.npy" %
+        np.save(tf_folder + "%s_%s_%s_%s_%s_source_power_snr_3.npy" %
                 (subject, condition[:3], condition[4:], label.name, method),
                 power)
-        np.save(tf_folder + "%s_%s_%s_%s_%s_source_itc.npy" %
+        np.save(tf_folder + "%s_%s_%s_%s_%s_source_itc_snr_3.npy" %
                 (subject, condition[:3], condition[4:], label.name, method),
                 itc)
