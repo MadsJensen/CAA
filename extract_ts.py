@@ -47,7 +47,7 @@ for condition in conditions:
         label_ts = []
         for j in range(len(stcs)):
             ts = mne.extract_label_time_course(
-                stcs[j], labels=label, src=src, mode="pca_flip")
+                stcs[j], labels=label, src=src, mode="mean_flip")
             ts = np.squeeze(ts)
             ts *= np.sign(ts[np.argmax(np.abs(ts))])
             label_ts.append(ts)
