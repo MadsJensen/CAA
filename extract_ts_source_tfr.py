@@ -5,7 +5,7 @@ Created on Mon Aug 31 10:17:09 2015
 @author: mje
 """
 import mne
-from mne.minimum_norm import (source_band_induced_power, read_inverse_operator)
+from mne.minimum_norm import (source_induced_power, read_inverse_operator)
 import numpy as np
 import sys
 
@@ -17,6 +17,7 @@ subject = sys.argv[1]
 snr = 3.0  # Standard assumption for average data but using it for single trial
 lambda2 = 1.0 / snr**2
 method = "dSPM"  # use dSPM method (could also be MNE or sLORETA)
+freqs = [8, 13]
 n_cycles = 4.  # freqs / 3.
 n_jobs = 1
 
@@ -36,21 +37,22 @@ epochs.resample(250, n_jobs=n_jobs)
 
 for condition in conditions:
     for label in labels_sel:
-        power, itc = source_band_induced_power(
+        power, itc = source_induced_power(
             epochs[condition],
             inverse_operator,
-            bands=dict(8, 13),
+            frequencies=freqs,
             label=label,
             lambda2=lambda2,
             method=method,
+            pick_ori=None,
             baseline=(-0.4, -0.1),
             baseline_mode='ratio',
             n_cycles=n_cycles,
             pca=True,
             n_jobs=n_jobs)
 
-        power = np.mean(power, axis=0)  # average over sources
-        itc = np.mean(itc, axis=0)  # average over sources
+        power = np.mean(power, axis=1)  # average over sources
+        itc = np.mean(itc, axis=1)  # average over sources
 
         np.save(tf_folder + "%s_%s_%s_%s_%s_source_power_snr_3.npy" %
                 (subject, condition[:3], condition[4:], label.name, method),
