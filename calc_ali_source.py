@@ -176,8 +176,79 @@ def calc_ALI_source(subject):
             ALI_right_cue_ent)
 
 
-ctl_left_ali, ctl_right_ali, ent_left_ali, ent_right_ali = calc_ALI_source(
+def calc_ALI_ITC_source(subject):
+    """Function calculates the alpha lateralization index (ALI).
+
+    The alpha lateralization index (ALI) is based on:
+    Huurne, N. ter, Onnink, M., Kan, C., Franke, B., Buitelaar, J.,
+    & Jensen, O. (2013).
+    Parameters
+    ----------
+    subject : string
+        The name of the subject to calculate ALI for.
+    show_plot : bool
+        Whether to plot the data or not.
+
+    RETURNS
+    -------
+    ali_left : the ALI for the left cue
+    ali_right : the ALI for the right cue
+    """
+    ctl_right_rh = np.load(
+        tf_folder +
+        "%s_ctl_right_LOBE.OCCIPITAL-rh_dSPM_source_itc_snr_3.npy" % (subject))
+    ctl_right_lh = np.load(
+        tf_folder +
+        "%s_ctl_right_LOBE.OCCIPITAL-lh_dSPM_source_itc_snr_3.npy" % (subject))
+    ctl_left_rh = np.load(
+        tf_folder + "%s_ctl_left_LOBE.OCCIPITAL-rh_dSPM_source_itc_snr_3.npy" %
+        (subject))
+    ctl_left_lh = np.load(
+        tf_folder + "%s_ctl_left_LOBE.OCCIPITAL-lh_dSPM_source_itc_snr_3.npy" %
+        (subject))
+
+    ent_right_rh = np.load(
+        tf_folder +
+        "%s_ent_right_LOBE.OCCIPITAL-rh_dSPM_source_itc_snr_3.npy" % (subject))
+    ent_right_lh = np.load(
+        tf_folder +
+        "%s_ent_right_LOBE.OCCIPITAL-lh_dSPM_source_itc_snr_3.npy" % (subject))
+    ent_left_rh = np.load(
+        tf_folder + "%s_ent_left_LOBE.OCCIPITAL-rh_dSPM_source_itc_snr_3.npy" %
+        (subject))
+    ent_left_lh = np.load(
+        tf_folder + "%s_ent_left_LOBE.OCCIPITAL-lh_dSPM_source_itc_snr_3.npy" %
+        (subject))
+
+    # Select top 90% sources
+    ctl_left_lh = np.percentile(ctl_left_lh, 90, axis=0)
+    ctl_left_rh = np.percentile(ctl_left_rh, 90, axis=0)
+    ctl_right_lh = np.percentile(ctl_right_lh, 90, axis=0)
+    ctl_right_rh = np.percentile(ctl_right_rh, 90, axis=0)
+
+    ent_left_lh = np.percentile(ent_left_lh, 90, axis=0)
+    ent_left_rh = np.percentile(ent_left_rh, 90, axis=0)
+    ent_right_lh = np.percentile(ent_right_lh, 90, axis=0)
+    ent_right_rh = np.percentile(ent_right_rh, 90, axis=0)
+
+    ALI_left_cue_ctl = (
+        (ctl_left_lh - ctl_left_rh) / (ctl_left_lh + ctl_left_rh))
+
+    ALI_right_cue_ctl = (
+        (ctl_right_lh - ctl_right_rh) / (ctl_right_lh + ctl_right_lh))
+
+    ALI_left_cue_ent = (
+        (ent_left_lh - ent_left_rh) / (ent_left_lh + ent_left_rh))
+
+    ALI_right_cue_ent = (
+        (ent_right_lh - ent_right_rh) / (ent_right_lh + ent_right_lh))
+
+    return (ALI_left_cue_ctl, ALI_right_cue_ctl, ALI_left_cue_ent,
+            ALI_right_cue_ent)
+
+
+ctl_left_ali, ctl_right_ali, ent_left_ali, ent_right_ali = calc_ALI_ITC_source(
     subject)
 
 data = np.vstack((ctl_left_ali, ctl_right_ali, ent_left_ali, ent_right_ali))
-np.save(tf_folder + "%s_ali_source.npy" % subject, data)
+np.save(tf_folder + "%s_ali_itc_source.npy" % subject, data)
