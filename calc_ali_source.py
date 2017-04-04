@@ -119,41 +119,46 @@ def calc_ALI_source(subject):
     ali_left : the ALI for the left cue
     ali_right : the ALI for the right cue
     """
-    ctl_right_rh = np.load(tf_folder +
-                           "%s_ctl_right_LOBE.OCCIPITAL-rh_dSPM_pca-ts.npy" %
-                           (subject))
-    ctl_right_lh = np.load(tf_folder +
-                           "%s_ctl_right_LOBE.OCCIPITAL-lh_dSPM_pca-ts.npy" %
-                           (subject))
-    ctl_left_rh = np.load(tf_folder +
-                          "%s_ctl_left_LOBE.OCCIPITAL-rh_dSPM_pca-ts.npy" %
-                          (subject))
-    ctl_left_lh = np.load(tf_folder +
-                          "%s_ctl_left_LOBE.OCCIPITAL-lh_dSPM_pca-ts.npy" %
-                          (subject))
+    ctl_right_rh = np.load(
+        tf_folder +
+        "%s_ctl_right_LOBE.OCCIPITAL-rh_dSPM_source_power_snr_3.npy" %
+        (subject))
+    ctl_right_lh = np.load(
+        tf_folder +
+        "%s_ctl_right_LOBE.OCCIPITAL-lh_dSPM_source_power_snr_3.npy" %
+        (subject))
+    ctl_left_rh = np.load(
+        tf_folder + "%s_ctl_left_LOBE.OCCIPITAL-rh_dSPM_source_power_snr_3.npy"
+        % (subject))
+    ctl_left_lh = np.load(
+        tf_folder + "%s_ctl_left_LOBE.OCCIPITAL-lh_dSPM_source_power_snr_3.npy"
+        % (subject))
 
-    ent_right_rh = np.load(tf_folder +
-                           "%s_ent_right_LOBE.OCCIPITAL-rh_dSPM_pca-ts.npy" %
-                           (subject))
-    ent_right_lh = np.load(tf_folder +
-                           "%s_ent_right_LOBE.OCCIPITAL-lh_dSPM_pca-ts.npy" %
-                           (subject))
-    ent_left_rh = np.load(tf_folder +
-                          "%s_ent_left_LOBE.OCCIPITAL-rh_dSPM_pca-ts.npy" %
-                          (subject))
-    ent_left_lh = np.load(tf_folder +
-                          "%s_ent_left_LOBE.OCCIPITAL-lh_dSPM_pca-ts.npy" %
-                          (subject))
+    ent_right_rh = np.load(
+        tf_folder +
+        "%s_ent_right_LOBE.OCCIPITAL-rh_dSPM_source_power_snr_3.npy" %
+        (subject))
+    ent_right_lh = np.load(
+        tf_folder +
+        "%s_ent_right_LOBE.OCCIPITAL-lh_dSPM_source_power_snr_3.npy" %
+        (subject))
+    ent_left_rh = np.load(
+        tf_folder + "%s_ent_left_LOBE.OCCIPITAL-rh_dSPM_source_power_snr_3.npy"
+        % (subject))
+    ent_left_lh = np.load(
+        tf_folder + "%s_ent_left_LOBE.OCCIPITAL-lh_dSPM_source_power_snr_3.npy"
+        % (subject))
 
-    ctl_left_lh = np.squeeze(ctl_left_lh)
-    ctl_left_rh = np.squeeze(ctl_left_rh)
-    ctl_right_lh = np.squeeze(ctl_right_lh)
-    ctl_right_rh = np.squeeze(ctl_right_rh)
+    # Select top 90% sources
+    ctl_left_lh = np.percentile(ctl_left_lh, 90, axis=0)
+    ctl_left_rh = np.percentile(ctl_left_rh, 90, axis=0)
+    ctl_right_lh = np.percentile(ctl_right_lh, 90, axis=0)
+    ctl_right_rh = np.percentile(ctl_right_rh, 90, axis=0)
 
-    ent_left_lh = np.squeeze(ent_left_lh)
-    ent_left_rh = np.squeeze(ent_left_rh)
-    ent_right_lh = np.squeeze(ent_right_lh)
-    ent_right_rh = np.squeeze(ent_right_rh)
+    ent_left_lh = np.percentile(ent_left_lh, 90, axis=0)
+    ent_left_rh = np.percentile(ent_left_rh, 90, axis=0)
+    ent_right_lh = np.percentile(ent_right_lh, 90, axis=0)
+    ent_right_rh = np.percentile(ent_right_rh, 90, axis=0)
 
     ALI_left_cue_ctl = ((ctl_left_lh.mean(axis=0) - ctl_left_rh.mean(axis=0)) /
                         (ctl_left_lh.mean(axis=0) + ctl_left_rh.mean(axis=0)))
