@@ -17,8 +17,8 @@ subject = sys.argv[1]
 snr = 3.0  # Standard assumption for average data but using it for single trial
 lambda2 = 1.0 / snr**2
 method = "dSPM"  # use dSPM method (could also be MNE or sLORETA)
-freqs = np.arange(8, 13, 1)
-n_cycle = 4.  # freqs / 3.
+n_cycles = 4.  # freqs / 3.
+n_jobs = 1
 
 conditions = ["ent/left", "ctl/left", "ent/right", "ctl/right"]
 
@@ -32,19 +32,22 @@ src = mne.read_source_spaces(subjects_dir + "%s/bem/%s-oct-6-src.fif" %
                              (subject, subject))
 epochs = mne.read_epochs(epochs_folder + "%s_trial_start-epo.fif" % subject)
 # epochs.drop_bad_epochs(reject_params)
-# epochs.resample(250, n_jobs=4)
+epochs.resample(250, n_jobs=n_jobs)
 
 for condition in conditions:
     for label in labels_sel:
         power, itc = source_band_induced_power(
             epochs[condition],
             inverse_operator,
-            freqs,
-            label,
+            bands=dict(8, 13),
+            label=label,
+            lambda2=lambda2,
+            method=method,
             baseline=(-0.4, -0.1),
             baseline_mode='ratio',
-            n_cycles=n_cycle,
-            n_jobs=1)
+            n_cycles=n_cycles,
+            pca=True,
+            n_jobs=n_jobs)
 
         power = np.mean(power, axis=0)  # average over sources
         itc = np.mean(itc, axis=0)  # average over sources
