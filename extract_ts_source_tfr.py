@@ -51,8 +51,8 @@ for condition in conditions:
             pca=True,
             n_jobs=n_jobs)
 
-        power = np.mean(power, axis=1)  # average over sources
-        itc = np.mean(itc, axis=1)  # average over sources
+        power = np.mean(power, axis=1)  # average over frequencies
+        itc = np.mean(itc, axis=1)  # average over frequencies
 
         np.save(tf_folder + "%s_%s_%s_%s_%s_source_power_snr_3.npy" %
                 (subject, condition[:3], condition[4:], label.name, method),
