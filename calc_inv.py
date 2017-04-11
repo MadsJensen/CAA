@@ -6,7 +6,7 @@ from mne.minimum_norm import make_inverse_operator
 subject = sys.argv[1]
 
 fwd = mne.read_forward_solution(mne_folder + "%s-fwd.fif" % subject,
-                                surf_ori=True)
+                                surf_ori=False)
 cov = mne.read_cov(mne_folder + "%s-cov.fif" % subject)
 epochs = mne.read_epochs(epochs_folder +
                          "%s_trial_start-epo.fif" % subject,
