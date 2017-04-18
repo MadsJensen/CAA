@@ -16,7 +16,7 @@ subject = sys.argv[1]
 # Using the same inverse operator when inspecting single trials Vs. evoked
 snr = 3.0  # Standard assumption for average data but using it for single trial
 lambda2 = 1.0 / snr**2
-method = "dSPM"  # use dSPM method (could also be MNE or sLORETA)
+method = "MNE"  # use dSPM method (could also be MNE or sLORETA)
 freqs = [8, 13]
 n_cycles = 4.  # freqs / 3.
 n_jobs = 1
