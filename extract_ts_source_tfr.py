@@ -41,6 +41,8 @@ v2_rh = mne.read_label(subjects_dir + "%s/label/rh.V2.label" % subject,
 
 vis_lh = v1_lh + v2_lh
 vis_rh = v1_rh + v2_rh
+vis_lh.name = "vis-lh"
+vis_rh.name = "vis-rh"
 labels_sel = [vis_lh, vis_rh]
 
 inverse_operator = read_inverse_operator(mne_folder + "%s-inv.fif" % subject)
