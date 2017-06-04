@@ -71,7 +71,7 @@ for subject in subjects_select:
                     "side": side,
                     "target": target,
                     "condition": cond,
-                    "pow": data
+                    "itc": data
                 }])
 
                 mean_itc_df = mean_itc_df.append(tmp_df, ignore_index=True)

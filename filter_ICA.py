@@ -4,28 +4,25 @@ Created on Wed Oct  8 14:45:02 2014.
 
 @author: mje
 """
-import mne
-import socket
-import numpy as np
-import os
 import sys
 
+import matplotlib
+import mne
+import numpy as np
 from mne.io import Raw
 from mne.preprocessing import ICA, create_ecg_epochs, create_eog_epochs
 
 from my_settings import *
 
-subject = sys.argv[1]
-
-import matplotlib
 matplotlib.use('Agg')
+
+subject = sys.argv[1]  # get subject id from input
 
 # SETTINGS
 n_jobs = 1
 l_freq, h_freq = 1, 98  # High and low frequency setting for the band pass
 n_freq = 50  # notch filter frequency
 decim = 7  # decim value
-
 
 raw = Raw(maxfiltered_folder + "%s_data_mc_raw_tsss.fif" % subject,
           preload=True)
@@ -110,8 +107,8 @@ del eog_epochs
 
 ##########################################################################
 # Apply the solution to Raw, Epochs or Evoked like this:
-raw_ica = ica.apply(raw, copy=False)
+raw_ica = ica.apply(raw)
 ica.save(save_folder + "%s-ica.fif" % subject)  # save ICA componenets
 # Save raw with ICA removed
-raw_ica.save(save_folder + "%s_filtered_ica_mc_raw_tsss.fif" % subject,
-             overwrite=True)
+save = raw_ica.save(save_folder + "%s_filtered_ica_mc_raw_tsss.fif" % subject,
+                    overwrite=True)
