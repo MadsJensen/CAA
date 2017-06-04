@@ -25,11 +25,19 @@ conditions = ["ent/left", "ctl/left", "ent/right", "ctl/right"]
 
 # Load data
 # labels = mne.read_labels_from_annot(
-#     subject, parc='PALS_B12_Brodmann', regexp="Bro", subjects_dir=subjects_dir)
+#     subject, parc='PALS_B12_Brodmann', regexp="Bro",
+#     subjects_dir=subjects_dir)
 # labels_sel = labels[6], labels[7]
-labels = mne.read_labels_from_annot(
-    subject, parc='PALS_B12_Lobes', subjects_dir=subjects_dir)
-labels_sel = [labels[9], labels[10]]
+# labels = mne.read_labels_from_annot(
+#     subject, parc='PALS_B12_Lobes', subjects_dir=subjects_dir)
+v1_rh = mne.read_label("rh.V1.label", subject=subject)
+v1_lh = mne.read_label("lh.V1.label", subject=subject)
+v2_rh = mne.read_label("rh.V2.label", subject=subject)
+v2_lh = mne.read_label("lh.V2.label", subject=subject)
+
+vis_lh = v1_lh + v2_lh
+vis_rh = v1_rh + v2_rh
+labels_sel = [vis_lh, vis_rh]
 
 inverse_operator = read_inverse_operator(mne_folder + "%s-inv.fif" % subject)
 src = mne.read_source_spaces(subjects_dir + "%s/bem/%s-oct-6-src.fif" %
