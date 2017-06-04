@@ -33,7 +33,7 @@ for subject in subjects_select:
             for target in targets:
                 data = np.load(
                     tf_folder +
-                    "%s_%s_%s_LOBE.OCCIPITAL-%s_MNE_source_power_snr_3.npy" %
+                    "%s_%s_%s_vis-%s_MNE_source_power_snr_3.npy" %
                     (subject, cond, target, side))
 
                 data = np.percentile(data, 90, axis=0)
@@ -60,7 +60,7 @@ for subject in subjects_select:
             for target in targets:
                 data = np.load(
                     tf_folder +
-                    "%s_%s_%s_LOBE.OCCIPITAL-%s_MNE_source_itc_snr_3.npy" %
+                    "%s_%s_%s_vis-%s_MNE_source_itc_snr_3.npy" %
                     (subject, cond, target, side))
 
                 data = np.percentile(data, 90, axis=0)
