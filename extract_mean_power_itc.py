@@ -38,17 +38,16 @@ for subject in subjects_select:
 
                 data = np.percentile(data, 90, axis=0)
                 data = data[from_time:to_time].mean()
-                
+
                 tmp_df = pd.DataFrame([{
-                        "subject": subject,
-                        "side": side,
-                        "target": target,
-                        "condition": cond,
-                        "pow": data
-                        }])
+                    "subject": subject,
+                    "side": side,
+                    "target": target,
+                    "condition": cond,
+                    "pow": data
+                }])
 
                 mean_power_df = mean_power_df.append(tmp_df, ignore_index=True)
-
 
 mean_power_df.to_csv(tf_folder + "mean_pow_long.csv", index=False)
 
@@ -66,16 +65,15 @@ for subject in subjects_select:
 
                 data = np.percentile(data, 90, axis=0)
                 data = data[from_time:to_time].mean()
-                
+
                 tmp_df = pd.DataFrame([{
-                        "subject": subject,
-                        "side": side,
-                        "target": target,
-                        "condition": cond,
-                        "pow": data
-                        }])
+                    "subject": subject,
+                    "side": side,
+                    "target": target,
+                    "condition": cond,
+                    "pow": data
+                }])
 
-                mean_itc_df = mean_power_df.append(tmp_df, ignore_index=True)
-
+                mean_itc_df = mean_itc_df.append(tmp_df, ignore_index=True)
 
 mean_itc_df.to_csv(tf_folder + "mean_itc_long.csv", index=False)
