@@ -33,54 +33,49 @@ for subject in subjects_select:
             for target in targets:
                 data = np.load(
                     tf_folder +
-                    "%s_%_%_LOBE.OCCIPITAL-%s_MNE_source_power_snr_3.npy" %
+                    "%s_%s_%s_LOBE.OCCIPITAL-%s_MNE_source_power_snr_3.npy" %
                     (subject, cond, target, side))
 
-                data = np.percentile(ctl_left_lh, 90, axis=0)
-                data = data
+                data = np.percentile(data, 90, axis=0)
+                data = data[from_time:to_time].mean()
+                
+                tmp_df = pd.DataFrame([{
+                        "subject": subject,
+                        "side": side,
+                        "target": target,
+                        "condition": cond,
+                        "pow": data
+                        }])
 
-    data = np.load(tf_folder + "%s_ali_pow_source_Lobes.npy" % subject)
-    ctl_left = data[0, from_time:to_time].mean()
-    ctl_right = data[1, from_time:to_time].mean()
-    ent_left = data[2, from_time:to_time].mean()
-    ent_right = data[3, from_time:to_time].mean()
+                mean_power_df = mean_power_df.append(tmp_df, ignore_index=True)
 
-    tmp_df = pd.DataFrame([{
-        "subject": subject,
-        "ctl_left": ctl_left,
-        "ctl_right": ctl_right,
-        "ent_left": ent_left,
-        "ent_right": ent_right
-    }])
 
-    mean_power_df = mean_power_df.append(tmp_df, ignore_index=True)
-
-mean_ali_long = pd.melt(mean_power_df, id_vars=["subject"])
-mean_ali_long.columns = ['subject', 'variable', 'ALI']
-
-mean_ali_long.to_csv(tf_folder + "mean_ali_long.csv", index=False)
+mean_power_df.to_csv(tf_folder + "mean_pow_long.csv", index=False)
 
 # ITC data
 mean_itc_df = pd.DataFrame()
 
 for subject in subjects_select:
-    data = np.load(tf_folder + "%s_ali_itc_source_Lobes.npy" % subject)
-    ctl_left = data[0, from_time:to_time].mean()
-    ctl_right = data[1, from_time:to_time].mean()
-    ent_left = data[2, from_time:to_time].mean()
-    ent_right = data[3, from_time:to_time].mean()
+    for cond in conditions:
+        for side in sides:
+            for target in targets:
+                data = np.load(
+                    tf_folder +
+                    "%s_%s_%s_LOBE.OCCIPITAL-%s_MNE_source_itc_snr_3.npy" %
+                    (subject, cond, target, side))
 
-    tmp_df = pd.DataFrame([{
-        "subject": subject,
-        "ctl_left": ctl_left,
-        "ctl_right": ctl_right,
-        "ent_left": ent_left,
-        "ent_right": ent_right
-    }])
+                data = np.percentile(data, 90, axis=0)
+                data = data[from_time:to_time].mean()
+                
+                tmp_df = pd.DataFrame([{
+                        "subject": subject,
+                        "side": side,
+                        "target": target,
+                        "condition": cond,
+                        "pow": data
+                        }])
 
-    mean_itc_df = mean_itc_df.append(tmp_df, ignore_index=True)
+                mean_itc_df = mean_power_df.append(tmp_df, ignore_index=True)
 
-mean_itc_long = pd.melt(mean_itc_df, id_vars=["subject"])
-mean_itc_long.columns = ['subject', 'variable', 'ITC']
 
-mean_itc_long.to_csv(tf_folder + "mean_itc_long.csv", index=False)
+mean_itc_df.to_csv(tf_folder + "mean_itc_long.csv", index=False)
