@@ -20,8 +20,8 @@ selection = mne.read_selection("Left-occipital")
 selection = [f.replace(' ', '') for f in selection]
 left_idx = mne.pick_types(
     epochs.info,
-    meg=False,
-    eeg=True,
+    meg="grad",
+    eeg=False,
     eog=False,
     stim=False,
     exclude=[],
@@ -31,8 +31,8 @@ selection = mne.read_selection("Right-occipital")
 selection = [f.replace(' ', '') for f in selection]
 right_idx = mne.pick_types(
     epochs.info,
-    meg=False,
-    eeg=True,
+    meg="grad",
+    eeg=False,
     eog=False,
     stim=False,
     exclude=[],
@@ -57,10 +57,10 @@ def calc_ALI(subject, show_plot=False):
     ali_left : the ALI for the left cue
     ali_right : the ALI for the right cue
     """
-    ctl_left = np.load(tf_folder + "%s_ctl_left-4-tfr.npy" % (subject))
-    ctl_right = np.load(tf_folder + "%s_ctl_right-4-tfr.npy" % (subject))
-    ent_left = np.load(tf_folder + "%s_ent_left-4-tfr.npy" % (subject))
-    ent_right = np.load(tf_folder + "%s_ent_right-4-tfr.npy" % (subject))
+    ctl_left = np.load(tf_folder + "%s_ctl_left-4-tfr.npy" % subject)
+    ctl_right = np.load(tf_folder + "%s_ctl_right-4-tfr.npy" % subject)
+    ent_left = np.load(tf_folder + "%s_ent_left-4-tfr.npy" % subject)
+    ent_right = np.load(tf_folder + "%s_ent_right-4-tfr.npy" % subject)
 
     ALI_left_cue_ctl = ((ctl_left[:, left_idx, :, :].mean(axis=0).mean(
         axis=0) - ctl_left[:, right_idx, :, :].mean(axis=0).mean(axis=0)) / (
@@ -115,10 +115,10 @@ def calc_ALI_itc(subject, show_plot=False):
     ali_left : the ALI for the left cue
     ali_right : the ALI for the right cue
     """
-    ctl_left = np.load(tf_folder + "%s_ctl_left-4-itc.npy" % (subject))
-    ctl_right = np.load(tf_folder + "%s_ctl_right-4-itc.npy" % (subject))
-    ent_left = np.load(tf_folder + "%s_ent_left-4-itc.npy" % (subject))
-    ent_right = np.load(tf_folder + "%s_ent_right-4-itc.npy" % (subject))
+    ctl_left = np.load(tf_folder + "%s_ctl_left-4-itc.npy" % subject)
+    ctl_right = np.load(tf_folder + "%s_ctl_right-4-itc.npy" % subject)
+    ent_left = np.load(tf_folder + "%s_ent_left-4-itc.npy" % subject)
+    ent_right = np.load(tf_folder + "%s_ent_right-4-itc.npy" % subject)
 
     ALI_left_cue_ctl = ((ctl_left[:, left_idx, :, :].mean(axis=0).mean(
         axis=0) - ctl_left[:, right_idx, :, :].mean(axis=0).mean(axis=0)) / (
@@ -155,7 +155,7 @@ def calc_ALI_itc(subject, show_plot=False):
             ALI_left_cue_ent.mean(axis=0), ALI_right_cue_ent.mean(axis=0))
 
 
-ctl_left_ali, ctl_right_ali, ent_left_ali, ent_right_ali = calc_ALI(subject)
+ctl_left_ali, ctl_right_ali, ent_left_ali, ent_right_ali = calc_ALI_itc(subject)
 
 data = np.vstack((ctl_left_ali, ctl_right_ali, ent_left_ali, ent_right_ali))
-np.save(tf_folder + "%s_ali_eeg.npy" % subject, data)
+np.save(tf_folder + "%s_ali-itc_grad.npy" % subject, data)
