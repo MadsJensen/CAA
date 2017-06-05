@@ -20,8 +20,8 @@ selection = mne.read_selection("Left-occipital")
 selection = [f.replace(' ', '') for f in selection]
 left_idx = mne.pick_types(
     epochs.info,
-    meg='mag',
-    eeg=False,
+    meg=False,
+    eeg=True,
     eog=False,
     stim=False,
     exclude=[],
@@ -31,8 +31,8 @@ selection = mne.read_selection("Right-occipital")
 selection = [f.replace(' ', '') for f in selection]
 right_idx = mne.pick_types(
     epochs.info,
-    meg='mag',
-    eeg=False,
+    meg=False,
+    eeg=True,
     eog=False,
     stim=False,
     exclude=[],
@@ -158,4 +158,4 @@ def calc_ALI_itc(subject, show_plot=False):
 ctl_left_ali, ctl_right_ali, ent_left_ali, ent_right_ali = calc_ALI(subject)
 
 data = np.vstack((ctl_left_ali, ctl_right_ali, ent_left_ali, ent_right_ali))
-np.save(tf_folder + "%s_ali_mag.npy" % subject, data)
+np.save(tf_folder + "%s_ali_eeg.npy" % subject, data)
