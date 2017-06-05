@@ -251,10 +251,10 @@ def calc_ALI_ITC_source(subject):
 ctl_left_ali, ctl_right_ali, ent_left_ali, ent_right_ali = calc_ALI_ITC_source(
     subject)
 data = np.vstack((ctl_left_ali, ctl_right_ali, ent_left_ali, ent_right_ali))
-np.save(tf_folder + "%s_ali_itc_source_Lobes.npy" % subject, data)
+np.save(tf_folder + "%s_ali_itc_source_vis.npy" % subject, data)
 
 # Calc ali for power
 ctl_left_ali, ctl_right_ali, ent_left_ali, ent_right_ali = calc_ALI_source(
     subject)
 data = np.vstack((ctl_left_ali, ctl_right_ali, ent_left_ali, ent_right_ali))
-np.save(tf_folder + "%s_ali_pow_source_Lobes.npy" % subject, data)
+np.save(tf_folder + "%s_ali_pow_source_vis.npy" % subject, data)
