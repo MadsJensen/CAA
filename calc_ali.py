@@ -151,8 +151,8 @@ def calc_ALI_itc(subject, show_plot=False):
         plt.title("ALI curves for subject: %s" % subject)
         plt.show()
 
-    return (ALI_left_cue_ctl.mean(axis=0), ALI_right_cue_ctl.mean(axis=0),
-            ALI_left_cue_ent.mean(axis=0), ALI_right_cue_ent.mean(axis=0))
+    return (ALI_left_cue_ctl, ALI_right_cue_ctl,
+            ALI_left_cue_ent, ALI_right_cue_ent)
 
 
 ctl_left_ali, ctl_right_ali, ent_left_ali, ent_right_ali = calc_ALI_itc(subject)
