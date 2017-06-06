@@ -28,22 +28,23 @@ conditions = ["ent/left", "ctl/left", "ent/right", "ctl/right"]
 #     subject, parc='PALS_B12_Brodmann', regexp="Bro",
 #     subjects_dir=subjects_dir)
 # labels_sel = labels[6], labels[7]
-# labels = mne.read_labels_from_annot(
-#     subject, parc='PALS_B12_Lobes', subjects_dir=subjects_dir)
-v1_lh = mne.read_label(subjects_dir + "%s/label/lh.V1.label" % subject,
-                       subject=subject)
-v1_rh = mne.read_label(subjects_dir + "%s/label/rh.V1.label" % subject,
-                       subject=subject)
-v2_lh = mne.read_label(subjects_dir + "%s/label/lh.V2.label" % subject,
-                       subject=subject)
-v2_rh = mne.read_label(subjects_dir + "%s/label/rh.V2.label" % subject,
-                       subject=subject)
-
-vis_lh = v1_lh + v2_lh
-vis_rh = v1_rh + v2_rh
-vis_lh.name = "vis-lh"
-vis_rh.name = "vis-rh"
-labels_sel = [vis_lh, vis_rh]
+labels = mne.read_labels_from_annot(
+    subject, parc='PALS_B12_Lobes', subjects_dir=subjects_dir)
+labels_sel = [labels[9], labels[10]]
+# v1_lh = mne.read_label(subjects_dir + "%s/label/lh.V1.label" % subject,
+#                        subject=subject)
+# v1_rh = mne.read_label(subjects_dir + "%s/label/rh.V1.label" % subject,
+#                        subject=subject)
+# v2_lh = mne.read_label(subjects_dir + "%s/label/lh.V2.label" % subject,
+#                        subject=subject)
+# v2_rh = mne.read_label(subjects_dir + "%s/label/rh.V2.label" % subject,
+#                        subject=subject)
+#
+# vis_lh = v1_lh + v2_lh
+# vis_rh = v1_rh + v2_rh
+# vis_lh.name = "vis-lh"
+# vis_rh.name = "vis-rh"
+# labels_sel = [vis_lh, vis_rh]
 
 inverse_operator = read_inverse_operator(mne_folder + "%s_grad-inv.fif" %
                                          subject)
