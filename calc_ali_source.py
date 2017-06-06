@@ -121,32 +121,32 @@ def calc_ALI_source(subject):
     """
     ctl_right_rh = np.load(
         tf_folder +
-        "%s_ctl_right_vis-rh_MNE_source_power_snr_3.npy" %
+        "%s_ctl_right_LOBE.OCCIPITAL-rh_MNE_source_power_snr_3.npy" %
         (subject))
     ctl_right_lh = np.load(
         tf_folder +
-        "%s_ctl_right_vis-lh_MNE_source_power_snr_3.npy" %
+        "%s_ctl_right_LOBE.OCCIPITAL-lh_MNE_source_power_snr_3.npy" %
         (subject))
     ctl_left_rh = np.load(
-        tf_folder + "%s_ctl_left_vis-rh_MNE_source_power_snr_3.npy"
+        tf_folder + "%s_ctl_left_LOBE.OCCIPITAL-rh_MNE_source_power_snr_3.npy"
         % (subject))
     ctl_left_lh = np.load(
-        tf_folder + "%s_ctl_left_vis-lh_MNE_source_power_snr_3.npy"
+        tf_folder + "%s_ctl_left_LOBE.OCCIPITAL-lh_MNE_source_power_snr_3.npy"
         % (subject))
 
     ent_right_rh = np.load(
         tf_folder +
-        "%s_ent_right_vis-rh_MNE_source_power_snr_3.npy" %
+        "%s_ent_right_LOBE.OCCIPITAL-rh_MNE_source_power_snr_3.npy" %
         (subject))
     ent_right_lh = np.load(
         tf_folder +
-        "%s_ent_right_vis-lh_MNE_source_power_snr_3.npy" %
+        "%s_ent_right_LOBE.OCCIPITAL-lh_MNE_source_power_snr_3.npy" %
         (subject))
     ent_left_rh = np.load(
-        tf_folder + "%s_ent_left_vis-rh_MNE_source_power_snr_3.npy"
+        tf_folder + "%s_ent_left_LOBE.OCCIPITAL-rh_MNE_source_power_snr_3.npy"
         % (subject))
     ent_left_lh = np.load(
-        tf_folder + "%s_ent_left_vis-lh_MNE_source_power_snr_3.npy"
+        tf_folder + "%s_ent_left_LOBE.OCCIPITAL-lh_MNE_source_power_snr_3.npy"
         % (subject))
 
     # Select top 90% sources
@@ -196,28 +196,28 @@ def calc_ALI_ITC_source(subject):
     """
     ctl_right_rh = np.load(
         tf_folder +
-        "%s_ctl_right_vis-rh_MNE_source_itc_snr_3.npy" % (subject))
+        "%s_ctl_right_LOBE.OCCIPITAL-rh_MNE_source_itc_snr_3.npy" % (subject))
     ctl_right_lh = np.load(
         tf_folder +
-        "%s_ctl_right_vis-lh_MNE_source_itc_snr_3.npy" % (subject))
+        "%s_ctl_right_LOBE.OCCIPITAL-lh_MNE_source_itc_snr_3.npy" % (subject))
     ctl_left_rh = np.load(
-        tf_folder + "%s_ctl_left_vis-rh_MNE_source_itc_snr_3.npy" %
+        tf_folder + "%s_ctl_left_LOBE.OCCIPITAL-rh_MNE_source_itc_snr_3.npy" %
         (subject))
     ctl_left_lh = np.load(
-        tf_folder + "%s_ctl_left_vis-lh_MNE_source_itc_snr_3.npy" %
+        tf_folder + "%s_ctl_left_LOBE.OCCIPITAL-lh_MNE_source_itc_snr_3.npy" %
         (subject))
 
     ent_right_rh = np.load(
         tf_folder +
-        "%s_ent_right_vis-rh_MNE_source_itc_snr_3.npy" % (subject))
+        "%s_ent_right_LOBE.OCCIPITAL-rh_MNE_source_itc_snr_3.npy" % (subject))
     ent_right_lh = np.load(
         tf_folder +
-        "%s_ent_right_vis-lh_MNE_source_itc_snr_3.npy" % (subject))
+        "%s_ent_right_LOBE.OCCIPITAL-lh_MNE_source_itc_snr_3.npy" % (subject))
     ent_left_rh = np.load(
-        tf_folder + "%s_ent_left_vis-rh_MNE_source_itc_snr_3.npy" %
+        tf_folder + "%s_ent_left_LOBE.OCCIPITAL-rh_MNE_source_itc_snr_3.npy" %
         (subject))
     ent_left_lh = np.load(
-        tf_folder + "%s_ent_left_vis-lh_MNE_source_itc_snr_3.npy" %
+        tf_folder + "%s_ent_left_LOBE.OCCIPITAL-lh_MNE_source_itc_snr_3.npy" %
         (subject))
 
     # Select top 90% sources
@@ -251,10 +251,10 @@ def calc_ALI_ITC_source(subject):
 ctl_left_ali, ctl_right_ali, ent_left_ali, ent_right_ali = calc_ALI_ITC_source(
     subject)
 data = np.vstack((ctl_left_ali, ctl_right_ali, ent_left_ali, ent_right_ali))
-np.save(tf_folder + "%s_ali_itc_source_vis.npy" % subject, data)
+np.save(tf_folder + "%s_ali_itc_source_LOBE.OCCIPITAL.npy" % subject, data)
 
 # Calc ali for power
 ctl_left_ali, ctl_right_ali, ent_left_ali, ent_right_ali = calc_ALI_source(
     subject)
 data = np.vstack((ctl_left_ali, ctl_right_ali, ent_left_ali, ent_right_ali))
-np.save(tf_folder + "%s_ali_pow_source_vis.npy" % subject, data)
+np.save(tf_folder + "%s_ali_pow_source_LOBE.OCCIPITAL.npy" % subject, data)
